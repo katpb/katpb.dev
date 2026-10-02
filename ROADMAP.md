@@ -2,7 +2,7 @@
 
 ## R1 — Project Foundation
 Establish the application foundation, development structure, local development workflow, and baseline technical setup.
-**Status:** Planned
+**Status:** Completed
 
 ## R2 — Initial UI
 Build the first usable version of the website interface and core page structure.
