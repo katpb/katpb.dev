@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="430" height="1600" viewBox="0 0 430 1600">
+  <title>katpb.dev mobile homepage wireframe</title>
+  <desc>Low-fidelity mobile wireframe showing brand header, navigation, professional introduction, featured writing, selected work, about preview, and footer.</desc>
+  <defs>
+    <style>
+      .page { fill: #ffffff; stroke: #171717; stroke-width: 2; }
+      .section { fill: #fafafa; stroke: #a3a3a3; stroke-width: 1.2; }
+      .line { stroke: #c5c5c5; stroke-width: 1; }
+      .accent { fill: #5b2678; }
+      .ink { fill: #171717; font-family: Arial, Helvetica, sans-serif; }
+      .muted { fill: #666666; font-family: Arial, Helvetica, sans-serif; }
+      .label { font-size: 11px; font-weight: 700; letter-spacing: 1.1px; }
+      .nav { font-size: 12px; font-weight: 700; }
+      .h1 { font-size: 25px; font-weight: 700; }
+      .h2 { font-size: 19px; font-weight: 700; }
+      .h3 { font-size: 14px; font-weight: 700; }
+      .body { font-size: 13px; }
+      .small { font-size: 11px; }
+      .link { fill: #5b2678; font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: 700; }
+    </style>
+  </defs>
+
+  <rect width="430" height="1600" fill="#eeeeee"/>
+  <text x="215" y="22" text-anchor="middle" class="muted label">MOBILE HOMEPAGE · 390 PX</text>
+  <rect x="20" y="35" width="390" height="1535" rx="22" class="page"/>
+
+  <!-- Brand header -->
+  <rect x="38" y="58" width="58" height="46" rx="5" class="section"/>
+  <text x="67" y="78" text-anchor="middle" class="muted small">CAT</text>
+  <text x="67" y="92" text-anchor="middle" class="muted small">MARK</text>
+  <text x="108" y="78" class="ink h2">katpb.dev</text>
+  <text x="108" y="96" class="muted small">engineering · leadership · notes</text>
+  <rect x="348" y="65" width="42" height="34" rx="17" class="section"/>
+  <circle cx="366" cy="82" r="8" fill="none" stroke="#5b2678" stroke-width="2"/>
+  <text x="366" y="115" text-anchor="middle" class="muted small">Theme</text>
+
+  <!-- Primary navigation -->
+  <line x1="38" y1="128" x2="390" y2="128" class="line"/>
+  <text x="42" y="154" class="ink nav">Home</text>
+  <text x="107" y="154" class="ink nav">Writing</text>
+  <text x="190" y="154" class="ink nav">Projects</text>
+  <text x="281" y="154" class="ink nav">About</text>
+  <rect x="41" y="162" width="34" height="3" class="accent"/>
+  <line x1="38" y1="175" x2="390" y2="175" class="line"/>
+
+  <!-- Professional introduction -->
+  <text x="42" y="212" class="muted label">HELLO, I’M KATHIR</text>
+  <text x="42" y="248" class="ink h1">I build dependable systems</text>
+  <text x="42" y="278" class="ink h1">and share what I learn.</text>
+  <text x="42" y="311" class="muted body">Senior software engineer and technology leader</text>
+  <text x="42" y="331" class="muted body">working across distributed systems, cloud platforms,</text>
+  <text x="42" y="351" class="muted body">architecture, and applied AI.</text>
+  <text x="42" y="383" class="link">GitHub ↗</text>
+  <text x="121" y="383" class="link">LinkedIn ↗</text>
+  <text x="218" y="383" class="link">About me →</text>
+
+  <!-- Featured writing -->
+  <line x1="38" y1="414" x2="390" y2="414" class="line"/>
+  <text x="42" y="450" class="ink h2">Featured writing</text>
+  <text x="42" y="472" class="muted body">Selected notes from the technical notebook.</text>
+
+  <text x="42" y="511" class="muted label">DISTRIBUTED SYSTEMS · 8 MIN</text>
+  <text x="42" y="536" class="ink h3">Designing for burst traffic without guessing</text>
+  <text x="42" y="558" class="muted body">A practical way to connect capacity assumptions,</text>
+  <text x="42" y="577" class="muted body">observability, and safe rollout decisions.</text>
+  <line x1="42" y1="596" x2="386" y2="596" class="line"/>
+
+  <text x="42" y="625" class="muted label">ARCHITECTURE · 6 MIN</text>
+  <text x="42" y="650" class="ink h3">Where configuration should really live</text>
+  <text x="42" y="672" class="muted body">Separating application behavior from environment</text>
+  <text x="42" y="691" class="muted body">concerns without creating configuration sprawl.</text>
+  <line x1="42" y1="710" x2="386" y2="710" class="line"/>
+
+  <text x="42" y="739" class="muted label">APPLIED AI · 7 MIN</text>
+  <text x="42" y="764" class="ink h3">Using agents with engineering judgment</text>
+  <text x="42" y="786" class="muted body">A working model for specifications, implementation,</text>
+  <text x="42" y="805" class="muted body">and independent review.</text>
+  <text x="42" y="838" class="link">View all writing →</text>
+
+  <!-- Selected work -->
+  <line x1="38" y1="866" x2="390" y2="866" class="line"/>
+  <text x="42" y="903" class="ink h2">Selected work</text>
+  <text x="42" y="925" class="muted body">Representative systems and engineering problems.</text>
+
+  <rect x="42" y="949" width="344" height="115" rx="5" class="section"/>
+  <text x="58" y="976" class="muted label">PLATFORM INTEGRATION</text>
+  <text x="58" y="1002" class="ink h3">High-volume telematics pipeline</text>
+  <text x="58" y="1024" class="muted body">Reliable ingestion, normalization, ordering, and</text>
+  <text x="58" y="1043" class="muted body">operational visibility for event-driven workloads.</text>
+
+  <rect x="42" y="1078" width="344" height="115" rx="5" class="section"/>
+  <text x="58" y="1105" class="muted label">PRODUCT EXPLORATION</text>
+  <text x="58" y="1131" class="ink h3">FIRE OS</text>
+  <text x="58" y="1153" class="muted body">A deterministic financial-independence baseline</text>
+  <text x="58" y="1172" class="muted body">designed through specification-driven development.</text>
+  <text x="42" y="1225" class="link">View selected projects →</text>
+
+  <!-- About preview -->
+  <line x1="38" y1="1253" x2="390" y2="1253" class="line"/>
+  <text x="42" y="1290" class="ink h2">About</text>
+  <text x="42" y="1318" class="muted body">I care about systems that remain understandable</text>
+  <text x="42" y="1338" class="muted body">under pressure—and teams that can make sound</text>
+  <text x="42" y="1358" class="muted body">decisions without depending on heroics.</text>
+  <text x="42" y="1391" class="link">More about me →</text>
+
+  <!-- Footer -->
+  <rect x="21" y="1430" width="388" height="139" rx="0 0 22 22" fill="#f3f3f3"/>
+  <text x="42" y="1465" class="ink h3">katpb.dev</text>
+  <text x="42" y="1488" class="muted small">Professional work, technical writing, and experiments.</text>
+  <text x="42" y="1524" class="muted small">Home  ·  Writing  ·  Projects  ·  About</text>
+  <text x="42" y="1548" class="muted small">© 2026 Kathir</text>
+</svg>
