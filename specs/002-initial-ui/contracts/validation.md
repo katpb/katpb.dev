@@ -53,6 +53,13 @@ between scripts. Retention tests reuse retained origin state in a later context;
 fresh empty context represents a later visit. Initial-flash tests inspect first rendered state and
 built initializer ordering; settled screenshots alone cannot certify pre-paint behavior.
 
+On every primary route, block or abort stylesheet requests before direct navigation and verify
+readable document structure/content, reachability of all four primary navigation destinations,
+and current-page identification through HTML text such as “Current” or “Current page” plus
+`aria-current="page"`. This must survive without CSS or generated content; identification must
+not depend exclusively on CSS, color, background, borders, icons, pseudo-elements, or generated
+content. Record results in `specs/002-initial-ui/checklists/acceptance.md` when it is created.
+
 Do not claim synthetic smaller viewport, device scale factor, or CSS zoom as true browser zoom.
 Viewport automation supplements, not replaces, manual actual 200% zoom.
 
@@ -74,6 +81,10 @@ date, revision, viewport, zoom, effective theme/mode, preferences, results, and 
   and destinations, long content, and stable canonical mark dimensions.
 - Cold initial rendering: opposite-system saved Light/Dark, direct entry to every route, throttled
   filmstrip and first-render evidence; no incorrect-theme flash or reveal layout shift.
+- Styles disabled in native Chrome and Safari on every primary route: readable structure/content,
+  reachable Home/Writing/Projects/About destinations, and surviving current-page HTML text plus
+  `aria-current="page"` without CSS or generated-content dependence; record final results in
+  `specs/002-initial-ui/checklists/acceptance.md` when it is created.
 
 R1's earlier VoiceOver deferral does not constitute approval to skip R2 screen-reader review.
 Record unavailable/unperformed acceptance as incomplete and surface it; do not invent results.
@@ -104,12 +115,12 @@ Use at least five first-time representative reviewers from at least two intended
 Cover mobile and desktop; record the first-exposure viewport and avoid rehearsing the five-second
 test. Record counts, denominator, and anonymized response summaries, not unnecessary personal data.
 
-| Criterion | Required evidence                                                                                              |
-| --------- | -------------------------------------------------------------------------------------------------------------- |
-| SC-001    | Five-second Home exposure: ≥80% identify engineer/technology leader and one focus area.                        |
-| SC-002    | ≥90% locate Writing/Projects/About and reach chosen destination within one desktop/two mobile actions.         |
-| SC-003    | ≥80% identify Writing as notebook within the same four-page brand.                                             |
-| SC-011    | ≥80% rate combined experience credible/thoughtful/modern/personal; none receives majority negative assessment. |
+| Criterion | Required evidence                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SC-001    | Five-second Home exposure: ≥80% identify engineer/technology leader and one focus area.                                                                                                                                                                                                                                                                                                                                                             |
+| SC-002    | ≥90% locate Writing/Projects/About and reach chosen destination within one desktop/two mobile actions.                                                                                                                                                                                                                                                                                                                                              |
+| SC-003    | ≥80% identify Writing as notebook within the same four-page brand.                                                                                                                                                                                                                                                                                                                                                                                  |
+| SC-011    | Use the exact five-point/four-statement rubric in [spec.md SC-011](../spec.md#measurable-outcomes) and [quickstart.md Section 8](../quickstart.md#sc-011-reviewer-scoring): combined-positive means ≥3 positive answers and no negatives; ≥80% combined-positive reviewers with the required count rounded upward, and negative responses from fewer than half of all reviewers for each quality; retain anonymized raw responses and denominators. |
 
 With five reviewers, ≥80% means at least 4/5 and ≥90% means 5/5. Automated screenshots/content
 checks cannot certify these qualitative criteria. Keep reviewer responses/evidence local; no site

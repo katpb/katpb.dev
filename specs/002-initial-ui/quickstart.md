@@ -74,6 +74,14 @@ sample labels, skip focus, no external render requests, zero applicable axe WCAG
 no-JS reading, 320-pixel reflow, fit/non-fit rails, and canonical mark geometry/colors/dimensions.
 Include long titles, unbroken text, short desktop windows, and increased text.
 
+On every primary route, block or abort stylesheet requests before direct navigation. Verify that
+document structure/content remain readable, all four primary navigation destinations remain
+reachable, and the current destination remains identifiable through actual HTML text such as
+“Current” or “Current page” plus `aria-current="page"`, without CSS or generated content. The
+active destination must not depend exclusively on CSS, color, background, borders, icons,
+pseudo-elements, or generated content. Record the automated results in
+`specs/002-initial-ui/checklists/acceptance.md` when the checklist is created.
+
 ## 4. Theme and Failure Scenarios
 
 Start a diagnostic production preview:
@@ -156,6 +164,12 @@ Review every route in native Chrome and Safari in light/dark appearances:
   introduction repeated above subpages.
 - Text/non-text contrast, high contrast/forced colors, non-color current/focus markers, reduced
   motion, absent media/actions, and no-JS core content.
+- Styles disabled on every primary route in native Chrome and Safari: document structure/content
+  remain readable, all four primary navigation destinations remain reachable, and the current
+  destination has a surviving HTML text indication such as “Current” or “Current page” plus
+  `aria-current="page"`. Identification must not depend exclusively on CSS, color, background,
+  borders, icons, pseudo-elements, or generated content. Record these final manual results in
+  `specs/002-initial-ui/checklists/acceptance.md` when the checklist is created.
 
 Axe supplements this review; automated WebKit is not native Safari/VoiceOver evidence. Unperformed
 reviews remain pending and cannot be labelled passed.
@@ -202,16 +216,43 @@ collaborators/employers, engineering peers, and technical readers. Record audien
 anonymous results without site analytics/data collection. Use the final revision and record
 device/viewport for each reviewer.
 
-| Criterion | Procedure and threshold                                                                                                                                   |
-| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SC-001    | Show Home for five seconds; >=80% identify experienced engineer/technology leader and >=1 focus area                                                      |
-| SC-002    | Locate Writing/Projects/About and reach a chosen destination from Home; >=90% succeed within one desktop or two mobile actions                            |
-| SC-003    | Compare Writing with other pages; >=80% identify the technical notebook within a shared personal brand                                                    |
-| SC-011    | Assess credible, thoughtful, modern, personal; >=80% rate the combined experience positively; no individual quality receives majority negative assessment |
+| Criterion | Procedure and threshold                                                                                                                                                        |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| SC-001    | Show Home for five seconds; >=80% identify experienced engineer/technology leader and >=1 focus area                                                                           |
+| SC-002    | Locate Writing/Projects/About and reach a chosen destination from Home; >=90% succeed within one desktop or two mobile actions                                                 |
+| SC-003    | Compare Writing with other pages; >=80% identify the technical notebook within a shared personal brand                                                                         |
+| SC-011    | Apply the exact rubric below: >=80% combined-positive reviewers, rounding the required count upward; each quality has negative responses from fewer than half of all reviewers |
 
 Calculate against the actual denominator, rounding required counts up: five reviewers require
 four for 80% and five for 90%. Keep prompts neutral; agent opinions, screenshots, invented
 participants, and automated assertions cannot replace qualitative evidence.
+
+### SC-011 Reviewer Scoring
+
+Ask each reviewer to rate these four statements:
+
+1. “The experience feels credible.”
+2. “The experience feels thoughtful and intentionally designed.”
+3. “The experience feels modern.”
+4. “The experience feels personal rather than generic.”
+
+Use this five-point scale in order: Strongly disagree, Disagree, Neither agree nor disagree,
+Agree, Strongly agree.
+
+- Positive = Agree or Strongly agree.
+- Neutral = Neither agree nor disagree.
+- Negative = Disagree or Strongly disagree.
+- A reviewer is combined-positive when at least three of the four answers are positive and none
+  are negative.
+
+Let `N` be the total number of reviewers. SC-011 passes when the combined-positive count is at
+least `ceil(0.80 * N)`. Additionally, for each individual quality, its negative-response count
+must be strictly less than `N / 2`; exactly half is a failure.
+
+Record anonymized raw responses for all four statements per reviewer, the reviewer denominator,
+per-quality denominators and negative counts, combined-positive classifications/count, rounded
+required count, and pass/fail calculations in `specs/002-initial-ui/checklists/acceptance.md` when
+the checklist is created. These records must allow the result to be independently recalculated.
 
 ## 9. Completion Record
 

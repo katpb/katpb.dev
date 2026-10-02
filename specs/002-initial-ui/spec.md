@@ -201,8 +201,10 @@ trap, hidden content, or horizontal page scrolling.
 - A summary contains a long unbroken technical term, URL-like text, or unusually long word.
 - A project has no approved image, external link, technology label, or quantified outcome.
 - A visitor lands directly on Writing, Projects, or About rather than entering through Home.
-- The active destination must remain clear when color perception is limited or styles do not load
-  fully.
+- The active destination must remain clear when color perception is limited. When stylesheet
+  requests fail or are blocked on any primary route, document structure/content remain readable,
+  all four primary navigation destinations remain reachable, and the current destination is
+  identifiable through HTML text and `aria-current="page"` without CSS or generated content.
 - The navigation must remain usable at 320 CSS pixels, at 200% zoom, with large system text, and
   when labels wrap to multiple lines.
 - A visitor prefers reduced motion, high contrast, dark appearance, or light appearance.
@@ -236,8 +238,14 @@ trap, hidden content, or horizontal page scrolling.
   identity MUST provide a clearly named Home destination.
 - **FR-004**: The current primary destination MUST be identifiable visually and semantically
   without relying on color alone, using an underline or equivalent non-color marker and an
-  assistive-technology indication of the current page. Focus and current-page states MUST remain
-  distinguishable, and the active indication MUST identify the page rather than a scrolled section.
+  assistive-technology indication of the current page via `aria-current="page"`. The active primary
+  navigation link MUST include an HTML text indication such as “Current” or “Current page” that
+  survives stylesheet failure. The active destination MUST NOT depend exclusively on CSS, color,
+  background, borders, icons, pseudo-elements, or generated content. Without styles, document
+  structure and content MUST remain readable, all four primary navigation destinations MUST
+  remain reachable, and the current destination MUST remain identifiable through HTML text and
+  semantic state. Focus and current-page states MUST remain distinguishable, and the active
+  indication MUST identify the page rather than a scrolled section.
 - **FR-005**: On desktop and mobile, all four primary navigation links MUST remain visible without
   opening a menu. Narrow-screen navigation MUST remain operable at 320 CSS pixels and 200% zoom;
   links MUST reflow or wrap when necessary rather than disappear or require horizontal scrolling.
@@ -447,9 +455,23 @@ R2 excludes:
 - **SC-010**: The homepage contains all three required preview sections, Writing contains at least
   four representative entries, Projects contains at least three representative summaries, and
   About contains a complete representative narrative suitable for visual evaluation.
-- **SC-011**: At least 80% of representative reviewers rate the combined experience as credible,
-  thoughtful, modern, and personal, with no one of those four qualities receiving a majority
-  negative assessment.
+- **SC-011**: Evaluate the combined experience using this exact reviewer method:
+  1. Ask each reviewer to rate these four statements:
+     - “The experience feels credible.”
+     - “The experience feels thoughtful and intentionally designed.”
+     - “The experience feels modern.”
+     - “The experience feels personal rather than generic.”
+  2. Use a five-point scale: Strongly disagree, Disagree, Neither agree nor disagree, Agree,
+     Strongly agree.
+  3. Positive = Agree or Strongly agree. Neutral = Neither agree nor disagree. Negative = Disagree
+     or Strongly disagree.
+  4. A reviewer is combined-positive when at least three of the four answers are positive and
+     none are negative.
+  5. SC-011 passes when at least 80% of reviewers are combined-positive, rounding the required
+     reviewer count upward. Additionally, for each individual quality, fewer than half of all
+     reviewers may give a negative response.
+  6. Record anonymized raw responses and denominators so the result can be independently
+     recalculated.
 - **SC-012**: On all four primary pages, theme checks confirm System follows both initial and
   changed operating-system appearance, manual Light and Dark override system changes, each
   selected mode survives navigation and a later visit when preferences can be retained, and
