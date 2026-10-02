@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const siteName = "katpb.dev";
+const statusMessage = "The project foundation is operational.";
+const skipLinkTarget = "main-content";
+---
+
+<BaseLayout
+  title={`${siteName} — Project foundation`}
+  description="The local katpb.dev project foundation is operational."
+  {skipLinkTarget}
+>
+  <h1>Project foundation</h1>
+  <p>{statusMessage}</p>
+</BaseLayout>
