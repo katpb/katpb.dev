@@ -1,0 +1,52 @@
+{
+  "name": "katpb.dev",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@11.21.0",
+  "engines": {
+    "node": ">=24.21.0 <25",
+    "npm": ">=11 <12"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=24.21.0 <25",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": ">=11 <12",
+      "onFail": "error"
+    }
+  },
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 node scripts/dev.mjs",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview --ignore-lock",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check --minimumFailingSeverity warning",
+    "test:install": "playwright install chromium webkit",
+    "test:e2e": "playwright test",
+    "test:workflow": "node --test tests/integration/*.test.mjs",
+    "test:reproducible": "node scripts/check-reproducible-build.mjs",
+    "verify": "npm run format:check && npm run check && npm run build && npm run test:e2e && npm run test:workflow && npm run test:reproducible"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "8.0.2",
+    "astro": "7.3.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
+    "prettier": "3.9.9",
+    "prettier-plugin-astro": "1.1.0",
+    "typescript": "6.0.3"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "fsevents@2.3.3": true
+  }
+}

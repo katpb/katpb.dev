@@ -1,0 +1,32 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  skipLinkTarget: string;
+}
+
+const { title, description, skipLinkTarget } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href={`#${skipLinkTarget}`}>
+      Skip to main content
+    </a>
+    <header aria-label="Site header">
+      <p class="site-name">katpb.dev</p>
+    </header>
+    <main id={skipLinkTarget} tabindex="-1">
+      <slot />
+    </main>
+  </body>
+</html>
