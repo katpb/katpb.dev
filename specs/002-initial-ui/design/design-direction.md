@@ -39,11 +39,27 @@ or implementation.
 
 ## Brand mark
 
-- Abstract cat working at a laptop.
-- Deep violet in light mode.
-- Pale lavender in dark mode.
-- Identical geometry and dimensions across themes.
-- Prefer a single SVG using currentColor.
+The canonical brand-mark geometry is:
+
+`specs/002-initial-ui/design/source/brand-mark.svg`
+
+The SVG must use `currentColor` so its appearance is controlled by the site theme. Light and dark themes must use identical SVG geometry, proportions, and dimensions.
+
+### Theme tokens
+
+```css
+:root {
+  --brand-mark-color: #5b1a78; /* deep violet */
+}
+
+[data-theme="dark"] {
+  --brand-mark-color: #e6d9ff; /* pale lavender */
+}
+
+.brand-mark {
+  color: var(--brand-mark-color);
+}
+```
 
 ## Theme
 
