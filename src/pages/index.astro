@@ -1,16 +1,54 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-const siteName = "katpb.dev";
-const statusMessage = "The project foundation is operational.";
-const skipLinkTarget = "main-content";
+import PageIntro from "../components/PageIntro.astro";
+import ProfileLinks from "../components/ProfileLinks.astro";
+import WritingPreview from "../components/WritingPreview.astro";
+import ProjectSummary from "../components/ProjectSummary.astro";
+import { writing, homeWritingIds } from "../data/writing";
+import { projects, homeProjectIds } from "../data/projects";
+import { identity } from "../data/site";
 ---
 
-<BaseLayout
-  title={`${siteName} — Project foundation`}
-  description="The local katpb.dev project foundation is operational."
-  {skipLinkTarget}
->
-  <h1>Project foundation</h1>
-  <p>{statusMessage}</p>
+<BaseLayout pageId="home">
+  <PageIntro pageId="home" />
+  <ProfileLinks />
+  <section class="content-section" aria-labelledby="featured-writing">
+    <div class="section-heading">
+      <h2 id="featured-writing">Featured writing</h2>
+      <a href="/writing/">All writing</a>
+    </div>
+    <p class="sample-label">Illustrative notebook entries</p>
+    <ul role="list" class="writing-list">
+      {homeWritingIds.map((id) => (
+        <WritingPreview entry={writing.find((entry) => entry.id === id)!} />
+      ))}
+    </ul>
+  </section>
+  <section class="content-section" aria-labelledby="selected-work">
+    <div class="section-heading">
+      <h2 id="selected-work">Selected work</h2>
+      <a href="/projects/">All projects</a>
+    </div>
+    <p class="sample-label">
+      Illustrative work sketches — proposed approaches, not delivered projects.
+    </p>
+    <ul role="list" class="project-list">
+      {homeProjectIds.map((id) => (
+        <ProjectSummary
+          project={projects.find((project) => project.id === id)!}
+        />
+      ))}
+    </ul>
+  </section>
+  <section
+    class="content-section about-preview"
+    aria-labelledby="about-preview"
+  >
+    <h2 id="about-preview">A little about me</h2>
+    <p class="sample-label">Illustrative profile</p>
+    <p>{identity.aboutPreview}</p>
+    <p>
+      <a href="/about/">More about me</a>
+    </p>
+  </section>
 </BaseLayout>

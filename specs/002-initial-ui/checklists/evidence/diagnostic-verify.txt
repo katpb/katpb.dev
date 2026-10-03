@@ -1,0 +1,509 @@
+
+> katpb.dev@0.0.0 verify
+> npm run format:check && npm run check && npm run build && npm run test:e2e && npm run test:workflow && npm run test:reproducible
+
+
+> katpb.dev@0.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> katpb.dev@0.0.0 check
+> ASTRO_TELEMETRY_DISABLED=1 astro check --minimumFailingSeverity warning
+
+09:07:52 [vite] Re-optimizing dependencies because vite config has changed
+09:07:52 [types] Generated 62ms
+09:07:52 [check] Getting diagnostics for Astro files in /Users/kathirprabhakaran/grepos/katpb.dev...
+Result (28 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+
+
+> katpb.dev@0.0.0 build
+> ASTRO_TELEMETRY_DISABLED=1 astro build
+
+09:07:54 [types] Generated 18ms
+09:07:54 [build] output: "static"
+09:07:54 [build] mode: "static"
+09:07:54 [build] directory: /Users/kathirprabhakaran/grepos/katpb.dev/dist/
+09:07:54 [build] Collecting build info...
+09:07:54 [build] ✓ Completed in 27ms.
+09:07:54 [build] Building static entrypoints...
+09:07:54 [vite] ✓ built in 80ms
+09:07:54 [vite] ✓ built in 8ms
+09:07:54 [build] Rearranging server assets...
+
+ generating static routes 
+09:07:54   ├─ /about/index.html (+7ms) 
+09:07:54   ├─ /projects/index.html (+2ms) 
+09:07:54   ├─ /writing/index.html (+1ms) 
+09:07:54   ├─ /index.html (+4ms) 
+09:07:54 ✓ Completed in 20ms.
+
+09:07:54 [build] ✓ Completed in 120ms.
+09:07:54 [build] 4 page(s) built in 148ms
+09:07:54 [build] Complete!
+
+> katpb.dev@0.0.0 test:e2e
+> playwright test
+
+[WebServer] (node:750) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 368 tests using 8 workers
+
+(node:779) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:765) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:781) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:764) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:790) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:770) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:766) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:767) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    7 [chromium-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame / (321ms)
+  ✓    6 [chromium-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector / (363ms)
+  ✓    1 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage access / (389ms)
+  ✓    4 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage read / (390ms)
+  ✓    5 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage invalid / (391ms)
+  ✓    8 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage write / (393ms)
+  ✓    3 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage remove / (417ms)
+  ✓    9 [chromium-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame / (94ms)
+  ✓   10 [chromium-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector / (122ms)
+  ✓   15 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage read /writing/ (187ms)
+  ✓   13 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage invalid /writing/ (224ms)
+  ✓   16 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage write /writing/ (185ms)
+  ✓   14 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage access /writing/ (225ms)
+  ✓   11 [chromium-mobile] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry / (234ms)
+  ✓   17 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage remove /writing/ (189ms)
+  ✓   18 [chromium-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame /writing/ (137ms)
+  ✓   20 [chromium-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame /writing/ (136ms)
+  ✓   19 [chromium-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector /writing/ (165ms)
+  ✓   21 [chromium-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector /writing/ (169ms)
+  ✓   22 [chromium-mobile] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry /writing/ (203ms)
+  ✓   24 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage invalid /projects/ (172ms)
+  ✓   25 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage access /projects/ (197ms)
+  ✓   26 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage read /projects/ (180ms)
+  ✓   27 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage write /projects/ (174ms)
+  ✓   28 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage remove /projects/ (213ms)
+  ✓   31 [chromium-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame /projects/ (131ms)
+  ✓   29 [chromium-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame /projects/ (170ms)
+  ✓    2 [chromium-mobile] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention / (1.1s)
+  ✓   30 [chromium-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector /projects/ (174ms)
+  ✓   32 [chromium-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector /projects/ (194ms)
+  ✓   33 [chromium-mobile] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry /projects/ (157ms)
+  ✓   12 [chromium-mobile] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention /writing/ (871ms)
+  ✓   36 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage access /about/ (155ms)
+  ✓   35 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage invalid /about/ (165ms)
+  ✓   37 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage read /about/ (157ms)
+  ✓   38 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage write /about/ (149ms)
+  ✓   42 [chromium-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame /about/ (98ms)
+  ✓   39 [chromium-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage remove /about/ (179ms)
+  ✓   40 [chromium-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame /about/ (143ms)
+  ✓   41 [chromium-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector /about/ (118ms)
+  ✓   43 [chromium-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector /about/ (146ms)
+  ✓   44 [chromium-mobile] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry /about/ (161ms)
+  ✓   48 [chromium-mobile] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow / (146ms)
+  ✓   47 [chromium-mobile] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors / (155ms)
+  ✓   23 [chromium-mobile] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention /projects/ (903ms)
+  ✓   52 [chromium-mobile] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow /writing/ (131ms)
+  ✓   51 [chromium-mobile] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors /writing/ (145ms)
+  ✓   55 [chromium-mobile] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors /projects/ (133ms)
+  ✓   45 [chromium-mobile] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation / (565ms)
+  ✓   56 [chromium-mobile] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow /projects/ (124ms)
+  ✓   46 [chromium-mobile] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit / (585ms)
+  ✓   34 [chromium-mobile] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention /about/ (885ms)
+  ✓   49 [chromium-mobile] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation /writing/ (537ms)
+  ✓   50 [chromium-mobile] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit /writing/ (530ms)
+  ✓   61 [chromium-mobile] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable / (121ms)
+  ✓   53 [chromium-mobile] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation /projects/ (548ms)
+  ✓   60 [chromium-mobile] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow /about/ (130ms)
+  ✓   59 [chromium-mobile] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors /about/ (154ms)
+  ✓   62 [chromium-mobile] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable /writing/ (113ms)
+  ✓   54 [chromium-mobile] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit /projects/ (523ms)
+  ✓   63 [chromium-mobile] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable /projects/ (115ms)
+  ✓   64 [chromium-mobile] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable /about/ (106ms)
+  ✓   67 [chromium-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript light / (124ms)
+  ✓   69 [chromium-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark / (139ms)
+  ✓   65 [chromium-mobile] › tests/e2e/site.spec.ts:8:3 › shared shell / (275ms)
+  ✓   57 [chromium-mobile] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation /about/ (545ms)
+  ✓   70 [chromium-mobile] › tests/e2e/site.spec.ts:8:3 › shared shell /writing/ (228ms)
+  ✓   58 [chromium-mobile] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit /about/ (561ms)
+  ✓   72 [chromium-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript light /writing/ (125ms)
+  ✓   66 [chromium-mobile] › tests/e2e/site.spec.ts:102:5 › accessible light / (434ms)
+  ✓   76 [chromium-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript light /projects/ (114ms)
+  ✓   68 [chromium-mobile] › tests/e2e/site.spec.ts:102:5 › accessible dark / (415ms)
+  ✓   75 [chromium-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark /writing/ (129ms)
+  ✓   71 [chromium-mobile] › tests/e2e/site.spec.ts:102:5 › accessible light /writing/ (365ms)
+  ✓   74 [chromium-mobile] › tests/e2e/site.spec.ts:8:3 › shared shell /projects/ (220ms)
+  ✓   73 [chromium-mobile] › tests/e2e/site.spec.ts:102:5 › accessible dark /writing/ (371ms)
+  ✓   79 [chromium-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark /projects/ (147ms)
+  ✓   82 [chromium-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript light /about/ (115ms)
+  ✓   81 [chromium-mobile] › tests/e2e/site.spec.ts:8:3 › shared shell /about/ (228ms)
+  ✓   84 [chromium-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark /about/ (110ms)
+  ✓   77 [chromium-mobile] › tests/e2e/site.spec.ts:102:5 › accessible light /projects/ (381ms)
+  ✓   78 [chromium-mobile] › tests/e2e/site.spec.ts:102:5 › accessible dark /projects/ (382ms)
+  ✓   85 [chromium-mobile] › tests/e2e/site.spec.ts:162:1 › metadata is unique across routes (197ms)
+  ✓   80 [chromium-mobile] › tests/e2e/site.spec.ts:102:5 › accessible light /about/ (372ms)
+  ✓   83 [chromium-mobile] › tests/e2e/site.spec.ts:102:5 › accessible dark /about/ (365ms)
+  ✓   87 [chromium-mobile] › tests/e2e/site.spec.ts:206:5 › Writing content JS=true › complete notebook independently (190ms)
+  ✓   89 [chromium-mobile] › tests/e2e/site.spec.ts:239:5 › Projects content JS=true › complete work independently (167ms)
+  ✓   88 [chromium-mobile] › tests/e2e/site.spec.ts:206:5 › Writing content JS=false › complete notebook independently (206ms)
+  ✓   90 [chromium-mobile] › tests/e2e/site.spec.ts:239:5 › Projects content JS=false › complete work independently (162ms)
+  ✓   86 [chromium-mobile] › tests/e2e/site.spec.ts:176:1 › Home is the first complete content increment (352ms)
+  ✓   91 [chromium-mobile] › tests/e2e/site.spec.ts:273:5 › About content JS=true › complete narrative independently (170ms)
+  ✓   92 [chromium-mobile] › tests/e2e/site.spec.ts:273:5 › About content JS=false › complete narrative independently (145ms)
+(node:1121) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1125) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1148) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1150) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1177) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1178) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1158) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   99 [chromium-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector / (145ms)
+  ✓   98 [chromium-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame / (214ms)
+  ✓  101 [chromium-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame / (97ms)
+  ✓   95 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage read / (271ms)
+  ✓   94 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage invalid / (289ms)
+  ✓   96 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage access / (293ms)
+  ✓   97 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage write / (297ms)
+  ✓  100 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage remove / (333ms)
+  ✓  102 [chromium-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector / (181ms)
+  ✓  103 [chromium-desktop] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry / (200ms)
+  ✓  106 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage access /writing/ (169ms)
+  ✓  105 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage invalid /writing/ (171ms)
+  ✓  107 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage read /writing/ (202ms)
+  ✓  108 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage write /writing/ (207ms)
+  ✓  112 [chromium-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame /writing/ (85ms)
+  ✓  110 [chromium-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame /writing/ (121ms)
+  ✓  111 [chromium-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector /writing/ (129ms)
+  ✓  109 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage remove /writing/ (222ms)
+  ✓  113 [chromium-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector /writing/ (151ms)
+  ✓  116 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage invalid /projects/ (160ms)
+  ✓  114 [chromium-desktop] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry /writing/ (215ms)
+  ✓  117 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage access /projects/ (171ms)
+  ✓  118 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage read /projects/ (162ms)
+  ✓  119 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage write /projects/ (170ms)
+  ✓  121 [chromium-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame /projects/ (130ms)
+  ✓  123 [chromium-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame /projects/ (103ms)
+  ✓  122 [chromium-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector /projects/ (126ms)
+  ✓  120 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage remove /projects/ (199ms)
+  ✓   93 [chromium-desktop] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention / (991ms)
+  ✓  124 [chromium-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector /projects/ (162ms)
+  ✓  125 [chromium-desktop] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry /projects/ (163ms)
+  ✓  127 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage invalid /about/ (194ms)
+  ✓  129 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage read /about/ (180ms)
+  ✓  128 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage access /about/ (206ms)
+  ✓  130 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage write /about/ (163ms)
+  ✓  104 [chromium-desktop] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention /writing/ (959ms)
+  ✓  134 [chromium-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame /about/ (96ms)
+  ✓  132 [chromium-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame /about/ (125ms)
+  ✓  131 [chromium-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage remove /about/ (189ms)
+  ✓  133 [chromium-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector /about/ (125ms)
+  ✓  135 [chromium-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector /about/ (195ms)
+  ✓  140 [chromium-desktop] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow / (125ms)
+  ✓  139 [chromium-desktop] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors / (152ms)
+  ✓  115 [chromium-desktop] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention /projects/ (885ms)
+  ✓  136 [chromium-desktop] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry /about/ (240ms)
+  ✓  143 [chromium-desktop] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors /writing/ (157ms)
+  ✓  144 [chromium-desktop] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow /writing/ (154ms)
+  ✓  147 [chromium-desktop] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors /projects/ (163ms)
+  ✓  137 [chromium-desktop] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation / (627ms)
+  ✓  138 [chromium-desktop] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit / (620ms)
+  ✓  126 [chromium-desktop] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention /about/ (978ms)
+  ✓  148 [chromium-desktop] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow /projects/ (112ms)
+  ✓  141 [chromium-desktop] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation /writing/ (556ms)
+  ✓  142 [chromium-desktop] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit /writing/ (573ms)
+  ✓  152 [chromium-desktop] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow /about/ (108ms)
+  ✓  145 [chromium-desktop] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation /projects/ (537ms)
+  ✓  151 [chromium-desktop] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors /about/ (152ms)
+  ✓  153 [chromium-desktop] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable / (129ms)
+  ✓  154 [chromium-desktop] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable /writing/ (114ms)
+  ✓  155 [chromium-desktop] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable /projects/ (116ms)
+  ✓  156 [chromium-desktop] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable /about/ (114ms)
+  ✓  146 [chromium-desktop] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit /projects/ (585ms)
+  ✓  159 [chromium-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript light / (157ms)
+  ✓  161 [chromium-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark / (128ms)
+  ✓  157 [chromium-desktop] › tests/e2e/site.spec.ts:8:3 › shared shell / (287ms)
+  ✓  164 [chromium-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript light /writing/ (108ms)
+  ✓  162 [chromium-desktop] › tests/e2e/site.spec.ts:8:3 › shared shell /writing/ (230ms)
+  ✓  150 [chromium-desktop] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit /about/ (557ms)
+  ✓  149 [chromium-desktop] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation /about/ (567ms)
+  ✓  166 [chromium-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark /writing/ (115ms)
+  ✓  158 [chromium-desktop] › tests/e2e/site.spec.ts:102:5 › accessible light / (418ms)
+  ✓  160 [chromium-desktop] › tests/e2e/site.spec.ts:102:5 › accessible dark / (411ms)
+  ✓  169 [chromium-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript light /projects/ (107ms)
+  ✓  167 [chromium-desktop] › tests/e2e/site.spec.ts:8:3 › shared shell /projects/ (234ms)
+  ✓  163 [chromium-desktop] › tests/e2e/site.spec.ts:102:5 › accessible light /writing/ (363ms)
+  ✓  171 [chromium-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark /projects/ (121ms)
+  ✓  165 [chromium-desktop] › tests/e2e/site.spec.ts:102:5 › accessible dark /writing/ (341ms)
+  ✓  172 [chromium-desktop] › tests/e2e/site.spec.ts:8:3 › shared shell /about/ (227ms)
+  ✓  176 [chromium-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark /about/ (129ms)
+  ✓  174 [chromium-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript light /about/ (155ms)
+  ✓  168 [chromium-desktop] › tests/e2e/site.spec.ts:102:5 › accessible light /projects/ (384ms)
+  ✓  177 [chromium-desktop] › tests/e2e/site.spec.ts:162:1 › metadata is unique across routes (173ms)
+  ✓  173 [chromium-desktop] › tests/e2e/site.spec.ts:102:5 › accessible light /about/ (355ms)
+  ✓  170 [chromium-desktop] › tests/e2e/site.spec.ts:102:5 › accessible dark /projects/ (418ms)
+  ✓  180 [chromium-desktop] › tests/e2e/site.spec.ts:206:5 › Writing content JS=false › complete notebook independently (197ms)
+  ✓  179 [chromium-desktop] › tests/e2e/site.spec.ts:206:5 › Writing content JS=true › complete notebook independently (223ms)
+  ✓  175 [chromium-desktop] › tests/e2e/site.spec.ts:102:5 › accessible dark /about/ (369ms)
+  ✓  181 [chromium-desktop] › tests/e2e/site.spec.ts:239:5 › Projects content JS=true › complete work independently (202ms)
+  ✓  182 [chromium-desktop] › tests/e2e/site.spec.ts:239:5 › Projects content JS=false › complete work independently (168ms)
+  ✓  183 [chromium-desktop] › tests/e2e/site.spec.ts:273:5 › About content JS=true › complete narrative independently (158ms)
+  ✓  184 [chromium-desktop] › tests/e2e/site.spec.ts:273:5 › About content JS=false › complete narrative independently (152ms)
+  ✓  178 [chromium-desktop] › tests/e2e/site.spec.ts:176:1 › Home is the first complete content increment (329ms)
+(node:1460) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1461) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1462) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1463) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1465) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1466) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1467) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  192 [webkit-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector / (887ms)
+  ✓  187 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage invalid / (924ms)
+  ✓  186 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage access / (959ms)
+  ✓  189 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage write / (958ms)
+  ✓  188 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage read / (990ms)
+  ✓  190 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage remove / (1.1s)
+  ✓  193 [webkit-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame / (289ms)
+  ✓  191 [webkit-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame / (1.3s)
+  ✓  194 [webkit-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector / (355ms)
+  ✓  195 [webkit-mobile] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry / (476ms)
+  ✓  197 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage invalid /writing/ (436ms)
+  ✓  198 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage access /writing/ (373ms)
+  ✓  199 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage read /writing/ (342ms)
+  ✓  200 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage write /writing/ (306ms)
+  ✓  201 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage remove /writing/ (339ms)
+  ✓  202 [webkit-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame /writing/ (263ms)
+  ✓  203 [webkit-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector /writing/ (282ms)
+  ✓  204 [webkit-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame /writing/ (241ms)
+  ✓  205 [webkit-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector /writing/ (259ms)
+  ✓  206 [webkit-mobile] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry /writing/ (327ms)
+  ✓  208 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage invalid /projects/ (333ms)
+  ✓  209 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage access /projects/ (309ms)
+  ✓  210 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage read /projects/ (301ms)
+  ✓  211 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage write /projects/ (297ms)
+  ✓  212 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage remove /projects/ (337ms)
+  ✓  213 [webkit-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame /projects/ (248ms)
+  ✓  215 [webkit-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame /projects/ (232ms)
+  ✓  214 [webkit-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector /projects/ (277ms)
+  ✓  216 [webkit-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector /projects/ (254ms)
+  ✓  185 [webkit-mobile] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention / (2.6s)
+  ✓  217 [webkit-mobile] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry /projects/ (349ms)
+  ✓  219 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage invalid /about/ (304ms)
+  ✓  220 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage access /about/ (295ms)
+  ✓  221 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage read /about/ (302ms)
+  ✓  196 [webkit-mobile] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention /writing/ (1.8s)
+  ✓  224 [webkit-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame /about/ (223ms)
+  ✓  222 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage write /about/ (303ms)
+  ✓  225 [webkit-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector /about/ (262ms)
+  ✓  226 [webkit-mobile] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame /about/ (256ms)
+  ✓  223 [webkit-mobile] › tests/e2e/appearance.spec.ts:80:5 › storage remove /about/ (353ms)
+  ✓  227 [webkit-mobile] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector /about/ (252ms)
+  ✓  228 [webkit-mobile] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry /about/ (285ms)
+  ✓  231 [webkit-mobile] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors / (298ms)
+  ✓  232 [webkit-mobile] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow / (266ms)
+  ✓  207 [webkit-mobile] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention /projects/ (1.7s)
+  ✓  235 [webkit-mobile] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors /writing/ (250ms)
+  ✓  236 [webkit-mobile] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow /writing/ (243ms)
+  ✓  229 [webkit-mobile] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation / (810ms)
+  ✓  233 [webkit-mobile] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation /writing/ (759ms)
+  ✓  230 [webkit-mobile] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit / (837ms)
+  ✓  239 [webkit-mobile] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors /projects/ (262ms)
+  ✓  240 [webkit-mobile] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow /projects/ (251ms)
+  ✓  234 [webkit-mobile] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit /writing/ (831ms)
+  ✓  218 [webkit-mobile] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention /about/ (1.7s)
+  ✓  243 [webkit-mobile] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors /about/ (252ms)
+  ✓  237 [webkit-mobile] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation /projects/ (758ms)
+  ✓  244 [webkit-mobile] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow /about/ (255ms)
+  ✓  245 [webkit-mobile] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable / (238ms)
+  ✓  238 [webkit-mobile] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit /projects/ (761ms)
+  ✓  246 [webkit-mobile] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable /projects/ (254ms)
+  ✓  247 [webkit-mobile] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable /writing/ (253ms)
+  ✓  248 [webkit-mobile] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable /about/ (236ms)
+  ✓  242 [webkit-mobile] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit /about/ (717ms)
+  ✓  241 [webkit-mobile] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation /about/ (742ms)
+  ✓  251 [webkit-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript light / (258ms)
+  ✓  253 [webkit-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark / (268ms)
+  ✓  249 [webkit-mobile] › tests/e2e/site.spec.ts:8:3 › shared shell / (461ms)
+  ✓  256 [webkit-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript light /writing/ (288ms)
+  ✓  258 [webkit-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark /writing/ (265ms)
+  ✓  254 [webkit-mobile] › tests/e2e/site.spec.ts:8:3 › shared shell /writing/ (478ms)
+  ✓  250 [webkit-mobile] › tests/e2e/site.spec.ts:102:5 › accessible light / (706ms)
+  ✓  252 [webkit-mobile] › tests/e2e/site.spec.ts:102:5 › accessible dark / (702ms)
+  ✓  255 [webkit-mobile] › tests/e2e/site.spec.ts:102:5 › accessible light /writing/ (600ms)
+  ✓  261 [webkit-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript light /projects/ (253ms)
+  ✓  259 [webkit-mobile] › tests/e2e/site.spec.ts:8:3 › shared shell /projects/ (443ms)
+  ✓  257 [webkit-mobile] › tests/e2e/site.spec.ts:102:5 › accessible dark /writing/ (650ms)
+  ✓  263 [webkit-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark /projects/ (269ms)
+  ✓  266 [webkit-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript light /about/ (250ms)
+  ✓  268 [webkit-mobile] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark /about/ (241ms)
+  ✓  264 [webkit-mobile] › tests/e2e/site.spec.ts:8:3 › shared shell /about/ (429ms)
+  ✓  260 [webkit-mobile] › tests/e2e/site.spec.ts:102:5 › accessible light /projects/ (695ms)
+  ✓  262 [webkit-mobile] › tests/e2e/site.spec.ts:102:5 › accessible dark /projects/ (665ms)
+  ✓  269 [webkit-mobile] › tests/e2e/site.spec.ts:162:1 › metadata is unique across routes (338ms)
+  ✓  265 [webkit-mobile] › tests/e2e/site.spec.ts:102:5 › accessible light /about/ (614ms)
+  ✓  271 [webkit-mobile] › tests/e2e/site.spec.ts:206:5 › Writing content JS=true › complete notebook independently (347ms)
+  ✓  267 [webkit-mobile] › tests/e2e/site.spec.ts:102:5 › accessible dark /about/ (610ms)
+  ✓  272 [webkit-mobile] › tests/e2e/site.spec.ts:206:5 › Writing content JS=false › complete notebook independently (391ms)
+  ✓  273 [webkit-mobile] › tests/e2e/site.spec.ts:239:5 › Projects content JS=true › complete work independently (378ms)
+  ✓  274 [webkit-mobile] › tests/e2e/site.spec.ts:239:5 › Projects content JS=false › complete work independently (381ms)
+  ✓  270 [webkit-mobile] › tests/e2e/site.spec.ts:176:1 › Home is the first complete content increment (593ms)
+  ✓  275 [webkit-mobile] › tests/e2e/site.spec.ts:273:5 › About content JS=true › complete narrative independently (426ms)
+(node:1730) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1731) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  276 [webkit-mobile] › tests/e2e/site.spec.ts:273:5 › About content JS=false › complete narrative independently (353ms)
+(node:1732) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1733) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1734) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1735) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1736) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1755) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  279 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage access / (687ms)
+  ✓  278 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage invalid / (834ms)
+  ✓  281 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage write / (723ms)
+  ✓  280 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage read / (877ms)
+  ✓  284 [webkit-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector / (626ms)
+  ✓  283 [webkit-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame / (764ms)
+  ✓  282 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage remove / (885ms)
+  ✓  285 [webkit-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame / (304ms)
+  ✓  286 [webkit-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector / (331ms)
+  ✓  287 [webkit-desktop] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry / (434ms)
+  ✓  290 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage access /writing/ (345ms)
+  ✓  289 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage invalid /writing/ (365ms)
+  ✓  291 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage write /writing/ (339ms)
+  ✓  292 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage read /writing/ (337ms)
+  ✓  293 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage remove /writing/ (311ms)
+  ✓  294 [webkit-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame /writing/ (209ms)
+  ✓  296 [webkit-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame /writing/ (257ms)
+  ✓  295 [webkit-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector /writing/ (280ms)
+  ✓  298 [webkit-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector /writing/ (260ms)
+  ✓  297 [webkit-desktop] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry /writing/ (322ms)
+  ✓  300 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage invalid /projects/ (291ms)
+  ✓  301 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage access /projects/ (310ms)
+  ✓  302 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage read /projects/ (330ms)
+  ✓  303 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage write /projects/ (342ms)
+  ✓  305 [webkit-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame /projects/ (238ms)
+  ✓  304 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage remove /projects/ (378ms)
+  ✓  307 [webkit-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame /projects/ (213ms)
+  ✓  306 [webkit-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector /projects/ (282ms)
+  ✓  308 [webkit-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector /projects/ (246ms)
+  ✓  277 [webkit-desktop] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention / (2.3s)
+  ✓  309 [webkit-desktop] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry /projects/ (319ms)
+  ✓  311 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage invalid /about/ (318ms)
+  ✓  312 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage access /about/ (296ms)
+  ✓  313 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage read /about/ (307ms)
+  ✓  314 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage write /about/ (316ms)
+  ✓  288 [webkit-desktop] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention /writing/ (1.8s)
+  ✓  315 [webkit-desktop] › tests/e2e/appearance.spec.ts:80:5 › storage remove /about/ (318ms)
+  ✓  316 [webkit-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved light before first rendered frame /about/ (234ms)
+  ✓  317 [webkit-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System light and hidden selector /about/ (271ms)
+  ✓  318 [webkit-desktop] › tests/e2e/appearance.spec.ts:135:5 › saved dark before first rendered frame /about/ (241ms)
+  ✓  319 [webkit-desktop] › tests/e2e/appearance.spec.ts:174:5 › no script System dark and hidden selector /about/ (262ms)
+  ✓  320 [webkit-desktop] › tests/e2e/appearance.spec.ts:196:3 › canonical brand geometry /about/ (331ms)
+  ✓  324 [webkit-desktop] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow / (258ms)
+  ✓  323 [webkit-desktop] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors / (302ms)
+  ✓  299 [webkit-desktop] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention /projects/ (1.7s)
+  ✓  328 [webkit-desktop] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow /writing/ (245ms)
+  ✓  327 [webkit-desktop] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors /writing/ (263ms)
+  ✓  321 [webkit-desktop] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation / (882ms)
+  ✓  325 [webkit-desktop] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation /writing/ (777ms)
+  ✓  330 [webkit-desktop] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors /projects/ (287ms)
+  ✓  322 [webkit-desktop] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit / (934ms)
+  ✓  326 [webkit-desktop] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit /writing/ (828ms)
+  ✓  310 [webkit-desktop] › tests/e2e/appearance.spec.ts:10:3 › theme transitions and retention /about/ (1.8s)
+  ✓  332 [webkit-desktop] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow /projects/ (277ms)
+  ✓  335 [webkit-desktop] › tests/e2e/responsive.spec.ts:104:3 › reduced motion and forced colors /about/ (265ms)
+  ✓  329 [webkit-desktop] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation /projects/ (850ms)
+  ✓  336 [webkit-desktop] › tests/e2e/responsive.spec.ts:130:3 › enhancement initialization failure keeps flow /about/ (237ms)
+  ✓  337 [webkit-desktop] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable / (248ms)
+  ✓  338 [webkit-desktop] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable /writing/ (252ms)
+  ✓  331 [webkit-desktop] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit /projects/ (830ms)
+  ✓  339 [webkit-desktop] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable /projects/ (235ms)
+  ✓  340 [webkit-desktop] › tests/e2e/responsive.spec.ts:156:3 › rail measurement unavailable leaves theme usable /about/ (251ms)
+  ✓  333 [webkit-desktop] › tests/e2e/responsive.spec.ts:4:3 › stylesheet failure preserves HTML navigation /about/ (735ms)
+  ✓  334 [webkit-desktop] › tests/e2e/responsive.spec.ts:42:3 › responsive reflow and fit /about/ (718ms)
+  ✓  343 [webkit-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript light / (273ms)
+  ✓  345 [webkit-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark / (265ms)
+  ✓  341 [webkit-desktop] › tests/e2e/site.spec.ts:8:3 › shared shell / (490ms)
+  ✓  348 [webkit-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript light /writing/ (258ms)
+  ✓  350 [webkit-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark /writing/ (255ms)
+  ✓  342 [webkit-desktop] › tests/e2e/site.spec.ts:102:5 › accessible light / (692ms)
+  ✓  346 [webkit-desktop] › tests/e2e/site.spec.ts:8:3 › shared shell /writing/ (485ms)
+  ✓  344 [webkit-desktop] › tests/e2e/site.spec.ts:102:5 › accessible dark / (726ms)
+  ✓  353 [webkit-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript light /projects/ (281ms)
+  ✓  347 [webkit-desktop] › tests/e2e/site.spec.ts:102:5 › accessible light /writing/ (669ms)
+  ✓  351 [webkit-desktop] › tests/e2e/site.spec.ts:8:3 › shared shell /projects/ (452ms)
+  ✓  355 [webkit-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark /projects/ (262ms)
+  ✓  349 [webkit-desktop] › tests/e2e/site.spec.ts:102:5 › accessible dark /writing/ (660ms)
+  ✓  358 [webkit-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript light /about/ (269ms)
+  ✓  356 [webkit-desktop] › tests/e2e/site.spec.ts:8:3 › shared shell /about/ (448ms)
+  ✓  360 [webkit-desktop] › tests/e2e/site.spec.ts:122:5 › no JavaScript dark /about/ (260ms)
+  ✓  352 [webkit-desktop] › tests/e2e/site.spec.ts:102:5 › accessible light /projects/ (740ms)
+  ✓  361 [webkit-desktop] › tests/e2e/site.spec.ts:162:1 › metadata is unique across routes (372ms)
+  ✓  354 [webkit-desktop] › tests/e2e/site.spec.ts:102:5 › accessible dark /projects/ (659ms)
+  ✓  357 [webkit-desktop] › tests/e2e/site.spec.ts:102:5 › accessible light /about/ (623ms)
+  ✓  359 [webkit-desktop] › tests/e2e/site.spec.ts:102:5 › accessible dark /about/ (635ms)
+  ✓  365 [webkit-desktop] › tests/e2e/site.spec.ts:239:5 › Projects content JS=true › complete work independently (368ms)
+  ✓  364 [webkit-desktop] › tests/e2e/site.spec.ts:206:5 › Writing content JS=false › complete notebook independently (409ms)
+  ✓  363 [webkit-desktop] › tests/e2e/site.spec.ts:206:5 › Writing content JS=true › complete notebook independently (409ms)
+  ✓  366 [webkit-desktop] › tests/e2e/site.spec.ts:239:5 › Projects content JS=false › complete work independently (334ms)
+  ✓  367 [webkit-desktop] › tests/e2e/site.spec.ts:273:5 › About content JS=true › complete narrative independently (366ms)
+  ✓  362 [webkit-desktop] › tests/e2e/site.spec.ts:176:1 › Home is the first complete content increment (566ms)
+  ✓  368 [webkit-desktop] › tests/e2e/site.spec.ts:273:5 › About content JS=false › complete narrative independently (352ms)
+
+  368 passed (20.9s)
+
+> katpb.dev@0.0.0 test:workflow
+> node --test tests/integration/*.test.mjs
+
+✔ full builds replace stale output and preserve source state (1187.000625ms)
+✔ development startup fails with actionable guidance when port 4321 is occupied (34.057666ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1224.452958
+
+> katpb.dev@0.0.0 test:reproducible
+> node scripts/check-reproducible-build.mjs
+
+Reproducible build verified for 6 generated file(s).

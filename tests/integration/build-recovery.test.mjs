@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { existsSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -17,7 +17,32 @@ const astroCli = path.join(
   "astro.mjs",
 );
 const staleOutput = path.join(repositoryRoot, "dist", "stale-r1-output.txt");
-const rootDocument = path.join(repositoryRoot, "dist", "index.html");
+const routeDocuments = [
+  "index.html",
+  "writing/index.html",
+  "projects/index.html",
+  "about/index.html",
+];
+
+function assertArtifacts() {
+  for (const route of routeDocuments) {
+    const document = path.join(repositoryRoot, "dist", route);
+    assert.ok(existsSync(document), `build must produce ${route}`);
+    const html = readFileSync(document, "utf8");
+    const resources = [
+      ...html.matchAll(/(?:src|href)="(\/_astro\/[^"?#]+)(?:[?#][^"]*)?"/g),
+    ].map((match) => match[1]);
+    assert.ok(
+      resources.length > 0,
+      `${route} must reference its local stylesheet`,
+    );
+    for (const resource of resources)
+      assert.ok(
+        existsSync(path.join(repositoryRoot, "dist", resource)),
+        `${route}: missing ${resource}`,
+      );
+  }
+}
 
 function gitState() {
   const result = spawnSync(
@@ -65,11 +90,7 @@ test("full builds replace stale output and preserve source state", () => {
     false,
     "the first build must remove stale output",
   );
-  assert.equal(
-    existsSync(rootDocument),
-    true,
-    "the first build must produce dist/index.html",
-  );
+  assertArtifacts();
 
   writeFileSync(
     staleOutput,
@@ -82,11 +103,7 @@ test("full builds replace stale output and preserve source state", () => {
     false,
     "the repeated build must remove stale output",
   );
-  assert.equal(
-    existsSync(rootDocument),
-    true,
-    "the repeated build must produce dist/index.html",
-  );
+  assertArtifacts();
 
   assert.equal(
     gitState(),

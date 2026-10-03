@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/PageIntro.astro";
+import ProjectSummary from "../components/ProjectSummary.astro";
+import { projects } from "../data/projects";
+---
+
+<BaseLayout pageId="projects">
+  <PageIntro pageId="projects" />
+  <section aria-labelledby="work-sketches">
+    <h2 id="work-sketches">Selected work</h2>
+    <p class="sample-label">
+      Illustrative work sketches — proposed approaches, not delivered projects.
+    </p>
+    <ul role="list" class="project-list">
+      {projects.map((project) => (
+        <ProjectSummary {project} />
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

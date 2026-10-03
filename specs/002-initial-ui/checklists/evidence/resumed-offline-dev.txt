@@ -1,0 +1,4 @@
+Offline dev PASS /
+Offline dev PASS /writing/
+Offline dev PASS /projects/
+Offline dev PASS /about/

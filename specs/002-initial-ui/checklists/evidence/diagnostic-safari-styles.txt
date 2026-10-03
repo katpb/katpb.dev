@@ -1,0 +1,44 @@
+Diagnostic native Safari stylesheet-failure traversal, 2026-10-03.
+Server serves unchanged dist HTML and destroys every .css request; localhost 4324 only.
+Observed pointer traversal: Home -> Writing -> Projects -> About -> Home.
+Native screenshots and AX observations show readable headings/content, four primary destinations,
+and surviving HTML Current text on each route. This is T043 diagnostic evidence, not T046 final evidence.
+
+200 /
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+200 /
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+200 /writing/
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+200 /projects/
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+200 /about/
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+200 /
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css
+ABORT stylesheet /_astro/PageIntro.cyrCZwD0.css

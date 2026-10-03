@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1120" viewBox="0 0 1440 1120">
+  <title>katpb.dev desktop homepage wireframe</title>
+  <desc>Low-fidelity desktop wireframe with an identity rail, global navigation, professional introduction, featured writing, selected work, about preview, and footer.</desc>
+  <defs>
+    <style>
+      .frame { fill: #ffffff; stroke: #171717; stroke-width: 2; }
+      .rail { fill: #f5f5f5; }
+      .section { fill: #fafafa; stroke: #aaaaaa; stroke-width: 1.2; }
+      .line { stroke: #c8c8c8; stroke-width: 1; }
+      .accent { fill: #5b2678; }
+      .ink { fill: #171717; font-family: Arial, Helvetica, sans-serif; }
+      .muted { fill: #666666; font-family: Arial, Helvetica, sans-serif; }
+      .link { fill: #5b2678; font-family: Arial, Helvetica, sans-serif; font-weight: 700; }
+      .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
+      .nav { font-size: 15px; font-weight: 700; }
+      .brand { font-size: 30px; font-weight: 700; }
+      .h1 { font-size: 42px; font-weight: 700; }
+      .h2 { font-size: 25px; font-weight: 700; }
+      .h3 { font-size: 17px; font-weight: 700; }
+      .body { font-size: 15px; }
+      .small { font-size: 12px; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="1120" fill="#eeeeee"/>
+  <text x="720" y="24" text-anchor="middle" class="muted eyebrow">DESKTOP HOMEPAGE · 1440 PX</text>
+  <rect x="24" y="40" width="1392" height="1050" rx="12" class="frame"/>
+
+  <!-- Identity rail -->
+  <path d="M36 40 H315 V1090 H36 Q24 1090 24 1078 V52 Q24 40 36 40 Z" class="rail"/>
+  <line x1="315" y1="40" x2="315" y2="1090" class="line"/>
+  <rect x="62" y="78" width="170" height="112" rx="6" class="section"/>
+  <text x="147" y="127" text-anchor="middle" class="muted body">CAT BRAND MARK</text>
+  <text x="147" y="149" text-anchor="middle" class="muted small">theme-aware asset</text>
+  <text x="62" y="236" class="ink brand">katpb.dev</text>
+  <text x="62" y="268" class="muted eyebrow">ENGINEERING · LEADERSHIP · NOTES</text>
+  <line x1="62" y1="292" x2="274" y2="292" class="line"/>
+  <text x="62" y="330" class="ink h3">Quick introduction</text>
+  <text x="62" y="358" class="muted body">Senior software engineer and</text>
+  <text x="62" y="381" class="muted body">technology leader working across</text>
+  <text x="62" y="404" class="muted body">distributed systems, cloud platforms,</text>
+  <text x="62" y="427" class="muted body">architecture, and applied AI.</text>
+  <text x="62" y="478" class="ink h3">Elsewhere</text>
+  <text x="62" y="509" class="link body">GitHub ↗</text>
+  <text x="62" y="540" class="link body">LinkedIn ↗</text>
+  <text x="62" y="571" class="link body">Email ↗</text>
+  <text x="62" y="1010" class="muted small">Professional work, technical writing,</text>
+  <text x="62" y="1030" class="muted small">and experiments.</text>
+  <text x="62" y="1060" class="muted small">© 2026 Kathir</text>
+
+  <!-- Global header -->
+  <text x="364" y="91" class="ink nav">Home</text>
+  <text x="437" y="91" class="ink nav">Writing</text>
+  <text x="530" y="91" class="ink nav">Projects</text>
+  <text x="625" y="91" class="ink nav">About</text>
+  <rect x="363" y="102" width="40" height="3" class="accent"/>
+  <rect x="1326" y="67" width="50" height="38" rx="19" class="section"/>
+  <circle cx="1346" cy="86" r="9" fill="none" stroke="#5b2678" stroke-width="2"/>
+  <text x="1345" y="121" text-anchor="middle" class="muted small">Theme</text>
+  <line x1="350" y1="136" x2="1380" y2="136" class="line"/>
+
+  <!-- Professional introduction -->
+  <text x="364" y="188" class="muted eyebrow">HELLO, I’M KATHIR</text>
+  <text x="364" y="241" class="ink h1">I build dependable systems</text>
+  <text x="364" y="289" class="ink h1">and share what I learn.</text>
+  <text x="364" y="329" class="muted body">A professional home for engineering work, architectural thinking,</text>
+  <text x="364" y="353" class="muted body">technical leadership, and practical experiments with applied AI.</text>
+  <text x="364" y="393" class="link body">Explore my work →</text>
+  <text x="512" y="393" class="link body">Read the notebook →</text>
+
+  <!-- Featured writing -->
+  <line x1="350" y1="430" x2="1380" y2="430" class="line"/>
+  <text x="364" y="471" class="ink h2">Featured writing</text>
+  <text x="364" y="498" class="muted body">Selected notes from the technical notebook.</text>
+  <text x="1247" y="475" class="link body">View all writing →</text>
+
+  <g>
+    <text x="364" y="546" class="muted eyebrow">DISTRIBUTED SYSTEMS · 8 MIN</text>
+    <text x="364" y="577" class="ink h3">Designing for burst traffic</text>
+    <text x="364" y="599" class="ink h3">without guessing</text>
+    <text x="364" y="629" class="muted body">Connecting capacity assumptions,</text>
+    <text x="364" y="652" class="muted body">observability, and safe rollout decisions.</text>
+  </g>
+  <line x1="694" y1="528" x2="694" y2="674" class="line"/>
+  <g>
+    <text x="724" y="546" class="muted eyebrow">ARCHITECTURE · 6 MIN</text>
+    <text x="724" y="577" class="ink h3">Where configuration should</text>
+    <text x="724" y="599" class="ink h3">really live</text>
+    <text x="724" y="629" class="muted body">Separating application behavior from</text>
+    <text x="724" y="652" class="muted body">environment concerns without sprawl.</text>
+  </g>
+  <line x1="1054" y1="528" x2="1054" y2="674" class="line"/>
+  <g>
+    <text x="1084" y="546" class="muted eyebrow">APPLIED AI · 7 MIN</text>
+    <text x="1084" y="577" class="ink h3">Using agents with engineering</text>
+    <text x="1084" y="599" class="ink h3">judgment</text>
+    <text x="1084" y="629" class="muted body">Specifications, implementation,</text>
+    <text x="1084" y="652" class="muted body">and independent review in practice.</text>
+  </g>
+
+  <!-- Selected work -->
+  <line x1="350" y1="705" x2="1380" y2="705" class="line"/>
+  <text x="364" y="747" class="ink h2">Selected work</text>
+  <text x="364" y="774" class="muted body">Representative systems and engineering problems.</text>
+  <text x="1222" y="751" class="link body">View all projects →</text>
+
+  <rect x="364" y="803" width="485" height="135" rx="6" class="section"/>
+  <text x="388" y="837" class="muted eyebrow">PLATFORM INTEGRATION</text>
+  <text x="388" y="870" class="ink h3">High-volume telematics pipeline</text>
+  <text x="388" y="900" class="muted body">Reliable ingestion, normalization, ordering, and operational</text>
+  <text x="388" y="923" class="muted body">visibility for event-driven workloads.</text>
+
+  <rect x="875" y="803" width="485" height="135" rx="6" class="section"/>
+  <text x="899" y="837" class="muted eyebrow">PRODUCT EXPLORATION</text>
+  <text x="899" y="870" class="ink h3">FIRE OS</text>
+  <text x="899" y="900" class="muted body">A deterministic financial-independence baseline designed</text>
+  <text x="899" y="923" class="muted body">through specification-driven development.</text>
+
+  <!-- About preview -->
+  <line x1="350" y1="972" x2="1380" y2="972" class="line"/>
+  <text x="364" y="1014" class="ink h2">About</text>
+  <text x="510" y="1004" class="muted body">I care about systems that remain understandable under pressure—and teams</text>
+  <text x="510" y="1028" class="muted body">that can make sound decisions without depending on heroics.</text>
+  <text x="510" y="1062" class="link body">More about me →</text>
+
+  <!-- Compact footer for main content -->
+  <text x="1204" y="1062" class="muted small">Writing · Projects · About</text>
+</svg>

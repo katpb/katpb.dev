@@ -1,32 +1,52 @@
 ---
 import "../styles/global.css";
-
+import { pages, type PageId } from "../data/site";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 interface Props {
-  title: string;
-  description: string;
-  skipLinkTarget: string;
+  pageId: PageId;
 }
-
-const { title, description, skipLinkTarget } = Astro.props;
+const { pageId } = Astro.props;
+const page = pages.find(({ id }) => id === pageId)!;
+const canonical = new URL(page.href, Astro.site).href;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script is:inline>
+      try {
+        const mode = window.localStorage.getItem("katpb.theme");
+        if (mode === "light" || mode === "dark")
+          document.documentElement.dataset.theme = mode;
+      } catch {
+        /* System CSS remains the fallback. */
+      }
+    </script>
     <meta name="viewport" content="width=device-width" />
-    <meta name="description" content={description} />
-    <title>{title}</title>
+    <title>{page.title}</title>
+    <meta name="description" content={page.description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={page.title} />
+    <meta property="og:description" content={page.description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="katpb.dev" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={page.title} />
+    <meta name="twitter:description" content={page.description} />
   </head>
   <body>
-    <a class="skip-link" href={`#${skipLinkTarget}`}>
+    <a class="skip-link" href="#main-content">
       Skip to main content
     </a>
-    <header aria-label="Site header">
-      <p class="site-name">katpb.dev</p>
-    </header>
-    <main id={skipLinkTarget} tabindex="-1">
-      <slot />
-    </main>
+    <div class="site-shell">
+      <SiteHeader {pageId} />
+      <main id="main-content" tabindex="-1">
+        <slot />
+      </main>
+      <SiteFooter />
+    </div>
   </body>
 </html>

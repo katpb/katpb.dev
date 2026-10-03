@@ -1,0 +1,38 @@
+---
+import type { Project } from "../data/projects";
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+---
+
+<li class="project-summary">
+  {project.image && (
+    <img
+      src={project.image.src}
+      alt={project.image.alt}
+      width={project.image.width}
+      height={project.image.height}
+      loading="lazy"
+    />
+  )}
+  <h3>{project.title}</h3>
+  <dl>
+    <dt>Context</dt>
+    <dd>{project.context}</dd>
+    <dt>Approach</dt>
+    <dd>{project.contribution}</dd>
+    <dt>Intended value</dt>
+    <dd>{project.value}</dd>
+  </dl>
+  {(project.labels?.length ?? 0) > 0 && (
+    <ul role="list" class="project-labels" aria-label="Work themes">
+      {project.labels!.map((label) => (
+        <li>{label}</li>
+      ))}
+    </ul>
+  )}
+  {project.destination && (
+    <a href={project.destination.href}>{project.destination.label}</a>
+  )}
+</li>
