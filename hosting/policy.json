@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "repository": "katpb/katpb.dev",
+  "accountId": "a20534600ae6a611d09360bbc2340c6f",
+  "subdomain": null,
+  "workflow": {
+    "id": null,
+    "path": ".github/workflows/ci.yml",
+    "name": "CI",
+    "check": "repository-health",
+    "checkAppId": 15368
+  },
+  "quotas": {
+    "maxFiles": 20000,
+    "maxFileBytes": 26214400,
+    "maxPreviews": 100,
+    "maxPreviewDeployments": 100,
+    "maxHeaderRules": 100,
+    "maxHeaderLineBytes": 2000
+  },
+  "targets": {
+    "production": {
+      "workerName": "katpb-dev-production",
+      "workerId": null,
+      "verified": false
+    },
+    "preview": {
+      "workerName": "katpb-dev-preview",
+      "workerId": null,
+      "verified": false
+    },
+    "acceptance": {
+      "workerName": "katpb-dev-acceptance",
+      "workerId": null,
+      "verified": false
+    }
+  },
+  "owner": "katpb",
+  "maintainerCount": 1
+}

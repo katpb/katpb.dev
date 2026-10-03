@@ -1,6 +1,11 @@
 node_modules/
 dist/
 .astro/
+.deploy/
+.wrangler/
+.dev.vars*
+*.private-key.pem
+*.private-key.key
 coverage/
 playwright-report/
 test-results/

@@ -1,0 +1,52 @@
+{
+  "observationDate": "2026-10-03",
+  "source": "Signed-in native browser dashboard inspection; official provider documentation",
+  "accountId": "a20534600ae6a611d09360bbc2340c6f",
+  "plan": {
+    "name": "Free",
+    "price": "$0",
+    "currentPlanDisplayed": true,
+    "url": "https://dash.cloudflare.com/a20534600ae6a611d09360bbc2340c6f/workers/plans"
+  },
+  "inventory": {
+    "message": "No projects found; You have not created any projects yet.",
+    "requestsToday": 0,
+    "workerCountLimitDisplayed": 100,
+    "url": "https://dash.cloudflare.com/a20534600ae6a611d09360bbc2340c6f/workers-and-pages"
+  },
+  "proposedNames": {
+    "production": "katpb-dev-production",
+    "preview": "katpb-dev-preview",
+    "acceptance": "katpb-dev-acceptance"
+  },
+  "provisioning": {
+    "status": "not submitted",
+    "dashboardFlow": "Upload your static files -> Upload and deploy",
+    "requiresFiles": true,
+    "deployButtonDisabledWithoutFiles": true,
+    "filePickerOpened": false,
+    "uploadsPerformed": false,
+    "workersCreated": false,
+    "providerUrls": null,
+    "workersDevSubdomain": null,
+    "metadataOnlyApiDocumented": "POST /accounts/{account_id}/workers/workers",
+    "metadataOnlyApiExecuted": false,
+    "credentialCreatedOrRead": false
+  },
+  "documentedFreeLimits": {
+    "assetsPerWorkerVersion": 20000,
+    "assetMaxBytes": 26214400,
+    "headerRules": 100,
+    "headerLineCharacters": 2000,
+    "previewsPerWorker": 100,
+    "deploymentsPerPreview": 100,
+    "previewLimitBehavior": "Provider deletes least-recently deployed Preview when at capacity; preflight must reject quota excess before upload."
+  },
+  "references": [
+    "https://developers.cloudflare.com/workers/platform/limits/",
+    "https://developers.cloudflare.com/workers/previews/",
+    "https://developers.cloudflare.com/workers/authorization/workers/",
+    "https://developers.cloudflare.com/api/resources/workers/subresources/beta/subresources/workers/methods/create/"
+  ],
+  "taskGate": "tasks.md prohibits provider upload before the trusted foundation exists; Phase 1 is sequential and T005 preview-scope exercises also require uploads. Task-order clarification is pending."
+}

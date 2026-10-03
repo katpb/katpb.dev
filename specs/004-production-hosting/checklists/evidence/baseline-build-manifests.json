@@ -1,0 +1,47 @@
+{
+  "r1": {
+    "sourceSha": "6110fd835fbb94255ec12d97e428e9b7fab8bfdd",
+    "files": [
+      {
+        "path": "index.html",
+        "size": 1324,
+        "sha256": "8fedd2890fda3a4d9c1231ad7deebac9f20f44a356c905d6175dab68eccbe76e"
+      }
+    ]
+  },
+  "current": {
+    "sourceSha": "609d32526a43a5b85989b6405593f9728e03e4bc",
+    "files": [
+      {
+        "path": "_astro/PageIntro.cyrCZwD0.css",
+        "size": 6084,
+        "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492"
+      },
+      {
+        "path": "_astro/brand-mark.D9O_vNL9.svg",
+        "size": 1495,
+        "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e"
+      },
+      {
+        "path": "about/index.html",
+        "size": 7152,
+        "sha256": "2ba5e289e96d84170a5f98add56c731985493e4fdb23edc4f58c5b38fd2fa90f"
+      },
+      {
+        "path": "index.html",
+        "size": 9204,
+        "sha256": "b980eb5eb4e682b43d48e5c645bcddaa4f89b7c1b7d54f35319a40a7a075b20d"
+      },
+      {
+        "path": "projects/index.html",
+        "size": 7562,
+        "sha256": "b2ea45d2f2051ae2676b9a8c0450dba230a047c64b36e083ae341b4e87597fe3"
+      },
+      {
+        "path": "writing/index.html",
+        "size": 6949,
+        "sha256": "5a57335844c698f7048fa795a902a4fd73da994c0e3e907771a31e82ef713fb8"
+      }
+    ]
+  }
+}

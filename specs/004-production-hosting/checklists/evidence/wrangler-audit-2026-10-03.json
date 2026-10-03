@@ -1,0 +1,80 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "@astrojs/mdx": {
+      "name": "@astrojs/mdx",
+      "severity": "high",
+      "isDirect": true,
+      "via": ["astro"],
+      "effects": [],
+      "range": "<=0.0.0-vercel-upgrade-20230905174957 || >=1.0.0-beta.0",
+      "nodes": ["node_modules/@astrojs/mdx"],
+      "fixAvailable": {
+        "name": "@astrojs/mdx",
+        "version": "0.19.7",
+        "isSemVerMajor": true
+      }
+    },
+    "astro": {
+      "name": "astro",
+      "severity": "high",
+      "isDirect": true,
+      "via": ["http-cache-semantics"],
+      "effects": ["@astrojs/mdx"],
+      "range": "<=0.0.0-head-body-content-20240329190922 || >=2.10.10",
+      "nodes": ["node_modules/astro"],
+      "fixAvailable": {
+        "name": "astro",
+        "version": "2.10.9",
+        "isSemVerMajor": true
+      }
+    },
+    "http-cache-semantics": {
+      "name": "http-cache-semantics",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1240991,
+          "name": "http-cache-semantics",
+          "dependency": "http-cache-semantics",
+          "title": "http-cache-semantics max-stale handling can disclose cross-user cached responses",
+          "url": "https://github.com/advisories/GHSA-ch52-4w7c-c8xp",
+          "severity": "high",
+          "cwe": ["CWE-524"],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+          },
+          "range": "<=4.2.0"
+        }
+      ],
+      "effects": ["astro"],
+      "range": "*",
+      "nodes": ["node_modules/http-cache-semantics"],
+      "fixAvailable": {
+        "name": "astro",
+        "version": "2.10.9",
+        "isSemVerMajor": true
+      }
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 3,
+      "critical": 0,
+      "total": 3
+    },
+    "dependencies": {
+      "prod": 188,
+      "dev": 181,
+      "optional": 169,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 470
+    }
+  }
+}

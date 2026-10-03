@@ -1,0 +1,10 @@
+# Sensitive deployment files are explicitly owned by the repository maintainer.
+# While @katpb is the sole maintainer, CODEOWNER approval is non-blocking.
+# When a second trusted maintainer joins, enable required independent approval
+# and applicable CODEOWNER approval in the main ruleset; keep PR and CI gates.
+/.github/ @katpb
+/hosting/ @katpb
+/scripts/ @katpb
+/package.json @katpb
+/package-lock.json @katpb
+/.github/CODEOWNERS @katpb

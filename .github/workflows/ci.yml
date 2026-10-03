@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  repository-health:
+    name: repository-health
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      ASTRO_TELEMETRY_DISABLED: "1"
+      SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24.21.0"
+          package-manager-cache: false
+      - name: Install locked toolchain without lifecycle downloads
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+          node node_modules/@playwright/test/cli.js install --with-deps chromium webkit
+      - name: Verify exact clean source and prepare static output without credentials
+        run: npm run release:prepare -- --source-sha "$SOURCE_SHA"
+      - name: Archive verified raw bytes for trusted downstream preparation
+        run: node scripts/hosting/archive-raw.mjs
+      - name: Observe read-only runtime protection visibility
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs/promises';
+          const response = await fetch('https://api.github.com/repos/katpb/katpb.dev/rulesets/24419712', {
+            redirect: 'error', signal: AbortSignal.timeout(15000),
+            headers: {Accept: 'application/vnd.github+json', Authorization: `Bearer ${process.env.GH_TOKEN}`, 'X-GitHub-Api-Version': '2022-11-28'}
+          });
+          if (!response.ok) throw new Error(`Protection metadata unavailable: HTTP ${response.status}`);
+          const ruleset = await response.json();
+          const observation = {rulesetId: ruleset.id, enforcement: ruleset.enforcement,
+            bypassActorsVisible: Array.isArray(ruleset.bypass_actors),
+            bypassActorCount: Array.isArray(ruleset.bypass_actors) ? ruleset.bypass_actors.length : null};
+          await fs.writeFile('.deploy/handoff/runtime-protection.json', JSON.stringify(observation) + '\n');
+          console.log(JSON.stringify(observation));
+          NODE
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: r4-raw-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/handoff/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30

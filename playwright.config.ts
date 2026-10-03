@@ -1,9 +1,13 @@
 import { defineConfig } from "@playwright/test";
+import { hostedMode } from "./scripts/hosting/hosted-mode.mjs";
 
-const baseURL = "http://127.0.0.1:4322";
+const hosted = hostedMode();
+const baseURL = hosted?.url ?? "http://127.0.0.1:4322";
 
 export default defineConfig({
   testDir: "./tests/e2e",
+  testMatch: hosted ? "hosted-foundation.spec.ts" : "**/*.spec.ts",
+  testIgnore: hosted ? [] : ["**/hosted-foundation.spec.ts"],
   outputDir: "./test-results",
   fullyParallel: true,
   reporter: "list",
@@ -11,13 +15,15 @@ export default defineConfig({
     baseURL,
     trace: "retain-on-failure",
   },
-  webServer: {
-    command:
-      "ASTRO_TELEMETRY_DISABLED=1 node node_modules/astro/bin/astro.mjs preview --ignore-lock --host 127.0.0.1 --port 4322",
-    url: `${baseURL}/`,
-    reuseExistingServer: false,
-    timeout: 30_000,
-  },
+  webServer: hosted
+    ? undefined
+    : {
+        command:
+          "ASTRO_TELEMETRY_DISABLED=1 node node_modules/astro/bin/astro.mjs preview --ignore-lock --host 127.0.0.1 --port 4322",
+        url: `${baseURL}/`,
+        reuseExistingServer: false,
+        timeout: 30_000,
+      },
   projects: [
     {
       name: "chromium-mobile",

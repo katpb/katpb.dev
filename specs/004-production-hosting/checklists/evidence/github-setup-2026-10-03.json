@@ -1,0 +1,395 @@
+{
+  "observedAt": "2026-10-03 14:57:10 UTC",
+  "repository": "katpb/katpb.dev",
+  "source": "Ten credential-free public GitHub REST reads plus three authenticated connector ruleset reads; no credential values retained",
+  "responses": [
+    {
+      "url": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419712",
+      "data": {
+        "id": 24419712,
+        "name": "r4-main-integrity",
+        "target": "branch",
+        "source_type": "Repository",
+        "source": "katpb/katpb.dev",
+        "enforcement": "active",
+        "conditions": {
+          "ref_name": {
+            "exclude": [],
+            "include": ["refs/heads/main"]
+          }
+        },
+        "rules": [
+          {
+            "type": "deletion"
+          },
+          {
+            "type": "non_fast_forward"
+          }
+        ],
+        "node_id": "RRS_lACqUmVwb3NpdG9yec5TgfGkzgF0nYA",
+        "created_at": "2026-10-03T14:42:32.326Z",
+        "updated_at": "2026-10-03T14:42:32.361Z",
+        "_links": {
+          "self": {
+            "href": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419712"
+          },
+          "html": {
+            "href": "https://github.com/katpb/katpb.dev/rules/24419712"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419675",
+      "data": {
+        "id": 24419675,
+        "name": "r4-archive-immutable",
+        "target": "tag",
+        "source_type": "Repository",
+        "source": "katpb/katpb.dev",
+        "enforcement": "active",
+        "conditions": {
+          "ref_name": {
+            "exclude": [],
+            "include": ["refs/tags/r4-attempt-*"]
+          }
+        },
+        "rules": [
+          {
+            "type": "deletion"
+          },
+          {
+            "type": "non_fast_forward"
+          },
+          {
+            "type": "update"
+          }
+        ],
+        "node_id": "RRS_lACqUmVwb3NpdG9yec5TgfGkzgF0nVs",
+        "created_at": "2026-10-03T14:40:48.673Z",
+        "updated_at": "2026-10-03T14:40:48.702Z",
+        "_links": {
+          "self": {
+            "href": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419675"
+          },
+          "html": {
+            "href": "https://github.com/katpb/katpb.dev/rules/24419675"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419981",
+      "data": {
+        "id": 24419981,
+        "name": "r4-archive-creation",
+        "target": "tag",
+        "source_type": "Repository",
+        "source": "katpb/katpb.dev",
+        "enforcement": "active",
+        "conditions": {
+          "ref_name": {
+            "exclude": [],
+            "include": ["refs/tags/r4-attempt-*"]
+          }
+        },
+        "rules": [
+          {
+            "type": "creation"
+          }
+        ],
+        "node_id": "RRS_lACqUmVwb3NpdG9yec5TgfGkzgF0no0",
+        "created_at": "2026-10-03T14:51:47.918Z",
+        "updated_at": "2026-10-03T14:51:47.934Z",
+        "_links": {
+          "self": {
+            "href": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419981"
+          },
+          "html": {
+            "href": "https://github.com/katpb/katpb.dev/rules/24419981"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/katpb/katpb.dev/rules/branches/main",
+      "data": [
+        {
+          "type": "deletion",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "katpb/katpb.dev",
+          "ruleset_id": 24419712
+        },
+        {
+          "type": "non_fast_forward",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "katpb/katpb.dev",
+          "ruleset_id": 24419712
+        }
+      ]
+    },
+    {
+      "url": "https://api.github.com/repos/katpb/katpb.dev/environments/preview",
+      "data": {
+        "id": 23375413588,
+        "node_id": "EN_kwDOU4HxpM8AAAAFcUiBVA",
+        "name": "preview",
+        "url": "https://api.github.com/repos/katpb/katpb.dev/environments/preview",
+        "html_url": "https://github.com/katpb/katpb.dev/deployments/activity_log?environments_filter=preview",
+        "created_at": "2026-10-03T14:43:32Z",
+        "updated_at": "2026-10-03T14:43:45Z",
+        "can_admins_bypass": false,
+        "protection_rules": [
+          {
+            "id": 67556590,
+            "node_id": "GA_kwDOU4HxpM4EBtTu",
+            "type": "branch_policy"
+          }
+        ],
+        "deployment_branch_policy": {
+          "protected_branches": false,
+          "custom_branch_policies": true
+        }
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/katpb/katpb.dev/environments/preview/deployment-branch-policies",
+      "data": {
+        "total_count": 1,
+        "branch_policies": [
+          {
+            "id": 61852785,
+            "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3k2MTg1Mjc4NQ==",
+            "name": "main",
+            "type": "branch"
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/katpb/katpb.dev/environments/production",
+      "data": {
+        "id": 23375504891,
+        "node_id": "EN_kwDOU4HxpM8AAAAFcUnl-w",
+        "name": "production",
+        "url": "https://api.github.com/repos/katpb/katpb.dev/environments/production",
+        "html_url": "https://github.com/katpb/katpb.dev/deployments/activity_log?environments_filter=production",
+        "created_at": "2026-10-03T14:45:51Z",
+        "updated_at": "2026-10-03T14:46:04Z",
+        "can_admins_bypass": false,
+        "protection_rules": [
+          {
+            "id": 67556711,
+            "node_id": "GA_kwDOU4HxpM4EBtVn",
+            "type": "branch_policy"
+          }
+        ],
+        "deployment_branch_policy": {
+          "protected_branches": false,
+          "custom_branch_policies": true
+        }
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/katpb/katpb.dev/environments/production/deployment-branch-policies",
+      "data": {
+        "total_count": 1,
+        "branch_policies": [
+          {
+            "id": 61852919,
+            "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3k2MTg1MjkxOQ==",
+            "name": "main",
+            "type": "branch"
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/katpb/katpb.dev/environments/production-recovery",
+      "data": {
+        "id": 23375574659,
+        "node_id": "EN_kwDOU4HxpM8AAAAFcUr2gw",
+        "name": "production-recovery",
+        "url": "https://api.github.com/repos/katpb/katpb.dev/environments/production-recovery",
+        "html_url": "https://github.com/katpb/katpb.dev/deployments/activity_log?environments_filter=production-recovery",
+        "created_at": "2026-10-03T14:47:27Z",
+        "updated_at": "2026-10-03T14:48:07Z",
+        "can_admins_bypass": false,
+        "protection_rules": [
+          {
+            "id": 67556851,
+            "node_id": "GA_kwDOU4HxpM4EBtXz",
+            "type": "required_reviewers",
+            "prevent_self_review": false,
+            "reviewers": [
+              {
+                "type": "User",
+                "reviewer": {
+                  "login": "katpb",
+                  "id": 50702152,
+                  "node_id": "MDQ6VXNlcjUwNzAyMTUy",
+                  "avatar_url": "https://avatars.githubusercontent.com/u/50702152?v=4",
+                  "gravatar_id": "",
+                  "url": "https://api.github.com/users/katpb",
+                  "html_url": "https://github.com/katpb",
+                  "followers_url": "https://api.github.com/users/katpb/followers",
+                  "following_url": "https://api.github.com/users/katpb/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/katpb/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/katpb/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/katpb/subscriptions",
+                  "organizations_url": "https://api.github.com/users/katpb/orgs",
+                  "repos_url": "https://api.github.com/users/katpb/repos",
+                  "events_url": "https://api.github.com/users/katpb/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/katpb/received_events",
+                  "type": "User",
+                  "user_view_type": "public",
+                  "site_admin": false
+                }
+              }
+            ]
+          },
+          {
+            "id": 67556887,
+            "node_id": "GA_kwDOU4HxpM4EBtYX",
+            "type": "branch_policy"
+          }
+        ],
+        "deployment_branch_policy": {
+          "protected_branches": false,
+          "custom_branch_policies": true
+        }
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/katpb/katpb.dev/environments/production-recovery/deployment-branch-policies",
+      "data": {
+        "total_count": 1,
+        "branch_policies": [
+          {
+            "id": 61853140,
+            "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3k2MTg1MzE0MA==",
+            "name": "main",
+            "type": "branch"
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419712",
+      "source": "Authenticated GitHub connector read; confirms fields omitted from public REST response",
+      "data": {
+        "id": 24419712,
+        "name": "r4-main-integrity",
+        "target": "branch",
+        "source_type": "Repository",
+        "source": "katpb/katpb.dev",
+        "enforcement": "active",
+        "conditions": {
+          "ref_name": {
+            "exclude": [],
+            "include": ["refs/heads/main"]
+          }
+        },
+        "rules": [
+          {
+            "type": "deletion"
+          },
+          {
+            "type": "non_fast_forward"
+          }
+        ],
+        "node_id": "RRS_lACqUmVwb3NpdG9yec5TgfGkzgF0nYA",
+        "created_at": "2026-10-03T20:12:32.326+05:30",
+        "updated_at": "2026-10-03T20:12:32.361+05:30",
+        "bypass_actors": [],
+        "current_user_can_bypass": "never",
+        "_links": {
+          "self": {
+            "href": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419712"
+          },
+          "html": {
+            "href": "https://github.com/katpb/katpb.dev/rules/24419712"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419675",
+      "source": "Authenticated GitHub connector read; confirms fields omitted from public REST response",
+      "data": {
+        "id": 24419675,
+        "name": "r4-archive-immutable",
+        "target": "tag",
+        "source_type": "Repository",
+        "source": "katpb/katpb.dev",
+        "enforcement": "active",
+        "conditions": {
+          "ref_name": {
+            "exclude": [],
+            "include": ["refs/tags/r4-attempt-*"]
+          }
+        },
+        "rules": [
+          {
+            "type": "deletion"
+          },
+          {
+            "type": "non_fast_forward"
+          },
+          {
+            "type": "update"
+          }
+        ],
+        "node_id": "RRS_lACqUmVwb3NpdG9yec5TgfGkzgF0nVs",
+        "created_at": "2026-10-03T20:10:48.673+05:30",
+        "updated_at": "2026-10-03T20:10:48.702+05:30",
+        "bypass_actors": [],
+        "current_user_can_bypass": "never",
+        "_links": {
+          "self": {
+            "href": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419675"
+          },
+          "html": {
+            "href": "https://github.com/katpb/katpb.dev/rules/24419675"
+          }
+        }
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419981",
+      "source": "Authenticated GitHub connector read; confirms fields omitted from public REST response",
+      "data": {
+        "id": 24419981,
+        "name": "r4-archive-creation",
+        "target": "tag",
+        "source_type": "Repository",
+        "source": "katpb/katpb.dev",
+        "enforcement": "active",
+        "conditions": {
+          "ref_name": {
+            "exclude": [],
+            "include": ["refs/tags/r4-attempt-*"]
+          }
+        },
+        "rules": [
+          {
+            "type": "creation"
+          }
+        ],
+        "node_id": "RRS_lACqUmVwb3NpdG9yec5TgfGkzgF0no0",
+        "created_at": "2026-10-03T20:21:47.918+05:30",
+        "updated_at": "2026-10-03T20:21:47.934+05:30",
+        "bypass_actors": [],
+        "current_user_can_bypass": "never",
+        "_links": {
+          "self": {
+            "href": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419981"
+          },
+          "html": {
+            "href": "https://github.com/katpb/katpb.dev/rules/24419981"
+          }
+        }
+      }
+    }
+  ]
+}

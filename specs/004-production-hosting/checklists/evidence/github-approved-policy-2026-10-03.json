@@ -1,0 +1,155 @@
+{
+  "observedAt": "2026-10-03 15:20:03 UTC",
+  "repository": "katpb/katpb.dev",
+  "scope": "T001–T022 only",
+  "phase": "registered; installation confirmation pending",
+  "rulesets": [
+    {
+      "id": 24419712,
+      "name": "r4-main-integrity",
+      "target": "branch",
+      "source_type": "Repository",
+      "source": "katpb/katpb.dev",
+      "enforcement": "active",
+      "conditions": {
+        "ref_name": {
+          "exclude": [],
+          "include": ["refs/heads/main"]
+        }
+      },
+      "rules": [
+        {
+          "type": "deletion"
+        },
+        {
+          "type": "non_fast_forward"
+        },
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": false,
+            "required_reviewers": [],
+            "require_code_owner_review": false,
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": false,
+            "require_extra_approval_for_unattributed_changes": true,
+            "allowed_merge_methods": ["merge", "squash", "rebase"]
+          }
+        }
+      ],
+      "node_id": "RRS_lACqUmVwb3NpdG9yec5TgfGkzgF0nYA",
+      "created_at": "2026-10-03T20:12:32.326+05:30",
+      "updated_at": "2026-10-03T20:42:26.286+05:30",
+      "bypass_actors": [],
+      "current_user_can_bypass": "never",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419712"
+        },
+        "html": {
+          "href": "https://github.com/katpb/katpb.dev/rules/24419712"
+        }
+      }
+    },
+    {
+      "id": 24419675,
+      "name": "r4-archive-immutable",
+      "target": "tag",
+      "source_type": "Repository",
+      "source": "katpb/katpb.dev",
+      "enforcement": "active",
+      "conditions": {
+        "ref_name": {
+          "exclude": [],
+          "include": ["refs/tags/r4-attempt-*"]
+        }
+      },
+      "rules": [
+        {
+          "type": "deletion"
+        },
+        {
+          "type": "non_fast_forward"
+        },
+        {
+          "type": "update"
+        }
+      ],
+      "node_id": "RRS_lACqUmVwb3NpdG9yec5TgfGkzgF0nVs",
+      "created_at": "2026-10-03T20:10:48.673+05:30",
+      "updated_at": "2026-10-03T20:10:48.702+05:30",
+      "bypass_actors": [],
+      "current_user_can_bypass": "never",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419675"
+        },
+        "html": {
+          "href": "https://github.com/katpb/katpb.dev/rules/24419675"
+        }
+      }
+    },
+    {
+      "id": 24419981,
+      "name": "r4-archive-creation",
+      "target": "tag",
+      "source_type": "Repository",
+      "source": "katpb/katpb.dev",
+      "enforcement": "active",
+      "conditions": {
+        "ref_name": {
+          "exclude": [],
+          "include": ["refs/tags/r4-attempt-*"]
+        }
+      },
+      "rules": [
+        {
+          "type": "creation"
+        }
+      ],
+      "node_id": "RRS_lACqUmVwb3NpdG9yec5TgfGkzgF0no0",
+      "created_at": "2026-10-03T20:21:47.918+05:30",
+      "updated_at": "2026-10-03T20:21:47.934+05:30",
+      "bypass_actors": [],
+      "current_user_can_bypass": "never",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/katpb/katpb.dev/rulesets/24419981"
+        },
+        "html": {
+          "href": "https://github.com/katpb/katpb.dev/rules/24419981"
+        }
+      }
+    }
+  ],
+  "app": {
+    "name": "katpb-dev-r4-archive",
+    "appId": 5176510,
+    "owner": "katpb",
+    "private": true,
+    "source": "Signed-in native browser registration and installation form",
+    "permissions": {
+      "contents": "write",
+      "metadata": "read"
+    },
+    "metadataMandatory": true,
+    "otherRepositoryPermissions": "none",
+    "organizationPermissions": "none",
+    "accountPermissions": "none",
+    "webhookActive": false,
+    "userOAuth": false,
+    "deviceFlow": false,
+    "privateKeyGenerated": false,
+    "clientSecretGenerated": false,
+    "installation": {
+      "status": "prepared, not submitted",
+      "repositorySelection": "selected",
+      "repositories": ["katpb/katpb.dev"]
+    }
+  },
+  "requiredCheck": {
+    "context": "repository-health",
+    "status": "future binding at T022; not yet active"
+  }
+}
