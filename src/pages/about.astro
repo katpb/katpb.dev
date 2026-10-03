@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { aboutSections } from "../data/site";
+---
+
+<BaseLayout pageId="about">
+  <PageIntro pageId="about" />
+  <div class="prose">
+    {aboutSections.map(({ heading, paragraphs }, index) => (
+      <section aria-labelledby={`perspective-${index}`}>
+        <h2 id={`perspective-${index}`}>{heading}</h2>
+        {paragraphs.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+      </section>
+    ))}
+  </div>
+</BaseLayout>

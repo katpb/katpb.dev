@@ -1,16 +1,16 @@
 # Contributing to katpb.dev
 
-R1 is a deliberately small Astro foundation. Keep changes static, local-first, and easy to
+R2 extends the static Astro foundation with four primary UI pages. Keep changes static, local-first, and easy to
 review. Before starting, read the [repository map](./README.md#repository-map), the current
-[R1 specification](./specs/001-project-foundation/spec.md), and the applicable contract under
-[`specs/001-project-foundation/contracts/`](./specs/001-project-foundation/contracts/).
+[R2 specification](./specs/002-initial-ui/spec.md), and the applicable contract under
+[`specs/002-initial-ui/contracts/`](./specs/002-initial-ui/contracts/).
 
 ## Place and name changes predictably
 
 | Change                      | Location and convention                                                                  |
 | --------------------------- | ---------------------------------------------------------------------------------------- |
 | Route                       | `src/pages/`; use lowercase kebab-case route names. The root route is `index.astro`.     |
-| Layout or component         | `src/layouts/` or a future `src/components/`; use PascalCase `.astro` names.             |
+| Layout or component         | `src/layouts/` or `src/components/`; use PascalCase `.astro` names.                      |
 | Baseline style              | `src/styles/`; use descriptive lowercase kebab-case names.                               |
 | Processed asset             | A future `src/assets/`; source-controlled and transformed by Astro.                      |
 | Unprocessed public asset    | A future `public/`; source-controlled and copied unchanged.                              |
@@ -47,7 +47,7 @@ you intend to update formatting.
 Update documentation whenever a command, location, naming rule, prerequisite, failure mode, or
 contract changes. Behavior changes need automated evidence at the closest appropriate layer.
 Accessibility or performance changes also need the manual evidence required by the current
-[quickstart](./specs/001-project-foundation/quickstart.md). Do not weaken a check to make a change
+[quickstart](./specs/002-initial-ui/quickstart.md). Do not weaken a check to make a change
 pass.
 
 ## GitHub pull requests
@@ -64,9 +64,29 @@ the description:
 Reviewers should be able to trace a change from requirement to implementation and evidence. Do
 not merge with a failing `npm run verify` result.
 
-## R1 scope boundary
+## R2 content and evidence ownership
 
-R1 does not include final UI design, a design system, publishing or editorial workflow, content
-collections, article schemas, RSS, Cloudflare/Wrangler configuration, production deployment,
-GitHub Actions, analytics, accounts, forms, search, databases, APIs, or placeholders for those
-features. Those belong to separately approved R2, R3, or R4 work.
+Use `src/data/site.ts` for finite navigation/metadata and illustrative narrative, `writing.ts` for
+notebook samples, and `projects.ts` for work summaries. Keep unapproved claims labelled where they
+appear. Add a profile/contact/project link only with verified destination and recorded approval
+evidence. Omit absent optional images, actions, and profile groups. No article routes or collections.
+Import the canonical SVG from `specs/002-initial-ui/design/source/brand-mark.svg`; preserve its
+geometry/currentColor and exact theme colors. Do not create another copy or add an optimizer.
+
+Preserve the four Playwright projects, strict diagnostics/ports, recovery checks and unchanged
+SHA-256 reproducibility comparator. No new dependencies or upgrades belong to this R2 slice.
+Keep historical R1 evidence untouched. Update current guidance here and in README.
+
+Complete automated checks and diagnostic reviews, remediate defects, then freeze the source/build
+before final native Chrome/Safari and VoiceOver, actual 200% zoom, styles-disabled and theme-flash
+review. The quickstart requires five cold mobile performance visits per route with real local INP,
+and at least five real first-time reviewers from two audience groups using its exact scoring rubric.
+Record raw results and denominators in `specs/002-initial-ui/checklists/acceptance.md`.
+Unavailable evidence stays pending. Any later implementation/content change, including after
+acceptance, requires verification and affected manual/performance/reviewer evidence to be rerun.
+
+## R2 scope boundary
+
+No hosting/deployment, publishing/editorial workflow, content collections, article schemas, CMS,
+analytics, external fonts, new dependencies, accounts, forms, search, databases, APIs, or
+placeholders for future capabilities. Keep scope tied to the approved four-page UI.

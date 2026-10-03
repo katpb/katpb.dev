@@ -1,8 +1,9 @@
 # katpb.dev
 
-This repository contains the R1 project foundation for katpb.dev: a minimal, static Astro site
-with Markdown and MDX support, local development commands, and a repeatable validation pipeline.
-Publishing, production deployment, and later website features are intentionally out of scope.
+katpb.dev is a static Astro site with four primary pages: Home (`/`), Writing (`/writing/`),
+Projects (`/projects/`), and About (`/about/`). R2 adds the shared identity, responsive layout,
+illustrative content, and System/Light/Dark appearance to the existing reproducible R1 foundation.
+Final acceptance status is recorded in [R2 evidence](./specs/002-initial-ui/checklists/acceptance.md).
 
 ## Supported local environment
 
@@ -37,9 +38,8 @@ npm run test:install
 npm run dev
 ```
 
-Open <http://127.0.0.1:4321/>. The page identifies `katpb.dev` and reports that the project
-foundation is operational. With the documented prerequisites, this path should take no more than
-10 minutes. Stop the foreground development server with `Ctrl-C`.
+Open <http://127.0.0.1:4321/> and follow Home, Writing, Projects, and About. The four routes also
+support direct entry. Stop the foreground development server with `Ctrl-C`.
 
 `npm run test:install` downloads the Playwright-pinned Chromium and WebKit browsers and therefore
 requires network access during initial setup. Rerunning `npm ci` or `npm run test:install` after an
@@ -47,7 +47,7 @@ interruption is safe.
 
 ## Local development
 
-Run `npm run dev`, then edit `src/pages/index.astro`, `src/layouts/BaseLayout.astro`, or
+Run `npm run dev`, then edit `src/pages/`, `src/components/`, `src/data/`, or
 `src/styles/global.css`. Astro refreshes the local page without another setup or production build.
 The server binds only to `127.0.0.1`.
 
@@ -84,13 +84,15 @@ build, and verification require no network access.
 
 ```sh
 npm run build
-npm run preview
+npm run preview -- --host 127.0.0.1 --port 4322
+# Stop preview with Ctrl-C before verification needs port 4322.
 npm run verify
 ```
 
 The static artifact is written to `dist/`. Verification runs formatting, Astro/TypeScript
-diagnostics, one baseline build, browser and accessibility tests, workflow tests, and a second
-build whose normalized file paths and SHA-256 hashes must match the baseline. Timestamps,
+diagnostics, the production build, browser and accessibility tests, workflow tests, and two-build
+reproducibility using normalized file paths and SHA-256 content hashes. Workflow tests also build;
+the pipeline does not promise exactly two total builds. Timestamps,
 ownership, and permissions are not compared. Tracked source must remain unchanged.
 
 To prove failure reporting, introduce a temporary formatting error, run `npm run verify`, confirm
@@ -113,28 +115,48 @@ supported; scripts resolve paths relative to the repository rather than a fixed 
 
 ## Repository map
 
-| Path                                             | Ownership                                                               |
-| ------------------------------------------------ | ----------------------------------------------------------------------- |
-| `src/pages/`                                     | Astro routes; R1 owns only the root page.                               |
-| `src/layouts/`                                   | Shared semantic document structure and metadata.                        |
-| `src/styles/`                                    | Baseline local styles.                                                  |
-| `src/assets/`                                    | Future pipeline-processed assets; create only for a real asset.         |
-| `public/`                                        | Future unprocessed public assets; create only for a real asset.         |
-| `scripts/`                                       | Dependency-free workflow enforcement.                                   |
-| `tests/`                                         | Browser and command-behavior checks.                                    |
-| `specs/`                                         | Approved feature specifications, plans, contracts, tasks, and evidence. |
-| Root configuration                               | Astro, TypeScript, formatting, browser, npm, and Git policy.            |
-| `package-lock.json`                              | Exact dependency graph; always review with `package.json`.              |
-| `node_modules/`, `dist/`, `.astro/`, test output | Ignored dependency, generated, cache, and evidence output.              |
+| Path                                             | Ownership                                                                    |
+| ------------------------------------------------ | ---------------------------------------------------------------------------- |
+| `src/pages/`                                     | Four static primary routes; each owns page composition.                      |
+| `src/layouts/`                                   | Shared semantic document structure and metadata.                             |
+| `src/styles/`                                    | Shared semantic tokens, reflow, focus and appearance styles.                 |
+| `src/components/`                                | Shared shell and presentation; isolated theme and rail enhancements.         |
+| `src/data/`                                      | Finite page metadata, labelled narrative/writing/work and approved profiles. |
+| `src/assets/`                                    | Future pipeline-processed assets; create only for a real asset.              |
+| `public/`                                        | Future unprocessed public assets; create only for a real asset.              |
+| `scripts/`                                       | Dependency-free workflow enforcement.                                        |
+| `tests/`                                         | Browser and command-behavior checks.                                         |
+| `specs/`                                         | Approved feature specifications, plans, contracts, tasks, and evidence.      |
+| Root configuration                               | Astro, TypeScript, formatting, browser, npm, and Git policy.                 |
+| `package-lock.json`                              | Exact dependency graph; always review with `package.json`.                   |
+| `node_modules/`, `dist/`, `.astro/`, test output | Ignored dependency, generated, cache, and evidence output.                   |
 
-Run `npm run verify` to judge repository health. See [CONTRIBUTING.md](./CONTRIBUTING.md) for
-naming, placement, documentation, and review rules. The stable command, artifact, and page rules
-are recorded in the [developer-command contract](./specs/001-project-foundation/contracts/developer-commands.md),
-[build-artifact contract](./specs/001-project-foundation/contracts/build-artifact.md), and
-[foundation-page contract](./specs/001-project-foundation/contracts/foundation-page.md).
+Run `npm run verify` to judge repository health. See [CONTRIBUTING.md](./CONTRIBUTING.md),
+the [R2 UI contract](./specs/002-initial-ui/contracts/site-ui.md),
+[theme contract](./specs/002-initial-ui/contracts/theme.md),
+[validation contract](./specs/002-initial-ui/contracts/validation.md), and
+[quickstart](./specs/002-initial-ui/quickstart.md). Historical R1 specifications and evidence remain
+unchanged under `specs/001-project-foundation/`.
 
-## R1 scope boundary
+## Content and progressive enhancement
 
-R1 includes no final visual design, publishing workflow, content model, Cloudflare adapter,
-Wrangler configuration, deployment command, CI workflow, analytics, account, form, search,
-database, API, or placeholder for those later capabilities.
+Unapproved biography and sample work/writing are visibly illustrative. Writing titles have no
+article destination. Work without approved media/actions has no empty media frame or inactive
+link. Profile links remain absent until their destinations have documented approval and verification.
+The canonical brand asset is imported directly from
+`specs/002-initial-ui/design/source/brand-mark.svg`; do not copy or optimize its geometry.
+
+Core content and navigation are static HTML. Without JavaScript, CSS follows the OS appearance,
+the unbound theme selector stays hidden, and the identity rail remains in normal flow. With
+JavaScript, System/Light/Dark selection works immediately; guarded local storage uses only
+`katpb.theme`. Failed storage operations do not block reading or current-document choices.
+Sticky desktop identity is enabled only when the entire rail fits the viewport with clearances.
+Stylesheet failure preserves the current destination as HTML text and `aria-current="page"`.
+
+## R2 scope boundary
+
+R2 introduces no dependencies, external fonts, hosting/deployment, content collections, article
+publishing, CMS, analytics, search, accounts, forms, or remote content services. Canonical public
+URLs are metadata only. Existing Markdown/MDX tooling remains installed without introducing a
+publishing workflow. Native browser/VoiceOver, actual zoom, performance, and real-reviewer evidence
+are required in addition to automated verification before R2 is accepted.

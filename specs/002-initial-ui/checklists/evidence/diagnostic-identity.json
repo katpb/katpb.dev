@@ -1,0 +1,175 @@
+{
+  "status": "diagnostic candidate; not final acceptance freeze",
+  "date": "2026-10-03",
+  "head": "e40f39e3145a39ec61398e651770f3b0fc129932",
+  "source_scope": "Implementation, verification, dependency/configuration, canonical mark, README and CONTRIBUTING. Evidence and task-status edits are excluded; this is not a complete Git working-tree identity.",
+  "source_manifest_sha256": "70927ec25a7f3fa30a062bc9a57b774d67d9edc66366a9ebf3683a04c4618770",
+  "source": [
+    {
+      "path": ".prettierignore",
+      "sha256": "c491a66c7d52a990eb2d2958cd9fec4f783203adfb8999867b11cb86cde38045"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "sha256": "6ea2ba34784c0dbe3814ba0de1b812bcf6f7718b6d8c1f8bb305822f7f2604b2"
+    },
+    {
+      "path": "README.md",
+      "sha256": "2841427ffa2cfcc6f64940ff1a6ac2e5b3fb588c24c5a7adb8d573269cfb20b7"
+    },
+    {
+      "path": "astro.config.mjs",
+      "sha256": "661f4d001e978928b1aeca5e1b2e10ec185a04b0a6a26c568dcb3516d6fa8871"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "35aefd34de706997aa259c98d087ffe6a18b7c5fd1699d6739491c156187a4ed"
+    },
+    {
+      "path": "package.json",
+      "sha256": "e7ec3d9bd8311f7bfaf8bc574feca175c3c290ac48fbe123a115fcda735b4f72"
+    },
+    {
+      "path": "playwright.config.ts",
+      "sha256": "a7098f2b928b04b9cc4b03fc1e804df7bced740f29379ac2ed4f6e4b13c45dd3"
+    },
+    {
+      "path": "prettier.config.mjs",
+      "sha256": "7f8634b9c007c6e6c12be23bb29b86cbd20c265e8dda4be7d09dc0360cef03b5"
+    },
+    {
+      "path": "scripts/check-reproducible-build.mjs",
+      "sha256": "e3166759dcf73ff1b3d6390d6901517b8846f5959a7ee7a71fcbd1402db49b89"
+    },
+    {
+      "path": "scripts/dev.mjs",
+      "sha256": "da4df5cada0bc041b3dd21a8f490d41aad174e270282ca43bb0396869746898a"
+    },
+    {
+      "path": "specs/002-initial-ui/design/source/brand-mark.svg",
+      "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e"
+    },
+    {
+      "path": "src/components/BrandMark.astro",
+      "sha256": "0e41acca97507e138f761dd20c51f03458d428222d1ac74e38003976200c9281"
+    },
+    {
+      "path": "src/components/PageIntro.astro",
+      "sha256": "1bbb800f30a3cf9f0cff391a583feb5c0e9ada62720ca03e1e07bc16df683fab"
+    },
+    {
+      "path": "src/components/ProfileLinks.astro",
+      "sha256": "ee20a55e398b68096b7f0649039cd573c56db78c3b0be7c881e878fab0329686"
+    },
+    {
+      "path": "src/components/ProjectSummary.astro",
+      "sha256": "8c8d4942dfe550ea543926b3970cc2607595398704319779f1cb20919006cd6b"
+    },
+    {
+      "path": "src/components/SiteFooter.astro",
+      "sha256": "528c69ad9892c7fa97962c61e1592eb4bc8b71ae983012d7093fc2620261f932"
+    },
+    {
+      "path": "src/components/SiteHeader.astro",
+      "sha256": "b9bb455b299ffa4635bc608d88262c531d82e336a02c63c653914686deee4d75"
+    },
+    {
+      "path": "src/components/ThemeControl.astro",
+      "sha256": "8ba5f82d66d4e873637f3d60702b6043f59be216d76aca8c5f432fe8e90929aa"
+    },
+    {
+      "path": "src/components/WritingPreview.astro",
+      "sha256": "392eab1042be53cbf978a441ce821e1f448106ca48e5d710415542f55b58e662"
+    },
+    {
+      "path": "src/data/projects.ts",
+      "sha256": "4b8fdb96e0bbaf6f5c7f9f7e586b636f43a0476d46a0772b492fdec2627fb3f1"
+    },
+    {
+      "path": "src/data/site.ts",
+      "sha256": "777c9d246cd05258df1503c3f5f3bb20e76706bf2a928b6221d34ccefc96496f"
+    },
+    {
+      "path": "src/data/writing.ts",
+      "sha256": "54a9fe8527cdb599063b479ef38efbdf12fcc286a1f52810c460d9427ffcedf8"
+    },
+    {
+      "path": "src/layouts/BaseLayout.astro",
+      "sha256": "3717b86ef61fbed05efdaca4e142616fc1e20e412a82e1aaf1a792ecd50e605c"
+    },
+    {
+      "path": "src/pages/about.astro",
+      "sha256": "cee406975dbf542049f003e87ef9c833023f75b993253cfa927e69d58d6cdfb7"
+    },
+    {
+      "path": "src/pages/index.astro",
+      "sha256": "f2bb08966ddabddb6e30b4fcaca1d73ef284d1122a100d973567820fe3ae33f0"
+    },
+    {
+      "path": "src/pages/projects.astro",
+      "sha256": "cf590576d2f84c8a9788b8f3856f894126bf35f51343b05fd0563907ed22caf6"
+    },
+    {
+      "path": "src/pages/writing.astro",
+      "sha256": "2c42f7e05a904382c384595537ddab2a719a49c6e9e1a0b1f3e5d9d5658271fc"
+    },
+    {
+      "path": "src/styles/global.css",
+      "sha256": "e2772cd8654f50e083cdb9359f812937d69fcd86116f06f83e7ac81c8b21dcf1"
+    },
+    {
+      "path": "tests/e2e/appearance.spec.ts",
+      "sha256": "ae1bdb5ce8bd3a669085ca67d9f740665a37ac7970b85cc8346f9885ff67bcf5"
+    },
+    {
+      "path": "tests/e2e/artifacts.mjs",
+      "sha256": "195b076068157085681b928418f1bf12d66cadbb19e8e60c296f597db4aa1249"
+    },
+    {
+      "path": "tests/e2e/responsive.spec.ts",
+      "sha256": "4fcae1d30e1f795fb99505836e74793c6ca5a7b94c6557447bc8097d64be90df"
+    },
+    {
+      "path": "tests/e2e/site.spec.ts",
+      "sha256": "c6fd5d5d4dca3cad58eb238671a3586bdd297f5cfbe0488c2003c22c80b9df73"
+    },
+    {
+      "path": "tests/integration/build-recovery.test.mjs",
+      "sha256": "a879a41854db792d18b0d47078f214bd46af0e6a496bc8a9dd4d18e4aa02a7ad"
+    },
+    {
+      "path": "tests/integration/dev-port-conflict.test.mjs",
+      "sha256": "bf57a9d1d3e29c2c7b11b82768049ad968b236727f7757a346b69f7ea2e48b66"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "b5b0a5b04a14cddd7713c5e1c82e86c79c17c2f86b170e26e9b170b3d5e01cd9"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "_astro/PageIntro.cyrCZwD0.css",
+      "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492"
+    },
+    {
+      "path": "_astro/brand-mark.D9O_vNL9.svg",
+      "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e"
+    },
+    {
+      "path": "about/index.html",
+      "sha256": "2ba5e289e96d84170a5f98add56c731985493e4fdb23edc4f58c5b38fd2fa90f"
+    },
+    {
+      "path": "index.html",
+      "sha256": "b980eb5eb4e682b43d48e5c645bcddaa4f89b7c1b7d54f35319a40a7a075b20d"
+    },
+    {
+      "path": "projects/index.html",
+      "sha256": "b2ea45d2f2051ae2676b9a8c0450dba230a047c64b36e083ae341b4e87597fe3"
+    },
+    {
+      "path": "writing/index.html",
+      "sha256": "5a57335844c698f7048fa795a902a4fd73da994c0e3e907771a31e82ef713fb8"
+    }
+  ]
+}

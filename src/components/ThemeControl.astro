@@ -1,0 +1,40 @@
+<div class="theme-slot">
+  <div class="theme-control" hidden>
+    <label for="theme-mode">Theme</label>
+    <select id="theme-mode" name="theme">
+      <option value="system">System</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+  </div>
+</div>
+<script>
+  const control = document.querySelector<HTMLElement>(".theme-control");
+  const select = document.querySelector<HTMLSelectElement>("#theme-mode");
+  if (control && select) {
+    const root = document.documentElement;
+    select.addEventListener("change", () => {
+      const mode = select.value;
+      if (mode === "light" || mode === "dark") {
+        root.dataset.theme = mode;
+        try {
+          window.localStorage.setItem("katpb.theme", mode);
+        } catch {
+          /* The current choice still works without retention. */
+        }
+      } else {
+        delete root.dataset.theme;
+        try {
+          window.localStorage.removeItem("katpb.theme");
+        } catch {
+          /* A prior saved choice may return on a later document. */
+        }
+      }
+    });
+    select.value =
+      root.dataset.theme === "light" || root.dataset.theme === "dark"
+        ? root.dataset.theme
+        : "system";
+    control.hidden = false;
+  }
+</script>

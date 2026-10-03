@@ -1,0 +1,19 @@
+---
+import { pages, type PageId } from "../data/site";
+interface Props {
+  pageId: PageId;
+}
+const page = pages.find(({ id }) => id === Astro.props.pageId)!;
+---
+
+<div class="page-intro">
+  <p class="eyebrow">
+    {page.label === "Home" ? "Engineering · People · Practice" : page.label}
+  </p>
+  <h1>{page.heading}</h1>
+  <p class="sample-label">
+    Illustrative{" "}
+    {page.id === "home" || page.id === "about" ? "profile" : "introduction"}
+  </p>
+  <p class="intro-copy">{page.intro}</p>
+</div>

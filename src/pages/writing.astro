@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/PageIntro.astro";
+import WritingPreview from "../components/WritingPreview.astro";
+import { writing } from "../data/writing";
+---
+
+<BaseLayout pageId="writing">
+  <PageIntro pageId="writing" />
+  <section class="notebook" aria-labelledby="notebook-entries">
+    <h2 id="notebook-entries">Ideas worth working through</h2>
+    <p class="sample-label">Illustrative notebook entries</p>
+    <ul role="list" class="writing-list">
+      {writing.map((entry) => (
+        <WritingPreview {entry} />
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

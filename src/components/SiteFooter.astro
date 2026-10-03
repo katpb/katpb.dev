@@ -1,0 +1,19 @@
+---
+import { pages } from "../data/site";
+import ProfileLinks from "./ProfileLinks.astro";
+---
+
+<footer class="site-footer">
+  <p class="footer-identity">katpb.dev</p>
+  <p>Engineering, people, and the practice of getting better.</p>
+  <nav aria-label="Footer">
+    <ul>
+      {pages.map(({ href, label }) => (
+        <li>
+          <a href={href}>{label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+  <ProfileLinks />
+</footer>

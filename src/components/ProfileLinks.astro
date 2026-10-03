@@ -1,0 +1,13 @@
+---
+import { profiles } from "../data/site";
+---
+
+{profiles.length > 0 && (
+  <ul role="list" class="profile-links">
+    {profiles.map(({ label, href }) => (
+      <li>
+        <a href={href}>{label}</a>
+      </li>
+    ))}
+  </ul>
+)}

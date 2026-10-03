@@ -1,0 +1,78 @@
+---
+import { identity, pages, type PageId } from "../data/site";
+import ThemeControl from "./ThemeControl.astro";
+import BrandMark from "./BrandMark.astro";
+import ProfileLinks from "./ProfileLinks.astro";
+interface Props {
+  pageId: PageId;
+}
+const { pageId } = Astro.props;
+---
+
+<div class="identity-rail">
+  <div class="rail-inner">
+    <a class="home-identity" href="/" aria-label="katpb.dev — Home">
+      <BrandMark />
+      <span>katpb.dev</span>
+    </a>
+    <p class="sample-label">Illustrative profile</p>
+    <p class="descriptor">{identity.descriptor}</p>
+    <div class="desktop-introduction">
+      <p>{identity.introduction}</p>
+      <ProfileLinks />
+    </div>
+  </div>
+</div>
+<header class="site-header">
+  <nav aria-label="Primary">
+    <ul>
+      {pages.map((page) => (
+        <li>
+          <a
+            href={page.href}
+            aria-current={page.id === pageId ? "page" : undefined}
+          >
+            {page.label}
+            {page.id === pageId && (
+              <span class="current-label"> (Current)</span>
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+  <ThemeControl />
+</header>
+
+<script>
+  const rail = document.querySelector<HTMLElement>(".rail-inner");
+  if (rail) {
+    const desktop = window.matchMedia("(min-width: 64rem)");
+    const fit = () => {
+      try {
+        const height = rail.getBoundingClientRect().height;
+        const clearance =
+          parseFloat(getComputedStyle(document.documentElement).fontSize) * 2;
+        rail.toggleAttribute(
+          "data-fits",
+          desktop.matches &&
+            Number.isFinite(height) &&
+            height > 0 &&
+            height <= window.innerHeight - clearance * 2,
+        );
+      } catch {
+        rail.removeAttribute("data-fits");
+      }
+    };
+    // Without reliable measurement/observation, ordinary document flow is safest.
+    try {
+      const observer = new ResizeObserver(fit);
+      observer.observe(rail);
+      window.addEventListener("resize", fit);
+      desktop.addEventListener("change", fit);
+      fit();
+    } catch {
+      rail.removeAttribute("data-fits");
+    }
+  }
+</script>
