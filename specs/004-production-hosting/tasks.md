@@ -11,8 +11,10 @@ ownership in `.github/CODEOWNERS`. T004 verified the Free account and empty inve
 provider provisioning and scoped credentials remain pending. The owner approved foundation-first
 execution on 2026-10-03: T006–T022 may proceed credential-free before returning to T004/T005.
 T006–T012 and T014–T021 are implemented and locally tested. T013 remains unchecked: normal
-read-only GitHub runtime access may omit bypass actors, which must fail closed. T022 real CI,
-required-check binding and equivalence remain pending. No deployment or actor-behavior acceptance is claimed.
+read-only GitHub runtime access was verified to omit bypass actors and fails closed. Shared
+recovery-source/dispatch authorization is locally implemented. T022 real CI, exact Actions check binding and
+local/CI byte equivalence passed on 2026-10-04; T022 remains partial pending runtime capability
+and required acceptance dependencies. No deployment or actor-behavior acceptance is claimed.
 **Tests**: Included for the specification's validation, failure, isolation, smoke, cache-transition, and recovery scenarios. Use the existing Node test runner and Playwright/axe; no new test runner. Write the relevant automated assertions and observe their failure before implementing changed behavior.
 **Organization**: Story IDs and priorities remain those in `spec.md`. Per the owner's requested delivery sequence, implement preview US2 before production US1, perform hosted-delivery verification US4 before recovery US3, then operational documentation US5 and final evidence/domain readiness. This ordering does not change story priorities or requirements.
 

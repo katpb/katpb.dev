@@ -4,7 +4,7 @@
   "accountId": "a20534600ae6a611d09360bbc2340c6f",
   "subdomain": null,
   "workflow": {
-    "id": null,
+    "id": 374100170,
     "path": ".github/workflows/ci.yml",
     "name": "CI",
     "check": "repository-health",

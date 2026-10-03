@@ -3,23 +3,25 @@
 **Window**: Owner-approved T001–T022 only, branch `004-production-hosting`, 2026-10-03.
 **Status**: T002 setup readbacks passed and T003 CODEOWNERS was added on 2026-10-03.
 Main PR/integrity, archive-tag protection, the single-repository archive App with a creation-only
-exception, and main-only environments are configured. Real CI binding remains at T022.
+exception, and main-only environments are configured. On 2026-10-04, real PR CI passed,
+the strict Actions required-check binding was activated, and exact-run local/CI bytes matched.
 T004 preflight passed; actual provisioning and T005 scoped credentials/exercises are deferred
 under the owner's foundation-first correction. T006 dependency review and T007 output/secret exclusions passed. No provider deployment, credential isolation,
-hosted acceptance or local/CI equivalence is assumed to pass.
+hosted acceptance is claimed. T013 and T022 remain partial: the normal read-only token cannot
+read bypass actors, and required acceptance dependencies remain pending.
 
 ## Prerequisites
 
-| Prerequisite                                       | Status           | Evidence or required next check                                                             |
-| -------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------- |
-| Owner approval of T001–T022                        | Confirmed        | Explicit instruction in this implementation session                                         |
-| R1 merged foundation                               | Locally verified | Exact merge SHA, ancestry and detached R1 full gate passed                                  |
-| Supported Node/npm and local gate                  | Locally passed   | Node 24.21.0/npm 11.21.0; current full gate passed                                          |
-| Active GitHub main/archive/environment protections | Setup verified   | Main PR/integrity, archive App creation only, three main-only environments; CI binding T022 |
-| Cloudflare Workers Free plan                       | Verified         | Signed-in Workers plans shows Free, $0, Current plan; no upgrade performed                  |
-| Three isolated assets-only Workers and Free quotas | Pending          | T004; production, preview parent, controlled acceptance only                                |
-| Individual-Worker credentials and isolation        | Pending          | T005; no account-wide/Admin/DNS/zone-route permission                                       |
-| `katpb.dev` ownership                              | Owner-confirmed  | Registered with Namecheap on 2026-10-03                                                     |
+| Prerequisite                                       | Status           | Evidence or required next check                                                                                       |
+| -------------------------------------------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Owner approval of T001–T022                        | Confirmed        | Explicit instruction in this implementation session                                                                   |
+| R1 merged foundation                               | Locally verified | Exact merge SHA, ancestry and detached R1 full gate passed                                                            |
+| Supported Node/npm and local gate                  | Locally passed   | Node 24.21.0/npm 11.21.0; current full gate passed                                                                    |
+| Active GitHub main/archive/environment protections | Readbacks passed | Strict Actions repository-health binding, PR/integrity, archive creation-only exception, three main-only environments |
+| Cloudflare Workers Free plan                       | Verified         | Signed-in Workers plans shows Free, $0, Current plan; no upgrade performed                                            |
+| Three isolated assets-only Workers and Free quotas | Pending          | T004; production, preview parent, controlled acceptance only                                                          |
+| Individual-Worker credentials and isolation        | Pending          | T005; no account-wide/Admin/DNS/zone-route permission                                                                 |
+| `katpb.dev` ownership                              | Owner-confirmed  | Registered with Namecheap on 2026-10-03                                                                               |
 
 ## Observed evidence
 
@@ -414,6 +416,15 @@ App identity, actual scope and creation-versus-update/deletion behavior are pend
 
 ## Pending/manual checks
 
+### PR #4 and real CI readbacks, 2026-10-04
+
+- The owner created draft [PR #4](https://github.com/katpb/katpb.dev/pull/4). B007 is resolved. Successful [CI run 37144339502](https://github.com/katpb/katpb.dev/actions/runs/37144339502), attempt 1, checked out head `19478d000b598ce6f0e807623cfd63cc49f00804`. Workflow ID `374100170`, check suite `100613391730`, check run `111265088994`, `repository-health`, Actions App `15368`, and exact artifact ID `11281532875` were read back. The observed workflow ID is now pinned in policy.
+- The complete gate passed on Ubuntu CI and in a separate clean local checkout of the same head: Node 24.21.0/npm 11.21.0, 368 default browser tests, 24 operational tests (80 additional mocked hosted-browser cases), and two-build reproducibility. The artifact ZIP's SHA-256 matched authoritative metadata before reading its bounded regular raw archive. Local/CI validation receipts, six raw files and manifests matched exactly. Packages prepared from those two raw sources with identical explicit empty retained history, null predecessor and trusted headers matched envelopes and served bytes; package digest `871fbcde94a668a456fc3478776da50f596cba4114efcdd90eba9ffdaa24ac92`. [Exact-run evidence](evidence/local-ci-foundation-2026-10-04.json) records the full inputs/manifests; these observations are tied to this head, not future commits.
+- Main ruleset `24419712` now requires `repository-health` from integration `15368`, strict up-to-date branches, and checks on creation. Authenticated ruleset and public active-branch-rule readbacks agree. Mandatory PRs, zero solo approvals, non-blocking code-owner ownership, blocked force pushes/deletion and an empty main bypass list remain intact. Archive immutability retains no bypass; the separate creation-only ruleset retains only App `5176510`. All three environments still allow only branch `main`, no tags, and no admin bypass; recovery still requires owner review with self-review allowed while solo. [Protection readbacks](evidence/github-t022-readbacks-2026-10-04.json) contain the actual observations. GitHub passkey reauthentication was required for saving the stronger main rule; saved readback confirms it succeeded.
+- B006 is confirmed by the normal read-only CI probe: `bypassActorsVisible: false`, count null. Missing actors are not an empty list. The owner-authorized readback above proves current setup only; it does not supply future automatic jobs with live protection visibility. The API's history/version alternatives also require Administration write, so they are not read-only substitutes ([official contract](https://docs.github.com/en/rest/repos/rules)). No Administration permission, new token or App broadening was granted. A separate owner-approved capability/design decision is required before runtime no-bypass authorization can pass. T013/T022 remain unchecked, T004/T005 remain deferred, and neither foundation checkpoint nor SC-001's full hosted R1 acceptance is claimed.
+- T013's shared helper now also resolves recovery source authority without adding a recovery workflow. It requires exact successful main-push CI/run/attempt/artifact/check metadata, independently fetched protected-main ancestry, and a live main-ref dispatch of the registered trusted `deploy.yml` workflow at the current control SHA by a currently write-authorized initiator. Recovery records the dispatch event and separately retains the selected historical source and current control SHA. Historical source controls may differ because candidate code is never executed by this helper and the source must be an independently established protected-main ancestor; preview control matching remains mandatory. Missing/expired run/artifact/protection evidence still fails closed. Known-good archive/receipt validation, environment approval and recovery orchestration remain T044 onward; this source result alone is not upload authorization. The recovery assertion first failed before implementation; positive and adversarial source tests and mocked authoritative endpoint lookups then passed, including failure on omitted bypass actors.
+- After the shared recovery-source checks and observed workflow-ID pin were added, the full local gate passed again: zero Astro diagnostics, 368 existing browser cases, 26 operational tests including the 80 mocked hosted cases, and six identical raw files across two builds. These changes require a new PR-head CI run before use.
+
 - Full local and R4 foundation behavior gates passed as recorded above. No new
   enforced-offline network-isolation run was performed in this window.
 - Actual hosted R1-only acceptance using the documented controlled-fixture/current-main procedure.
@@ -423,7 +434,7 @@ App identity, actual scope and creation-versus-update/deletion behavior are pend
   readbacks passed as recorded above.
 - Actual Worker provisioning and individual-Worker credential/preview-isolation exercises;
   actual Free plan is verified, published asset/preview limits are recorded.
-- Exact-run CI raw manifest comparison with local output and deterministic packaging on identical inputs.
+- Exact-run CI raw/package comparison passed for the recorded PR head; subsequent changed heads require their own eligible CI evidence before use.
 - All hosted verification, provider security, timing, performance, failure/recovery observations.
 - Domain readiness inspection only: no DNS/nameserver, custom-domain/route, certificate or launch change is authorized.
 
@@ -442,8 +453,36 @@ App identity, actual scope and creation-versus-update/deletion behavior are pend
   permissions were read back, and the sole creation-only App exception was configured and
   authenticated readback passed. Main and immutable archives retain no bypass. Real actor
   mutation/secret isolation tests remain pending; no broad role/credential was substituted.
-- **B006 — Runtime no-bypass readback capability pending:** GitHub documents that ruleset bypass actors are returned only to callers with write access to the ruleset ([official API contract](https://docs.github.com/en/rest/repos/rules#get-a-repository-ruleset)). Normal read-only jobs must not assume an omitted field means no actors. Implementation fails closed; a read-only CI probe will establish the effective behavior. No Administration permission, App broadening or elevated credential has been created/stored. Any necessary capability/design correction requires explicit owner approval.
-- **B007 — Draft PR/real CI blocked at this retry:** the connected integration cannot create the draft PR (HTTP 403); native browser input is blocked by its state-change guard. The owner can create a draft from `004-production-hosting` into `main` to start the existing PR CI. No additional App permission is requested. T022 and the B006 probe remain pending until an actual run and artifact exist.
+- **B006 — Runtime no-bypass capability confirmed unavailable to normal CI:** GitHub documents that ruleset bypass actors are returned only to callers with write access to the ruleset ([official API contract](https://docs.github.com/en/rest/repos/rules#get-a-repository-ruleset)). The actual read-only CI probe omitted this field; implementation fails closed. No Administration permission, App broadening or elevated credential has been created/stored. Any necessary capability/design correction requires explicit owner approval.
+- **B007 — Resolved by owner:** the owner created draft PR #4; its real CI passed. The connector's earlier creation HTTP 403 is historical. Native browser control worked in this continuation and the required check was activated and read back.
+
+### B006 owner decision proposal — not approved or applied
+
+The current approved state remains fail-closed. No permission expansion or new credential is
+authorized by the successful CI result. GitHub's documented ruleset-write visibility requirement
+prevents a normal read-only CI token from proving an empty bypass list.
+
+If the owner chooses a capability expansion, the concrete proposal for separate review is:
+
+- A separate dedicated protection-readback GitHub App, installed on `katpb/katpb.dev` only.
+- Mandatory Metadata read and repository Administration write only; no Contents, Actions,
+  account or organization permissions. Administration write can modify/delete repository
+  rulesets, even though the proposed implementation would issue GET requests only. This is a
+  material security privilege and requires explicit approval; it is not described as a
+  read-only credential.
+- No bypass on any ruleset. Keep the archive App's existing permissions and creation-only
+  exception unchanged.
+- Credential material only through an approved GitHub environment/secret mechanism, with
+  main-only restrictions, no admin bypass, no candidate build/browser access, and no use as
+  the normal source, provider or archive credential. Only current trusted protected-main
+  code would mint a short-lived installation token for fresh protection readback.
+- Before relying on it, verify effective single-repository installation, exact permissions,
+  readable live bypass actors and credential isolation. If the exact permission is still
+  insufficient, stop again; do not broaden it.
+
+Alternatively retain the present block while the owner reviews a different design. Do not
+substitute stale setup evidence or an omitted bypass field for the required live authorization.
+
 - **B005 — Dependency order resolved, provider setup still pending:** the owner approved
   foundation-first execution. Credential-free/local/trusted T006–T022 controls now precede
   actual T004 bootstrap and T005 scoped credentials/exercises. The no-upload-before-foundation
@@ -456,22 +495,23 @@ App identity, actual scope and creation-versus-update/deletion behavior are pend
 
 ### Task reconciliation at this stop
 
-| Tasks     | Status              | Reason                                                                              |
-| --------- | ------------------- | ----------------------------------------------------------------------------------- |
-| T001      | Completed           | Evidence record created, current/R1 local gates observed, procedure documented      |
-| T002      | Completed setup     | Approved solo-main/App/archive/environment readbacks passed; CI binding T022        |
-| T003      | Completed locally   | Sensitive-file ownership added with verified owner; non-blocking while solo         |
-| T004      | Partial; unchecked  | Preflight recorded; provisioning deferred until foundation validation               |
-| T005      | Deferred; unchecked | Worker-scoped credentials and isolation exercises await actual resources            |
-| T006–T007 | Completed locally   | Exact CLI pin review and generated/secret exclusions verified                       |
-| T008–T012 | Completed locally   | Adversarial tests, strict unprovisioned policy and trusted headers                  |
-| T013      | Partial; unchecked  | Authoritative source helpers implemented; runtime no-bypass capability B006         |
-| T014–T021 | Completed locally   | Shared packaging, invocation, verification, reporting, commands and CI files tested |
-| T022      | Pending             | Real CI/protection binding and matching manifests still required                    |
-| T023–T062 | Not started         | Outside the approved execution window                                               |
+| Tasks     | Status              | Reason                                                                               |
+| --------- | ------------------- | ------------------------------------------------------------------------------------ |
+| T001      | Completed           | Evidence record created, current/R1 local gates observed, procedure documented       |
+| T002      | Completed setup     | Approved solo-main/App/archive/environment readbacks passed; CI binding T022         |
+| T003      | Completed locally   | Sensitive-file ownership added with verified owner; non-blocking while solo          |
+| T004      | Partial; unchecked  | Preflight recorded; provisioning deferred until foundation validation                |
+| T005      | Deferred; unchecked | Worker-scoped credentials and isolation exercises await actual resources             |
+| T006–T007 | Completed locally   | Exact CLI pin review and generated/secret exclusions verified                        |
+| T008–T012 | Completed locally   | Adversarial tests, strict unprovisioned policy and trusted headers                   |
+| T013      | Partial; unchecked  | Authoritative source helpers implemented; runtime no-bypass capability B006          |
+| T014–T021 | Completed locally   | Shared packaging, invocation, verification, reporting, commands and CI files tested  |
+| T022      | Partial; unchecked  | CI/binding/equal bytes passed; runtime capability and acceptance dependencies remain |
+| T023–T062 | Not started         | Outside the approved execution window                                                |
 
 T023 onward was not started. No provider upload, token creation or domain change occurred.
-T022 local/CI equivalence is pending; only local two-build reproducibility was observed.
+T022 local/CI equivalence passed for the exact recorded PR head. Remaining runtime and hosted
+acceptance dependencies still block completion.
 
 ## Acceptance outcomes
 

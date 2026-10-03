@@ -56,8 +56,10 @@ export function validateMainRules(rules, rulesets, policy) {
 }
 export function authorizeSource(f, input, policy) {
   validatePolicy(policy);
+  const { sourceSha, runId, runAttempt, artifactId, mode } = input;
   requireThat(
-    f.controlFilesMatch === true && f.publicAstroAbsent === true,
+    (mode === "recovery" || f.controlFilesMatch === true) &&
+      f.publicAstroAbsent === true,
     "source changed trusted validation controls or contains public/_astro inputs",
   );
   strictFields(input, [
@@ -66,8 +68,8 @@ export function authorizeSource(f, input, policy) {
     "runId",
     "runAttempt",
     "artifactId",
+    ...(mode === "recovery" ? ["dispatchRunId"] : []),
   ]);
-  const { sourceSha, runId, runAttempt, artifactId, mode } = input;
   requireThat(
     SHA.test(sourceSha) &&
       [runId, runAttempt, artifactId].every(
@@ -76,7 +78,7 @@ export function authorizeSource(f, input, policy) {
     "source/run/artifact identifier invalid",
   );
   requireThat(
-    ["release", "preview"].includes(mode),
+    ["release", "preview", "recovery"].includes(mode),
     "source operation unsupported by foundation authorization",
   );
   requireThat(
@@ -139,7 +141,35 @@ export function authorizeSource(f, input, policy) {
         f.pr === null,
       "production source is not current successful main push",
     );
-  else {
+  else if (mode === "recovery") {
+    requireThat(
+      f.run.event === "push" &&
+        f.run.head_branch === "main" &&
+        f.pr === null &&
+        f.comparison?.base_commit?.sha === sourceSha &&
+        f.comparison.merge_base_commit?.sha === sourceSha &&
+        ["ahead", "identical"].includes(f.comparison.status),
+      "recovery source is not a successfully validated protected-main ancestor",
+    );
+    requireThat(
+      Number.isSafeInteger(input.dispatchRunId) &&
+        input.dispatchRunId > 0 &&
+        f.dispatchRun?.id === input.dispatchRunId &&
+        f.dispatchRun.repository?.full_name === policy.repository &&
+        f.dispatchRun.head_repository?.full_name === policy.repository &&
+        f.dispatchRun.event === "workflow_dispatch" &&
+        f.dispatchRun.head_branch === "main" &&
+        f.dispatchRun.head_sha === f.controlSha &&
+        f.dispatchRun.status === "in_progress" &&
+        f.dispatchWorkflow?.path === ".github/workflows/deploy.yml" &&
+        f.dispatchWorkflow.state === "active" &&
+        Number.isSafeInteger(f.dispatchWorkflow.id) &&
+        f.dispatchWorkflow.id > 0 &&
+        f.dispatchRun.workflow_id === f.dispatchWorkflow.id &&
+        ["admin", "maintain", "write"].includes(f.dispatchPermission),
+      "recovery requires a live write-authorized protected-main dispatch",
+    );
+  } else {
     requireThat(
       f.run.event === "pull_request" &&
         f.pr?.state === "open" &&
@@ -159,8 +189,8 @@ export function authorizeSource(f, input, policy) {
   return {
     repository: policy.repository,
     sourceSha,
-    sourceRef: mode === "release" ? "main" : f.pr.head.ref,
-    event: f.run.event,
+    sourceRef: mode === "preview" ? f.pr.head.ref : "main",
+    event: mode === "recovery" ? "workflow_dispatch" : f.run.event,
     pullRequest: f.pr?.number ?? null,
     baseSha: f.pr?.base.sha ?? null,
     controlSha: f.controlSha,
@@ -232,6 +262,23 @@ export function githubClient({
 }
 export async function lookupSource(input, policy, { token, fetch } = {}) {
   validatePolicy(policy);
+  strictFields(input, [
+    "mode",
+    "sourceSha",
+    "runId",
+    "runAttempt",
+    "artifactId",
+    ...(input.mode === "recovery" ? ["dispatchRunId"] : []),
+  ]);
+  requireThat(
+    ["release", "preview", "recovery"].includes(input.mode),
+    "source operation invalid",
+  );
+  if (input.mode === "recovery")
+    requireThat(
+      Number.isSafeInteger(input.dispatchRunId) && input.dispatchRunId > 0,
+      "dispatch identifier invalid",
+    );
   for (const id of [input.runId, input.runAttempt, input.artifactId])
     requireThat(
       Number.isSafeInteger(id) && id > 0,
@@ -262,6 +309,26 @@ export async function lookupSource(input, policy, { token, fetch } = {}) {
   );
   let pr = null,
     permission = null;
+  let dispatchRun = null,
+    dispatchWorkflow = null,
+    dispatchPermission = null,
+    comparison = null;
+  if (input.mode === "recovery") {
+    [dispatchRun, dispatchWorkflow, comparison] = await Promise.all([
+      api.get(`${root}/actions/runs/${input.dispatchRunId}`),
+      api.get(`${root}/actions/workflows/deploy.yml`),
+      api.get(`${root}/compare/${input.sourceSha}...${main.object.sha}`),
+    ]);
+    requireThat(
+      /^[a-zA-Z0-9-]{1,39}$/.test(dispatchRun.triggering_actor?.login),
+      "dispatch initiator invalid",
+    );
+    dispatchPermission = (
+      await api.get(
+        `${root}/collaborators/${dispatchRun.triggering_actor.login}/permission`,
+      )
+    ).permission;
+  }
   if (input.mode === "preview") {
     requireThat(
       Array.isArray(run.pull_requests) && run.pull_requests.length === 1,
@@ -335,6 +402,10 @@ export async function lookupSource(input, policy, { token, fetch } = {}) {
       lockfileSha256: digest(Buffer.from(content.content, "base64")),
       controlFilesMatch,
       publicAstroAbsent,
+      dispatchRun,
+      dispatchWorkflow,
+      dispatchPermission,
+      comparison,
     },
     input,
     policy,

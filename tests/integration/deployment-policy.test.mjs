@@ -11,6 +11,7 @@ import {
 import {
   authorizeSource,
   validateMainRules,
+  lookupSource,
 } from "../../scripts/hosting/github.mjs";
 
 const sha = "a".repeat(40);
@@ -273,6 +274,157 @@ test("source authority binds exact workflow/run attempt/artifact/checks and curr
       ),
     );
   }
+});
+
+test("recovery source requires successful main CI, live authorized main dispatch and protected ancestry", () => {
+  const p = fixturePolicy();
+  const input = {
+    mode: "recovery",
+    sourceSha: sha,
+    runId: 10,
+    runAttempt: 1,
+    artifactId: 9,
+    dispatchRunId: 20,
+  };
+  const recoveryFacts = () => ({
+    ...facts(),
+    controlFilesMatch: false,
+    main: { sha: "b".repeat(40) },
+    controlSha: "b".repeat(40),
+    comparison: {
+      base_commit: { sha },
+      merge_base_commit: { sha },
+      status: "ahead",
+    },
+    dispatchWorkflow: {
+      id: 33,
+      path: ".github/workflows/deploy.yml",
+      state: "active",
+    },
+    dispatchRun: {
+      id: 20,
+      workflow_id: 33,
+      head_branch: "main",
+      head_sha: "b".repeat(40),
+      event: "workflow_dispatch",
+      status: "in_progress",
+      repository: { full_name: p.repository },
+      head_repository: { full_name: p.repository },
+    },
+    dispatchPermission: "write",
+  });
+  const result = authorizeSource(recoveryFacts(), input, p);
+  assert.equal(result.event, "workflow_dispatch");
+  assert.equal(result.sourceRef, "main");
+  assert.equal(result.sourceSha, sha);
+  assert.equal(result.controlSha, "b".repeat(40));
+  assert.equal(result.pullRequest, null);
+  assert.equal(result.baseSha, null);
+  for (const mutate of [
+    (f) => (f.comparison.merge_base_commit.sha = "c".repeat(40)),
+    (f) => (f.comparison.base_commit.sha = "c".repeat(40)),
+    (f) => (f.comparison.status = "diverged"),
+    (f) => (f.dispatchRun.head_branch = "other"),
+    (f) => (f.dispatchRun.head_sha = sha),
+    (f) => (f.dispatchRun.event = "push"),
+    (f) => (f.dispatchRun.status = "completed"),
+    (f) => (f.dispatchRun.id = 21),
+    (f) => (f.dispatchRun.workflow_id = 34),
+    (f) => (f.dispatchRun.repository.full_name = "evil/repo"),
+    (f) => (f.dispatchWorkflow.path = ".github/workflows/ci.yml"),
+    (f) => (f.dispatchWorkflow.state = "disabled_manually"),
+    (f) => (f.dispatchPermission = "read"),
+    (f) => (f.run.event = "pull_request"),
+    (f) => (f.run.head_branch = "feature"),
+    (f) => (f.publicAstroAbsent = false),
+    (f) => (f.rulesets[0] = { enforcement: "active" }),
+  ]) {
+    const f = recoveryFacts();
+    mutate(f);
+    assert.throws(() => authorizeSource(f, input, p));
+  }
+  assert.throws(() =>
+    authorizeSource(recoveryFacts(), { ...input, dispatchRunId: 0 }, p),
+  );
+});
+
+test("recovery lookup independently resolves dispatch actor, source ancestry and exact-run checks", async () => {
+  const p = fixturePolicy(),
+    f = facts();
+  const current = "b".repeat(40);
+  const seen = [];
+  let readable = true;
+  const fetch = async (url) => {
+    const u = new URL(url);
+    seen.push(u.pathname);
+    assert.equal(u.origin, "https://api.github.com");
+    const root = "/repos/katpb/katpb.dev";
+    const values = {
+      [root]: f.repository,
+      [root + "/git/ref/heads/main"]: { object: { sha: current } },
+      [root + "/actions/workflows/ci.yml"]: f.workflow,
+      [root + "/actions/runs/10/attempts/1"]: f.run,
+      [root + "/actions/artifacts/9"]: f.artifact,
+      [root + "/rules/branches/main"]: rules.map((r) => ({
+        ...r,
+        ruleset_id: 7,
+      })),
+      [root + "/rulesets/7"]: {
+        enforcement: "active",
+        ...(readable ? { bypass_actors: [] } : {}),
+      },
+      [root + "/check-suites/7/check-runs"]: { check_runs: f.checks },
+      [root + "/actions/runs/20"]: {
+        id: 20,
+        workflow_id: 33,
+        head_branch: "main",
+        head_sha: current,
+        event: "workflow_dispatch",
+        status: "in_progress",
+        repository: f.repository,
+        head_repository: f.repository,
+        triggering_actor: { login: "katpb" },
+      },
+      [root + "/actions/workflows/deploy.yml"]: {
+        id: 33,
+        path: ".github/workflows/deploy.yml",
+        state: "active",
+      },
+      [root + `/compare/${sha}...${current}`]: {
+        base_commit: { sha },
+        merge_base_commit: { sha },
+        status: "ahead",
+      },
+      [root + "/collaborators/katpb/permission"]: { permission: "write" },
+      [root + "/contents/package-lock.json"]: {
+        encoding: "base64",
+        content: Buffer.from("locked bytes").toString("base64"),
+      },
+      [root + `/git/trees/${sha}`]: { truncated: false, tree: [] },
+      [root + `/git/trees/${current}`]: { truncated: false, tree: [] },
+    };
+    assert.ok(Object.hasOwn(values, u.pathname), u.pathname);
+    return new Response(JSON.stringify(values[u.pathname]), { status: 200 });
+  };
+  const input = {
+    mode: "recovery",
+    sourceSha: sha,
+    runId: 10,
+    runAttempt: 1,
+    artifactId: 9,
+    dispatchRunId: 20,
+  };
+  const result = await lookupSource(input, p, { fetch });
+  assert.equal(result.event, "workflow_dispatch");
+  assert.equal(result.controlSha, current);
+  assert.ok(
+    seen.includes(`/repos/katpb/katpb.dev/compare/${sha}...${current}`),
+  );
+  assert.ok(
+    seen.includes("/repos/katpb/katpb.dev/collaborators/katpb/permission"),
+  );
+  readable = false;
+  await assert.rejects(lookupSource(input, p, { fetch }), /bypass actors/);
 });
 
 test("rejected provider requests invoke no process and redact credential diagnostics", async () => {
