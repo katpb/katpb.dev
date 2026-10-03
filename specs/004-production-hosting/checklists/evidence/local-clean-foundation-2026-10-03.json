@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "sourceSha": "92132aedf7936e102fd691920dde4327832e1da6",
+  "checkoutClean": true,
+  "validation": {
+    "clean": true,
+    "lockfileSha256": "738211633a7bf77ffc7e91d37f3944b1d509daabeee52b01048f2a1e0ef5c9b3",
+    "nodeVersion": "24.21.0",
+    "npmVersion": "11.21.0",
+    "rawDigest": "7bdbd0d423edcff320be8806ba6808ff394a4911bfe3e998964e6d967b2dd19f",
+    "reproducibility": {
+      "rawEqual": true,
+      "trackedEqual": true
+    },
+    "schemaVersion": 1,
+    "sourceSha": "92132aedf7936e102fd691920dde4327832e1da6",
+    "validationResult": "success"
+  },
+  "rawManifest": [
+    {
+      "path": "_astro/PageIntro.cyrCZwD0.css",
+      "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492",
+      "size": 6084
+    },
+    {
+      "path": "_astro/brand-mark.D9O_vNL9.svg",
+      "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e",
+      "size": 1495
+    },
+    {
+      "path": "about/index.html",
+      "sha256": "2ba5e289e96d84170a5f98add56c731985493e4fdb23edc4f58c5b38fd2fa90f",
+      "size": 7152
+    },
+    {
+      "path": "index.html",
+      "sha256": "b980eb5eb4e682b43d48e5c645bcddaa4f89b7c1b7d54f35319a40a7a075b20d",
+      "size": 9204
+    },
+    {
+      "path": "projects/index.html",
+      "sha256": "b2ea45d2f2051ae2676b9a8c0450dba230a047c64b36e083ae341b4e87597fe3",
+      "size": 7562
+    },
+    {
+      "path": "writing/index.html",
+      "sha256": "5a57335844c698f7048fa795a902a4fd73da994c0e3e907771a31e82ef713fb8",
+      "size": 6949
+    }
+  ],
+  "packageManifest": {
+    "immutableManifest": [
+      {
+        "path": "_astro/PageIntro.cyrCZwD0.css",
+        "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492",
+        "size": 6084
+      },
+      {
+        "path": "_astro/brand-mark.D9O_vNL9.svg",
+        "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e",
+        "size": 1495
+      }
+    ],
+    "packageDigest": "35a8b532ffae8bb4a714c5a05ebb5bd27b15665b8ebbcca0c244ccd889745e6b",
+    "packageManifest": [
+      {
+        "path": "__release.json",
+        "sha256": "23c277e6f881d40917758dd295a963acf2ad98505ed6c445ee16e43a1f419057",
+        "size": 154
+      },
+      {
+        "path": "_astro/PageIntro.cyrCZwD0.css",
+        "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492",
+        "size": 6084
+      },
+      {
+        "path": "_astro/brand-mark.D9O_vNL9.svg",
+        "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e",
+        "size": 1495
+      },
+      {
+        "path": "_headers",
+        "sha256": "4fc4e91bf60b9b66f8e96403199c78434b88ccaff2bbda1b81e6b9031be7cfb0",
+        "size": 283
+      },
+      {
+        "path": "about/index.html",
+        "sha256": "2ba5e289e96d84170a5f98add56c731985493e4fdb23edc4f58c5b38fd2fa90f",
+        "size": 7152
+      },
+      {
+        "path": "index.html",
+        "sha256": "b980eb5eb4e682b43d48e5c645bcddaa4f89b7c1b7d54f35319a40a7a075b20d",
+        "size": 9204
+      },
+      {
+        "path": "projects/index.html",
+        "sha256": "b2ea45d2f2051ae2676b9a8c0450dba230a047c64b36e083ae341b4e87597fe3",
+        "size": 7562
+      },
+      {
+        "path": "writing/index.html",
+        "sha256": "5a57335844c698f7048fa795a902a4fd73da994c0e3e907771a31e82ef713fb8",
+        "size": 6949
+      }
+    ],
+    "policySha256": "4fc4e91bf60b9b66f8e96403199c78434b88ccaff2bbda1b81e6b9031be7cfb0",
+    "predecessorArchiveId": null,
+    "rawDigest": "7bdbd0d423edcff320be8806ba6808ff394a4911bfe3e998964e6d967b2dd19f",
+    "retainedDigest": "ceecaebe943fd000a2eb802627e2dddeceec0ac105b0273a4ce95d12178b786a",
+    "schemaVersion": 1,
+    "sourceSha": "92132aedf7936e102fd691920dde4327832e1da6"
+  },
+  "explicitInputs": {
+    "retainedInput": [],
+    "retainedDigest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "predecessorArchiveId": null,
+    "publicAstroPaths": [],
+    "headers": "/*\n  X-Robots-Tag: noindex\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n"
+  },
+  "repeatPackageEqual": true,
+  "repeatAssetBytesEqual": true,
+  "ciComparison": "pending; no exact-run CI artifact available",
+  "providerMutation": false
+}

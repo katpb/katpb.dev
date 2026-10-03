@@ -404,10 +404,18 @@ App identity, actual scope and creation-versus-update/deletion behavior are pend
 - T021 adds SHA-pinned CI, exact PR-head/main checkout without credentials persistence, pinned Node/npm, locked script-free installation and pinned Playwright browsers. It performs the full credential-free gate and raw handoff before artifact upload; no provider secret/environment, privileged cache or deployment job. A separate read-only GitHub-token metadata step records whether runtime bypass actors are visible, without token values. Required-check activation and matching CI bytes remain T022.
 - The first complete local gate passed after fixing formatting: zero Astro diagnostics, 368 existing browser cases, 19 then-current operational tests and six files identical across two builds. Added receipt/native-CLI/R1/current/browser fixture checks subsequently passed; the final complete gate then passed: zero errors/warnings/hints, 368 existing browser tests, 24 operational tests (including 80 mocked hosted browser cases), and six identical raw files across two builds. Preservation hashes passed for all 30 unchanged baseline files; package/lock, ignore files and Playwright configuration are the explicitly authorized changes. Existing source, historical R1 evidence and ROADMAP contents remain preserved.
 
+### Retry: clean committed-source preparation
+
+- Pushed foundation commit `92132aedf7936e102fd691920dde4327832e1da6` on `004-production-hosting`. A separate clean temporary clone preserved the active checkout's uncommitted ROADMAP changes. The clone reused the inspected local dependencies; this is not evidence of a fresh CI installation.
+- `release:prepare` ran the complete gate from that clean commit and passed: zero Astro diagnostics, 368 local browser cases, 24 operational tests including 80 intercepted hosted-browser cases, and six identical raw files across two builds. It wrote a successful exact-source validation receipt and prepared an unselected-target package.
+- A second package made from identical explicit empty retained history, null predecessor, trusted headers and validated raw bytes matched the first envelope and every served asset manifest entry. Raw digest: `7bdbd0d423edcff320be8806ba6808ff394a4911bfe3e998964e6d967b2dd19f`; package digest: `35a8b532ffae8bb4a714c5a05ebb5bd27b15665b8ebbcca0c244ccd889745e6b`. Source remained clean. [Structured local evidence](evidence/local-clean-foundation-2026-10-03.json) records exact manifests and inputs.
+- Draft PR creation through the connected GitHub integration returned HTTP 403, `Resource not accessible by integration`. Native Brave input attempts repeatedly stopped with the tool's browser-state-change guard, including after fresh observations. No access expansion was attempted. Repository run readback returned zero runs for this branch; exact-run CI comparison and runtime capability readback remain pending.
+- Execution remains T001–T003 completed → T004 preflight → credential-free T006–T022 validation → return to T004 bootstrap → T005 Worker-scoped credentials and readbacks → foundation checkpoint → stop before T023. T013 remains partial: runtime no-bypass readback is unresolved and explicit recovery-dispatch source authorization is not yet implemented in the shared helper. No recovery workflow or preview user story was started.
+
 ## Pending/manual checks
 
-- Full local gates passed as recorded above. R4 foundation behavior tests remain unstarted,
-  and no new enforced-offline network-isolation run was performed in this window.
+- Full local and R4 foundation behavior gates passed as recorded above. No new
+  enforced-offline network-isolation run was performed in this window.
 - Actual hosted R1-only acceptance using the documented controlled-fixture/current-main procedure.
 - Independent active-rule reads, main integrity, archive-tag restrictions and main-only
   environment configuration are observed. Solo-main PR policy is configured. Exact CI binding
@@ -435,6 +443,7 @@ App identity, actual scope and creation-versus-update/deletion behavior are pend
   authenticated readback passed. Main and immutable archives retain no bypass. Real actor
   mutation/secret isolation tests remain pending; no broad role/credential was substituted.
 - **B006 — Runtime no-bypass readback capability pending:** GitHub documents that ruleset bypass actors are returned only to callers with write access to the ruleset ([official API contract](https://docs.github.com/en/rest/repos/rules#get-a-repository-ruleset)). Normal read-only jobs must not assume an omitted field means no actors. Implementation fails closed; a read-only CI probe will establish the effective behavior. No Administration permission, App broadening or elevated credential has been created/stored. Any necessary capability/design correction requires explicit owner approval.
+- **B007 — Draft PR/real CI blocked at this retry:** the connected integration cannot create the draft PR (HTTP 403); native browser input is blocked by its state-change guard. The owner can create a draft from `004-production-hosting` into `main` to start the existing PR CI. No additional App permission is requested. T022 and the B006 probe remain pending until an actual run and artifact exist.
 - **B005 — Dependency order resolved, provider setup still pending:** the owner approved
   foundation-first execution. Credential-free/local/trusted T006–T022 controls now precede
   actual T004 bootstrap and T005 scoped credentials/exercises. The no-upload-before-foundation
