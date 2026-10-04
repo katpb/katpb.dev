@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "observedAt": "2026-10-04T05:28:38.605430+00:00",
   "authorization": "Owner authorized T004 then T005 only; stop before T023.",
-  "status": "T004 complete; T005 credential provisioning and effective permission/isolation checks pending",
+  "status": "T004 complete; T005 issued-token/environment configuration read back; effective permission/isolation exercises blocked on secure local credential access",
   "policyAccountId": "a20534600ae6a611d09360bbc2340c6f",
   "signedInAccountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
   "signedInAccountName": "Katpb072@gmail.com's Account",
@@ -74,7 +74,7 @@
     }
   },
   "permissionDocumentation": "https://developers.cloudflare.com/workers/authorization/workers/",
-  "permissionReadbackStatus": "Exact Worker IDs and prospective single-Worker Editor grants read from signed-in review JSON; tokens and effective permissions remain unverified.",
+  "permissionReadbackStatus": "Issued account-owned tokens are Active with one Individual Workers Editor Worker policy each; GitHub approved environment secret names and restrictions read back. Real effective permissions remain untested.",
   "t004Complete": true,
   "t005Complete": false,
   "foundationCheckpointComplete": false,
@@ -483,11 +483,9 @@
     }
   ],
   "t005Blocker": {
-    "id": "B007",
-    "reason": "Owner credential handoff is required for secret entry/submission; available tools have no approved secret-write transport. No token values generated or entered. Effective permission/isolation/named-preview operations untested.",
-    "permissionBroadeningNeeded": false,
-    "ownerReviewDraft": "Acceptance-only token review is open; production/preview/acceptance exact draft grants recorded without values.",
-    "requiredNextAction": "Owner completes approved individual-Worker credential creation and GitHub environment secret entry/storage, then supplies credentials to isolated trusted permission tests through a secure local mechanism, never chat/source/logs."
+    "id": "B008",
+    "reason": "The trusted local runner has no identified secure source for any of the three scoped tokens. GitHub environment secrets cannot be read back, and the authorized T001–T022 CI has no deployment job that consumes them. Owner dashboard authority is not scoped-token authorization proof.",
+    "requiredNextAction": "Identify existing secure local credential references, such as Keychain service/account or secret-manager item references, never values. Do not add a T023 deployment workflow, relax main-only environments, merge, or broaden access to obtain credentials."
   },
   "finalExactCiComparison": {
     "sourceSha": "f3202216bd6bea12ebc1eb43cc650d90f8e491da",
@@ -523,5 +521,17 @@
       "bypassTrust": "owner-audited; live revision matched",
       "access": "read-only Metadata"
     }
-  }
+  },
+  "t005BlockerHistory": [
+    {
+      "id": "B007",
+      "reason": "Owner credential handoff is required for secret entry/submission; available tools have no approved secret-write transport. No token values generated or entered. Effective permission/isolation/named-preview operations untested.",
+      "permissionBroadeningNeeded": false,
+      "ownerReviewDraft": "Acceptance-only token review is open; production/preview/acceptance exact draft grants recorded without values.",
+      "requiredNextAction": "Owner completes approved individual-Worker credential creation and GitHub environment secret entry/storage, then supplies credentials to isolated trusted permission tests through a secure local mechanism, never chat/source/logs.",
+      "supersededAt": "2026-10-04T09:03:12.991Z",
+      "resolution": "Owner completed credential creation/storage; signed-in issued-policy/secret-name readbacks verified. Original historical observations above are retained."
+    }
+  ],
+  "t005CredentialReadbackEvidence": "cloudflare-t005-credential-readback-2026-10-04.json"
 }

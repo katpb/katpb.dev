@@ -733,3 +733,56 @@ CI read-only drift status remained eligible with the unchanged owner audit and a
 ruleset revisions. This comparison concerns the final control revision; the actual bootstrap
 continues to serve the separately recorded `9e5097…` package, with no unrecorded redeployment.
 T005/B007 remains the blocker; T004 is complete and T023+ was not started.
+
+### T005 issued credentials and environment readback — 2026-10-04
+
+The owner completed credential creation and GitHub secret storage. Signed-in Cloudflare
+inventory now shows three active account-owned tokens: `katpb-r4-production`,
+`katpb-r4-preview` and `katpb-r4-acceptance`. Each existing policy form contains exactly one
+Worker policy, respectively `katpb-dev-production`, `katpb-dev-preview` and
+`katpb-dev-acceptance`, with `Individual Workers Editor` and no additional policy. These
+issued-policy observations supersede the earlier prospective drafts; draft names/expiration
+and the original no-credential observations above remain historical evidence.
+
+Signed-in GitHub environment settings show `CLOUDFLARE_API_TOKEN` in `preview`, `production`
+and `production-recovery`. Values were never requested, received, displayed or written.
+The owner reports the production/recovery secrets share the production-scoped token and the
+acceptance token is retained securely outside GitHub; encrypted secret contents cannot be
+read back to independently prove those mappings. Fresh API readbacks confirm only branch
+`main`, zero tags and admin bypass disabled for all three environments. Recovery still
+requires owner `katpb` (`50702152`) review; no recovery approval job was executed.
+
+Signed-in account/subdomain readback remains `45dcbe7b47e04e1f41dc571ceb86b40e` /
+`katpb.workers.dev`, with exactly the three approved Workers. Workers plans still shows Free,
+$0 and Current plan. All three actual Domains views retain their workers.dev URL, disabled
+preview-version URLs and no custom domains or zone routes. No provider mutation, permission
+change, DNS/nameserver change, custom-domain certificate or paid-product change was performed.
+Fresh credential-free HTTP verification checks seven resources on each Worker against the
+unchanged bootstrap package `eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe`
+from source `9e50970941ff49e901fec382b81e71f34a3fcb1a`. This is served-package evidence,
+not scoped-token mutation proof or a new browser verification receipt.
+
+The sequential full local gate passed zero Astro diagnostics, 368 browser cases,
+34 operational tests and six reproducible raw files. Initial local attempts required
+loopback access and the installed browser-cache location; concurrently run build consumers
+also interfered. The final full gate corrected those execution conditions without code or
+policy changes. Read-only live ruleset drift remains eligible against the unchanged owner
+audit. PR #4 head `d129bd3f965ddcca6a91b641165a443b2439769d` has a passing
+`repository-health` check from Actions App `15368`, run `37184419755`.
+
+**B007 resolved; B008 — secure local test access pending**: Issued-token configuration and
+secret-name presence are verified, but the trusted local runner has no identified secure
+source for the three credentials. GitHub environment secrets cannot be read back, and the
+authorized T001–T022 CI has no deployment job that consumes them. Owner dashboard authority
+cannot substitute for exercising these scoped credentials. The owner was asked only for
+non-secret existing credential references (such as Keychain service/account names or
+secret-manager item references), never values. No T023 workflow, environment relaxation,
+merge or broader permission is authorized to solve this access blocker.
+
+All three own-Worker updates, all six cross-Worker mutation denials, and named-preview
+create/update/delete on the preview parent remain untested. No Editor capability failure
+has been observed because no credential-authenticated provider operation was attempted.
+[Structured T005 evidence](evidence/cloudflare-t005-credential-readback-2026-10-04.json)
+records this distinction and the pending matrix. T005 stays unchecked: T001–T022 remains
+21/22, PR #4 stays draft and is not ready to merge the full foundation checkpoint.
+T023+ was not started. Stop for owner review.
