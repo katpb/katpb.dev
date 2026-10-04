@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-04T05:28:38.605430+00:00",
+  "authorization": "Owner authorized T004 then T005 only; stop before T023.",
+  "status": "confirmed-account preflight and full local validation passed; provisioning pending",
+  "policyAccountId": "a20534600ae6a611d09360bbc2340c6f",
+  "signedInAccountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+  "signedInAccountName": "Katpb072@gmail.com's Account",
+  "observedSubdomain": "katpb.workers.dev",
+  "plan": {
+    "name": "Free",
+    "priceUsd": 0,
+    "dashboardCurrentPlan": true,
+    "workerLimit": 100,
+    "computeRequestsPerDay": 100000,
+    "computeCpuMsPerRequest": 10
+  },
+  "signedInInventory": "No projects found",
+  "approvedWorkerNames": [
+    "katpb-dev-production",
+    "katpb-dev-preview",
+    "katpb-dev-acceptance"
+  ],
+  "workersCreated": [],
+  "credentialsCreated": false,
+  "githubSecretsChanged": false,
+  "providerUpload": false,
+  "dnsNameserverRouteCustomDomainChanges": false,
+  "localValidation": {
+    "astroDiagnostics": 0,
+    "browserCases": 368,
+    "operationalTests": 30,
+    "reproducibleRawFiles": 6
+  },
+  "exactLatestCiComparison": {
+    "sourceSha": "da4b7451e80f405514adc3e694065f75a99fb280",
+    "runId": 37177854365,
+    "artifactId": 11293709420,
+    "artifactZipDigest": "0babb9cf7a036777f3c001c00e025372deccb12acfd3d4b775af9244bccf2836",
+    "artifactZipDigestVerified": true,
+    "rawFiles": 6,
+    "packageFiles": 8,
+    "rawDigest": "7bdbd0d423edcff320be8806ba6808ff394a4911bfe3e998964e6d967b2dd19f",
+    "packageDigest": "cb71c17c43139b8b3ac1801b7328757e22a9afa443a58185c3be6e2d48d66610",
+    "rawBytesEqual": true,
+    "packageBytesEqual": true,
+    "provenanceEqual": true,
+    "trackedSourceClean": true,
+    "runtime": {
+      "schemaVersion": 1,
+      "status": "eligible",
+      "auditDigest": "905ffa3ead2590f7d390156e722204b63104a584286d446364f348893667c767",
+      "auditedAt": "2026-10-04T03:09:56.000Z",
+      "rulesets": [
+        {
+          "id": 24419675,
+          "updated_at": "2026-10-03T14:40:48.702Z"
+        },
+        {
+          "id": 24419712,
+          "updated_at": "2026-10-03T18:38:08.667Z"
+        },
+        {
+          "id": 24419981,
+          "updated_at": "2026-10-03T15:45:08.564Z"
+        }
+      ],
+      "bypassTrust": "owner-audited; live revision matched",
+      "access": "read-only Metadata"
+    }
+  },
+  "permissionDocumentation": "https://developers.cloudflare.com/workers/authorization/workers/",
+  "permissionReadbackStatus": "Individual-Worker UI/API scopes and actual isolation tests remain unverified.",
+  "t004Complete": false,
+  "t005Complete": false,
+  "foundationCheckpointComplete": false,
+  "t023Started": false,
+  "accountResolution": {
+    "confirmedAt": "2026-10-04T05:36:36.516921+00:00",
+    "ownerConfirmedAccountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+    "ownerConfirmedSubdomain": "katpb.workers.dev",
+    "supersededAccountId": "a20534600ae6a611d09360bbc2340c6f",
+    "supersededMeaning": "historical T004 preflight only; not an authorized deployment target",
+    "signedInReadbackMatched": true,
+    "freePlanReadbackMatched": true,
+    "inventoryReadback": "No projects found; search empty; filter Show all",
+    "conflictingR4Workers": false,
+    "policyAccountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+    "policySubdomainLabel": "katpb",
+    "validationAfterPolicyChange": {
+      "observedAt": "2026-10-04T05:38:13.839893+00:00",
+      "fullGate": "passed",
+      "browserCases": 368,
+      "operationalTests": 30,
+      "reproducibleRawFiles": 6,
+      "additionalAccountSubdomainMismatchAssertions": "passed; no provider process invoked"
+    },
+    "provisioning": "not started"
+  }
+}

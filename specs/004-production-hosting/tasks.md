@@ -7,8 +7,9 @@
 **Resume checkpoint**: T002 setup readbacks passed: main PR/integrity with no bypass,
 three main-only environments, and the single-repository archive App with a creation-only
 exception; archive immutability has no bypass. T003 adds explicit, non-blocking solo-maintainer
-ownership in `.github/CODEOWNERS`. T004 verified the Free account and empty inventory;
-provider provisioning and scoped credentials remain pending. The owner approved foundation-first
+ownership in `.github/CODEOWNERS`. T004 verified preflight; the owner superseded the original account observation on 2026-10-04
+with account `45dcbe7b47e04e1f41dc571ceb86b40e` / `katpb.workers.dev`. Fresh signed-in Free/identity/empty-inventory
+readbacks and updated-policy local validation passed; provisioning and scoped credentials remain pending. The owner approved foundation-first
 execution on 2026-10-03: T006–T022 may proceed credential-free before returning to T004/T005.
 T006–T022 are implemented and verified locally and in real PR CI. The owner approved the split
 audit/runtime model on 2026-10-04 and rejected the proposed Administration-write App. T013/T022

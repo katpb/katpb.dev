@@ -436,6 +436,13 @@ test("rejected provider requests invoke no process and redact credential diagnos
     workflowRef: "refs/heads/main",
   });
   for (const change of [
+    {
+      target: {
+        ...target,
+        accountId: "a20534600ae6a611d09360bbc2340c6f",
+      },
+    },
+    { target: { ...target, subdomain: "another-account" } },
     { credential: null },
     { credential: { token: "do-not-print-123456789012345", workerId: "v" } },
     { operation: "evil" },

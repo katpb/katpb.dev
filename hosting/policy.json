@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "repository": "katpb/katpb.dev",
-  "accountId": "a20534600ae6a611d09360bbc2340c6f",
-  "subdomain": null,
+  "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+  "subdomain": "katpb",
   "workflow": {
     "id": 374100170,
     "path": ".github/workflows/ci.yml",

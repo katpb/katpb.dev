@@ -561,3 +561,52 @@ Domain ownership is satisfied by the owner's confirmation. DNS and nameserver co
 Worker custom-domain routing, `katpb.dev` certificate activation and public launch have not
 been performed. DNS and active custom-domain routing remain unchanged and are intentionally
 deferred until a separate explicit owner-approved cutover.
+
+## T004/T005 owner-authorized bootstrap attempt — 2026-10-04
+
+The owner authorized T004 provisioning followed by T005 individual-Worker credentials and
+isolation observations, with review before T023. Creation is held for an account-identity
+choice: trusted policy records account `a20534600ae6a611d09360bbc2340c6f`, but the signed-in
+Cloudflare session exposes only account `45dcbe7b47e04e1f41dc571ceb86b40e`, named
+Katpb072@gmail.com's Account, with `katpb.workers.dev`. No account substitution was made.
+
+The signed-in account shows Free, $0, Current plan, no projects, a 100-Worker limit,
+and 100,000 daily compute requests/10 ms CPU per invocation. These are observations of the
+available session, not authorization to create the approved targets in a different account.
+The prepared exact-source package on `da4b7451e80f405514adc3e694065f75a99fb280` passed the full
+credential-free gate again: zero Astro diagnostics, 368 browser cases, 30 operational tests
+and six reproducible raw files. The exact latest successful CI run `37177854365` artifact was
+SHA-256 checked before bounded extraction; provenance, six raw files and eight packaged
+files matched the clean local build, package digest
+`cb71c17c43139b8b3ac1801b7328757e22a9afa443a58185c3be6e2d48d66610`.
+A fresh public Metadata drift readback remained eligible with the owner-audited revisions.
+
+No Worker, API token, GitHub secret, provider upload, paid plan, DNS, nameserver, route,
+custom domain or certificate was changed. T004/T005 remain unchecked, the complete foundation
+checkpoint remains incomplete, and T023 was not started. [Structured observations](evidence/cloudflare-bootstrap-2026-10-04.json)
+record the mismatch and validation evidence. The next action is the owner's account choice;
+individual-Worker permission and isolation outcomes are still pending real observations.
+
+### Account mismatch resolved by explicit owner decision — 2026-10-04
+
+The owner confirmed account `45dcbe7b47e04e1f41dc571ceb86b40e` and `katpb.workers.dev` as the
+only intended R4 deployment account/subdomain. Earlier `a20534600ae6a611d09360bbc2340c6f`
+preflight observations above and in their original evidence file are retained as historical,
+superseded observations; that account is no longer an authorized R4 deployment target.
+
+Fresh signed-in Workers plans readback showed Free, $0, Current plan. Workers & Pages
+readback showed the confirmed account ID and subdomain, search empty, filter Show all,
+No projects found and no conflicting R4 Workers. `hosting/policy.json` now explicitly pins
+the confirmed account ID and subdomain label `katpb`; target IDs remain absent and verified
+flags false until actual provisioning readbacks pass. Runtime account/target validation
+is retained. Stop before further provider action if the signed-in account changes.
+
+Policy/configuration tests and applicable full validation must pass on this updated policy
+before creation. No provisioning or credential acceptance is claimed by these preflight readbacks.
+
+The updated policy passed the complete local gate: zero Astro diagnostics, 368 browser cases,
+30 operational tests and six reproducible raw files. Additional account/subdomain mismatch
+assertions passed with zero provider invocations. All 30 preserved baseline file hashes,
+including the owner's ROADMAP change, still match. The policy remains explicit; no credential
+can substitute a different account or host in the trusted target passed to the provider helper.
+Creation remains pending the exact clean-source preparation/CI gate and actual provider readbacks.
