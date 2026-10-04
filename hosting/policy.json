@@ -21,18 +21,18 @@
   "targets": {
     "production": {
       "workerName": "katpb-dev-production",
-      "workerId": "katpb-dev-production",
+      "workerId": "1fe57381f57848dbb722225ef8949ea2",
       "verified": true
     },
     "preview": {
       "workerName": "katpb-dev-preview",
-      "workerId": null,
-      "verified": false
+      "workerId": "ede742fe3b12494b928f3785441dca6a",
+      "verified": true
     },
     "acceptance": {
       "workerName": "katpb-dev-acceptance",
-      "workerId": null,
-      "verified": false
+      "workerId": "bc035ed004424484b1151cdda8c437de",
+      "verified": true
     }
   },
   "owner": "katpb",

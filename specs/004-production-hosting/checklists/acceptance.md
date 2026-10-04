@@ -1,18 +1,16 @@
 # R4 implementation and acceptance evidence
 
 **Window**: Owner-approved T001–T022 only, branch `004-production-hosting`, 2026-10-03.
-**Status**: T002 setup readbacks passed and T003 CODEOWNERS was added on 2026-10-03.
-Main PR/integrity, archive-tag protection, the single-repository archive App with a creation-only
-exception, and main-only environments are configured. On 2026-10-04, real PR CI passed,
-the strict Actions required-check binding was activated, and exact-run local/CI bytes matched.
-T004 preflight passed; actual provisioning and T005 scoped credentials/exercises are deferred
-under the owner's foundation-first correction. T006 dependency review and T007 output/secret exclusions passed. No provider deployment, credential isolation,
-hosted acceptance is claimed. The owner approved split owner-audit/read-only drift verification
-on 2026-10-04 and rejected the Administration-write App proposal. The owner audit and public
-Metadata drift gate passed, and real CI run `37177434568` verified the same gate with only
-Contents read/Metadata read permissions. Exact-source local/CI raw and packaged bytes matched;
-fresh owner and environment readbacks passed. T013/T022 are complete. T004/T005 remain deferred,
-so the Phase 1/foundation checkpoint and hosted acceptance remain incomplete.
+**Status**: T001–T004 and T006–T022 are complete. Main PR/integrity, archive-tag protections,
+the single-repository archive App creation-only exception and main-only environments are verified.
+Owner-audited/read-only drift checks remain effective; no Administration-write credential is in CI.
+On 2026-10-04, T004 created/read back exactly three assets-only Workers in owner-confirmed account
+`45dcbe7b47e04e1f41dc571ceb86b40e` / `katpb.workers.dev`, still Free $0. Their exact-package
+HTTP checks and 192 credential-free hosted browser cases passed. Final local validation passed
+368 browser cases, 34 operational tests and reproducible raw bytes. T005 scoped credentials and
+actual allowed/denied/named-preview permission exercises remain pending. The complete Phase 1/
+foundation checkpoint and full R4 acceptance remain incomplete. T023+ has not started.
+Earlier dated observations below are historical evidence, not current completion claims.
 
 ## Prerequisites
 
@@ -23,7 +21,7 @@ so the Phase 1/foundation checkpoint and hosted acceptance remain incomplete.
 | Supported Node/npm and local gate                  | Locally passed   | Node 24.21.0/npm 11.21.0; current full gate passed                                                                    |
 | Active GitHub main/archive/environment protections | Readbacks passed | Strict Actions repository-health binding, PR/integrity, archive creation-only exception, three main-only environments |
 | Cloudflare Workers Free plan                       | Verified         | Signed-in Workers plans shows Free, $0, Current plan; no upgrade performed                                            |
-| Three isolated assets-only Workers and Free quotas | Pending          | T004; production, preview parent, controlled acceptance only                                                          |
+| Three isolated assets-only Workers and Free quotas | Verified         | T004; production, preview parent, controlled acceptance only                                                          |
 | Individual-Worker credentials and isolation        | Pending          | T005; no account-wide/Admin/DNS/zone-route permission                                                                 |
 | `katpb.dev` ownership                              | Owner-confirmed  | Registered with Namecheap on 2026-10-03                                                                               |
 
@@ -644,3 +642,79 @@ bytes, no unexpected network requests/cookies and applicable axe checks. The com
 gate then passed zero Astro diagnostics, 368 local browser cases, 34 operational tests and six
 reproducible raw files. The token builder exposes Specified Workers → Individual Workers Editor;
 this is configuration availability only, not credential or permission acceptance.
+
+### T004 completed; T005 credential acceptance pending — 2026-10-04
+
+Exactly three assets-only targets exist in account `45dcbe7b47e04e1f41dc571ceb86b40e`:
+
+| Target              | Observed service/script key | Actual HTTPS provider URL                       | Version prefix |
+| ------------------- | --------------------------- | ----------------------------------------------- | -------------- |
+| Production          | `katpb-dev-production`      | https://katpb-dev-production.katpb.workers.dev/ | `0028456d`     |
+| Preview parent      | `katpb-dev-preview`         | https://katpb-dev-preview.katpb.workers.dev/    | `3c6c5306`     |
+| Isolated acceptance | `katpb-dev-acceptance`      | https://katpb-dev-acceptance.katpb.workers.dev/ | `2dbb8ee8`     |
+
+Signed-in inventory showed Show all, empty search, 1–3 of 3 and exactly these names; account ID
+and `katpb.workers.dev` matched. Each settings readback showed assets-only, zero bindings,
+no triggers, compatibility date `2026-10-04`, stable workers.dev URL enabled, preview-version
+URLs disabled and no custom domains or zone routes. The trusted bootstrap upload contained
+only the eight package assets, with auto-trailing-slash HTML and no fallback. The dashboard
+path segment `production` names Cloudflare's base environment even for isolated acceptance;
+it does not make that Worker the production target. Policy pins distinct observed legacy
+service/script keys, not invented UUIDs. Each target passed exact seven-resource HTTP verification
+and 64 hosted browser cases; production/preview/acceptance use the same recorded package.
+
+After provisioning, signed-in Workers plans still showed Free, $0, Current plan and the
+100-Worker limit. Applicable [asset limits](https://developers.cloudflare.com/workers/platform/limits/)
+are 20,000 files/version, 25 MiB/file, 100 header rules and 2,000 characters/header line.
+[Preview limits](https://developers.cloudflare.com/workers/previews/) are 100 previews/Worker
+and 100 deployments/preview. Assets-only requests are
+[free and unlimited](https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/);
+the displayed 100,000 compute requests/day and 10 ms CPU apply to compute, not static-asset requests.
+No paid service, DNS, nameserver, custom domain, route or custom-domain certificate was changed.
+Existing owner dashboard creation was bootstrap-only: no product-level credential was generated,
+stored in GitHub or retained for deployment. Final full local validation passed zero Astro
+diagnostics, 368 browser cases, 34 operational tests and six reproducible raw files.
+CI `37181969057` on `accc6a2df5bbf1e12637b5adc73c4dbfd837b891` passed the full gate and
+read-only drift check before preview/acceptance uploads. [Structured evidence](evidence/cloudflare-bootstrap-2026-10-04.json)
+retains the superseded account observation, bootstrap progression, HTTP/browser results and
+current main-only environment/recovery-review readbacks. T004 is checked complete.
+
+T005 remains unchecked: Specified Workers → Individual Workers Editor is available, but
+no token or deployment secret has been created and no effective scope or allowed/denied
+operation has been tested. Recovery configuration remains main-only, owner `katpb` review,
+no admin bypass; this is configuration evidence, not an exercised recovery approval job.
+The foundation checkpoint cannot be declared complete or recommended for merge until T005
+passes. Stop before T023.
+
+### T005 exact prospective scopes and credential handoff — 2026-10-04
+
+The signed-in account token builder supports Specified Workers and Individual Workers Editor.
+Each separate review JSON contained exactly one allow policy, permission group
+`7e79ec33834341f28dd431ab73884400`, the confirmed account resource and one Worker resource;
+no Admin, account-wide, DNS, zone-route or additional grant was selected. Actual provider IDs
+from this signed-in selector/readback now replace the earlier observed legacy service keys in policy:
+
+| Target     | Provider Worker ID                 | Intended token name              | Approved credential destination                                                                   |
+| ---------- | ---------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Production | `1fe57381f57848dbb722225ef8949ea2` | `katpb-dev-r4-production-deploy` | `CLOUDFLARE_API_TOKEN` in main-only `production` and owner-reviewed `production-recovery`         |
+| Preview    | `ede742fe3b12494b928f3785441dca6a` | `katpb-dev-r4-preview-deploy`    | `CLOUDFLARE_API_TOKEN` in main-only `preview`                                                     |
+| Acceptance | `bc035ed004424484b1151cdda8c437de` | `katpb-dev-r4-acceptance-test`   | Separate secure local test source; isolated acceptance only, never normal preview/production jobs |
+
+The drafts use a 90-day expiration (`2027-01-02T23:59:59Z`); the current acceptance-only review
+is open before Create token. These are prospective configuration reviews, not issued credentials
+or effective authorization proof. No token value, API key or GitHub secret was generated/entered.
+
+**B007 — owner credential handoff required**: Computer-use credential policy requires the owner
+to perform new credential entry, confirmation and submission. Available connectors do not offer
+an approved GitHub environment secret-write transport; token values must not pass through chat,
+source, tool inputs or logs. The owner must complete the already approved narrow token creation/
+secret-storage steps, then use a secure local credential source for trusted isolated permission
+tests. No additional permission or broader token is requested. Allowed operations, denied preview
+→production and acceptance→production/normal-preview mutations, and scoped named-preview
+create/update/delete remain untested. This blocks T005 and the complete foundation checkpoint;
+keep PR draft and do not recommend merging until actual observations pass. T023+ remains untouched.
+
+Final validation after pinning all three actual provider Worker IDs passed the full local gate
+again: zero Astro diagnostics, 368 local browser cases, 34 operational tests and six reproducible
+raw files. No provider credential entered that gate. The owner's ROADMAP change remains outside
+the hosting commits; source/brand/R1 files were not edited.

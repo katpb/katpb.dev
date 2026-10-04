@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "observedAt": "2026-10-04T05:28:38.605430+00:00",
   "authorization": "Owner authorized T004 then T005 only; stop before T023.",
-  "status": "production bootstrap created; preview/acceptance provisioning and credential isolation remain pending",
+  "status": "T004 complete; T005 credential provisioning and effective permission/isolation checks pending",
   "policyAccountId": "a20534600ae6a611d09360bbc2340c6f",
   "signedInAccountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
   "signedInAccountName": "Katpb072@gmail.com's Account",
@@ -21,7 +21,11 @@
     "katpb-dev-preview",
     "katpb-dev-acceptance"
   ],
-  "workersCreated": ["katpb-dev-production"],
+  "workersCreated": [
+    "katpb-dev-production",
+    "katpb-dev-preview",
+    "katpb-dev-acceptance"
+  ],
   "credentialsCreated": false,
   "githubSecretsChanged": false,
   "providerUpload": true,
@@ -70,8 +74,8 @@
     }
   },
   "permissionDocumentation": "https://developers.cloudflare.com/workers/authorization/workers/",
-  "permissionReadbackStatus": "Individual-Worker UI/API scopes and actual isolation tests remain unverified.",
-  "t004Complete": false,
+  "permissionReadbackStatus": "Exact Worker IDs and prospective single-Worker Editor grants read from signed-in review JSON; tokens and effective permissions remain unverified.",
+  "t004Complete": true,
   "t005Complete": false,
   "foundationCheckpointComplete": false,
   "t023Started": false,
@@ -95,7 +99,7 @@
       "reproducibleRawFiles": 6,
       "additionalAccountSubdomainMismatchAssertions": "passed; no provider process invoked"
     },
-    "provisioning": "production created after confirmed-account clean preparation and CI passed"
+    "provisioning": "all three approved Workers created and read back"
   },
   "provisioningObservations": [
     {
@@ -160,8 +164,138 @@
         "credentialFree": true,
         "normalTls": true
       },
-      "workerId": "katpb-dev-production",
-      "workerIdentityType": "Observed legacy Worker service/script key from signed-in service URL and Name readback; not a claimed UUID",
+      "workerId": "1fe57381f57848dbb722225ef8949ea2",
+      "workerIdentityType": "Signed-in Specified Workers selector / production-only token review JSON resource ID; legacy service key retained separately",
+      "productionWorkerUrlEnabled": true,
+      "previewVersionUrlsEnabled": false,
+      "domainsReadback": "No custom domains or zone routes"
+    },
+    {
+      "observedAt": "2026-10-04T06:16:49.194528+00:00",
+      "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+      "workerName": "katpb-dev-preview",
+      "workerId": "ede742fe3b12494b928f3785441dca6a",
+      "workerIdentityType": "Signed-in Specified Workers selector / preview-only token review JSON resource ID",
+      "url": "https://katpb-dev-preview.katpb.workers.dev/",
+      "versionPrefix": "3c6c5306",
+      "assetsOnly": true,
+      "bindings": 0,
+      "customDomains": [],
+      "routes": [],
+      "bootstrapCapability": "Existing signed-in owner dashboard; no creation credential generated or stored",
+      "assetsFiles": 8,
+      "sourceSha": "9e50970941ff49e901fec382b81e71f34a3fcb1a",
+      "packageDigest": "eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe",
+      "htmlHandling": "auto-trailing-slash",
+      "notFoundHandling": "none",
+      "http": {
+        "schemaVersion": 1,
+        "state": "verified-http",
+        "sourceSha": "9e50970941ff49e901fec382b81e71f34a3fcb1a",
+        "packageDigest": "eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe",
+        "url": "https://katpb-dev-preview.katpb.workers.dev/",
+        "resources": 7,
+        "freshness": [
+          {
+            "path": "index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "__release.json",
+            "method": "etag-304"
+          },
+          {
+            "path": "about/index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "projects/index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "writing/index.html",
+            "method": "full-download-no-cache"
+          }
+        ],
+        "elapsedMs": 3636,
+        "nextAction": "Run credential-free browser checks and persist the outcome before declaring deployment verified."
+      },
+      "browserVerification": {
+        "state": "passed",
+        "cases": 64,
+        "browsers": ["Chromium", "WebKit"],
+        "viewports": ["desktop", "mobile"],
+        "colorSchemes": ["light", "dark"],
+        "javaScript": [true, false],
+        "credentialFree": true,
+        "normalTls": true
+      },
+      "compatibilityDate": "2026-10-04",
+      "productionWorkerUrlEnabled": true,
+      "previewVersionUrlsEnabled": false,
+      "domainsReadback": "No custom domains or zone routes"
+    },
+    {
+      "observedAt": "2026-10-04T06:20:03.067587+00:00",
+      "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+      "workerName": "katpb-dev-acceptance",
+      "workerId": "bc035ed004424484b1151cdda8c437de",
+      "workerIdentityType": "Signed-in Specified Workers selector / acceptance-only token review JSON resource ID",
+      "url": "https://katpb-dev-acceptance.katpb.workers.dev/",
+      "versionPrefix": "2dbb8ee8",
+      "assetsOnly": true,
+      "bindings": 0,
+      "customDomains": [],
+      "routes": [],
+      "bootstrapCapability": "Existing signed-in owner dashboard; no creation credential generated or stored",
+      "assetsFiles": 8,
+      "sourceSha": "9e50970941ff49e901fec382b81e71f34a3fcb1a",
+      "packageDigest": "eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe",
+      "htmlHandling": "auto-trailing-slash",
+      "notFoundHandling": "none",
+      "http": {
+        "schemaVersion": 1,
+        "state": "verified-http",
+        "sourceSha": "9e50970941ff49e901fec382b81e71f34a3fcb1a",
+        "packageDigest": "eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe",
+        "url": "https://katpb-dev-acceptance.katpb.workers.dev/",
+        "resources": 7,
+        "freshness": [
+          {
+            "path": "index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "__release.json",
+            "method": "etag-304"
+          },
+          {
+            "path": "about/index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "projects/index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "writing/index.html",
+            "method": "full-download-no-cache"
+          }
+        ],
+        "elapsedMs": 3836,
+        "nextAction": "Run credential-free browser checks and persist the outcome before declaring deployment verified."
+      },
+      "browserVerification": {
+        "state": "passed",
+        "cases": 64,
+        "browsers": ["Chromium", "WebKit"],
+        "viewports": ["desktop", "mobile"],
+        "colorSchemes": ["light", "dark"],
+        "javaScript": [true, false],
+        "credentialFree": true,
+        "normalTls": true
+      },
+      "compatibilityDate": "2026-10-04",
       "productionWorkerUrlEnabled": true,
       "previewVersionUrlsEnabled": false,
       "domainsReadback": "No custom domains or zone routes"
@@ -181,6 +315,178 @@
     "operationalTests": 34,
     "reproducibleRawFiles": 6,
     "productionHostedBrowserCases": 64,
-    "tokenScopeUiReadback": "Specified Workers offers Individual Workers Editor; no account token created"
+    "tokenScopeUiReadback": "Specified Workers offers Individual Workers Editor; no account token created",
+    "ci": {
+      "sha": "accc6a2df5bbf1e12637b5adc73c4dbfd837b891",
+      "runId": 37181969057,
+      "jobId": 111376180831,
+      "conclusion": "success"
+    }
+  },
+  "freshGithubEnvironmentReadback": {
+    "observedAt": "2026-10-04T06:16:15.779039+00:00",
+    "environments": [
+      {
+        "name": "preview",
+        "canAdminsBypass": false,
+        "deploymentBranchPolicy": {
+          "protected_branches": false,
+          "custom_branch_policies": true
+        },
+        "branchPolicies": [
+          {
+            "id": 61852785,
+            "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3k2MTg1Mjc4NQ==",
+            "name": "main",
+            "type": "branch"
+          }
+        ],
+        "reviewers": []
+      },
+      {
+        "name": "production",
+        "canAdminsBypass": false,
+        "deploymentBranchPolicy": {
+          "protected_branches": false,
+          "custom_branch_policies": true
+        },
+        "branchPolicies": [
+          {
+            "id": 61852919,
+            "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3k2MTg1MjkxOQ==",
+            "name": "main",
+            "type": "branch"
+          }
+        ],
+        "reviewers": []
+      },
+      {
+        "name": "production-recovery",
+        "canAdminsBypass": false,
+        "deploymentBranchPolicy": {
+          "protected_branches": false,
+          "custom_branch_policies": true
+        },
+        "branchPolicies": [
+          {
+            "id": 61853140,
+            "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3k2MTg1MzE0MA==",
+            "name": "main",
+            "type": "branch"
+          }
+        ],
+        "reviewers": [
+          {
+            "login": "katpb",
+            "id": 50702152
+          }
+        ]
+      }
+    ],
+    "runtimeProtection": {
+      "schemaVersion": 1,
+      "status": "eligible",
+      "auditDigest": "905ffa3ead2590f7d390156e722204b63104a584286d446364f348893667c767",
+      "auditedAt": "2026-10-04T03:09:56.000Z",
+      "rulesets": [
+        {
+          "id": 24419675,
+          "updated_at": "2026-10-03T14:40:48.702Z"
+        },
+        {
+          "id": 24419712,
+          "updated_at": "2026-10-03T18:38:08.667Z"
+        },
+        {
+          "id": 24419981,
+          "updated_at": "2026-10-03T15:45:08.564Z"
+        }
+      ],
+      "bypassTrust": "owner-audited; live revision matched",
+      "access": "read-only Metadata"
+    }
+  },
+  "finalProvisioningReadback": {
+    "observedAt": "2026-10-04T06:21:56.418779+00:00",
+    "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+    "subdomain": "katpb.workers.dev",
+    "inventoryCount": 3,
+    "inventoryNames": [
+      "katpb-dev-production",
+      "katpb-dev-preview",
+      "katpb-dev-acceptance"
+    ],
+    "search": "empty",
+    "filter": "Show all",
+    "plan": "Free",
+    "priceUsd": 0,
+    "currentPlan": true,
+    "paidServicesEnabled": false,
+    "limits": {
+      "workersPerAccount": 100,
+      "maxAssetFilesPerVersion": 20000,
+      "maxAssetFileBytes": 26214400,
+      "maxPreviewsPerWorker": 100,
+      "maxDeploymentsPerPreview": 100,
+      "maxHeaderRules": 100,
+      "maxHeaderLineBytes": 2000,
+      "computeRequestsPerDay": 100000,
+      "computeCpuMsPerInvocation": 10
+    },
+    "assetRequests": "Unlimited and free for assets-only serving; compute quota is not a static-asset-request cap",
+    "limitSources": [
+      "https://developers.cloudflare.com/workers/platform/limits/",
+      "https://developers.cloudflare.com/workers/previews/",
+      "https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/"
+    ],
+    "dnsNameserverRouteCustomDomainCertificateChanges": false
+  },
+  "finalValidation": {
+    "observedAt": "2026-10-04T06:32:05.903533+00:00",
+    "fullGate": "passed",
+    "astroDiagnostics": 0,
+    "localBrowserCases": 368,
+    "operationalTests": 34,
+    "reproducibleRawFiles": 6,
+    "liveHostedBrowserCases": 192,
+    "actualProviderWorkerIdsValidated": true
+  },
+  "t005DraftReviews": [
+    {
+      "tokenCreated": false,
+      "worker": "katpb-dev-production",
+      "workerId": "1fe57381f57848dbb722225ef8949ea2",
+      "permissionName": "Individual Workers Editor",
+      "permissionGroupId": "7e79ec33834341f28dd431ab73884400",
+      "resource": "com.cloudflare.api.account.45dcbe7b47e04e1f41dc571ceb86b40e/com.cloudflare.edge.worker.script.1fe57381f57848dbb722225ef8949ea2",
+      "additionalPolicies": 0,
+      "expiresOn": "2027-01-02T23:59:59Z",
+      "secretHandling": "No value generated or entered; owner handoff required for final credential entry/storage"
+    },
+    {
+      "tokenCreated": false,
+      "worker": "katpb-dev-preview",
+      "workerId": "ede742fe3b12494b928f3785441dca6a",
+      "permissionName": "Individual Workers Editor",
+      "permissionGroupId": "7e79ec33834341f28dd431ab73884400",
+      "additionalPolicies": 0,
+      "expiresOn": "2027-01-02T23:59:59Z"
+    },
+    {
+      "tokenCreated": false,
+      "worker": "katpb-dev-acceptance",
+      "workerId": "bc035ed004424484b1151cdda8c437de",
+      "permissionName": "Individual Workers Editor",
+      "permissionGroupId": "7e79ec33834341f28dd431ab73884400",
+      "additionalPolicies": 0,
+      "expiresOn": "2027-01-02T23:59:59Z"
+    }
+  ],
+  "t005Blocker": {
+    "id": "B007",
+    "reason": "Owner credential handoff is required for secret entry/submission; available tools have no approved secret-write transport. No token values generated or entered. Effective permission/isolation/named-preview operations untested.",
+    "permissionBroadeningNeeded": false,
+    "ownerReviewDraft": "Acceptance-only token review is open; production/preview/acceptance exact draft grants recorded without values.",
+    "requiredNextAction": "Owner completes approved individual-Worker credential creation and GitHub environment secret entry/storage, then supplies credentials to isolated trusted permission tests through a secure local mechanism, never chat/source/logs."
   }
 }
