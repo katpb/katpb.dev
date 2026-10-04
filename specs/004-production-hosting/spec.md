@@ -224,6 +224,12 @@ securely, deploy and verify a preview, and exercise recovery in a controlled tar
   applicable code-owner approval, when a second trusted maintainer is added.
   Pull requests, other branches and unauthorized local invocations MUST NOT
   replace production.
+  Owner/admin setup audit MUST verify the complete applicable rulesets, including
+  bypass actors, and record IDs, targets/conditions, enforcement, exact rules/check
+  source and GitHub revision timestamps. Runtime MUST use read-only/Metadata-capable
+  access to verify the live inventory, rules and matching audited revisions; changed,
+  missing or unknown state requires a new owner audit before deployment. Runtime
+  bypass enumeration is not required. No Administration-write credential is stored in CI.
 - **FR-007**: Only complete static output validated for the selected revision and
   build inputs MUST be released. Maintainers MUST NOT modify deployed files
   manually, and visitors MUST NOT encounter partially updated releases with

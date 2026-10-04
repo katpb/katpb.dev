@@ -37,24 +37,10 @@ jobs:
         run: npm run release:prepare -- --source-sha "$SOURCE_SHA"
       - name: Archive verified raw bytes for trusted downstream preparation
         run: node scripts/hosting/archive-raw.mjs
-      - name: Observe read-only runtime protection visibility
+      - name: Verify read-only protection drift against owner audit
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          node --input-type=module <<'NODE'
-          import fs from 'node:fs/promises';
-          const response = await fetch('https://api.github.com/repos/katpb/katpb.dev/rulesets/24419712', {
-            redirect: 'error', signal: AbortSignal.timeout(15000),
-            headers: {Accept: 'application/vnd.github+json', Authorization: `Bearer ${process.env.GH_TOKEN}`, 'X-GitHub-Api-Version': '2022-11-28'}
-          });
-          if (!response.ok) throw new Error(`Protection metadata unavailable: HTTP ${response.status}`);
-          const ruleset = await response.json();
-          const observation = {rulesetId: ruleset.id, enforcement: ruleset.enforcement,
-            bypassActorsVisible: Array.isArray(ruleset.bypass_actors),
-            bypassActorCount: Array.isArray(ruleset.bypass_actors) ? ruleset.bypass_actors.length : null};
-          await fs.writeFile('.deploy/handoff/runtime-protection.json', JSON.stringify(observation) + '\n');
-          console.log(JSON.stringify(observation));
-          NODE
+        run: node scripts/hosting/check-protections.mjs
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: r4-raw-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}

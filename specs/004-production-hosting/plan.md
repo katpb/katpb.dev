@@ -182,7 +182,14 @@ approval non-blocking while `katpb` is the only maintainer. CODEOWNERS documents
 of workflows, hosting policy, scripts, lockfile and ownership rules. Enable required independent
 approval and applicable code-owner approval when a second trusted maintainer is added.
 Owner review remains part of the PR process; PR and CI gates remain mandatory.
-Read active branch rules at runtime;
+Use a split audit/runtime trust model. The existing authorized owner/admin setup path audits
+complete applicable rulesets and bypass actors; pin IDs, targets/conditions, enforcement,
+exact rules/check source and GitHub `updated_at` revisions in `hosting/github-ruleset-audit.json`.
+Runtime reads active branch rules and the complete repository/inherited ruleset inventory using
+read-only/Metadata access, verifies exact audited state and matching revisions, and fails closed
+on changed, missing or unknown state until a new owner audit. Runtime does not enumerate bypass
+actors; no Administration-write credential or second App is introduced in CI. The audit snapshot
+is trusted protected-main control configuration, never artifact-supplied authority.
 `protected: true` alone is insufficient. Setup must verify that the account's GitHub plan
 supports the required protections and environments.
 

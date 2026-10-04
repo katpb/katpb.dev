@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import {
   validatePolicy,
   resolveTarget,
@@ -15,26 +16,14 @@ import {
 } from "../../scripts/hosting/github.mjs";
 
 const sha = "a".repeat(40);
-const rules = [
-  {
-    type: "pull_request",
-    parameters: {
-      required_approving_review_count: 0,
-      require_code_owner_review: false,
-    },
-  },
-  { type: "deletion" },
-  { type: "non_fast_forward" },
-  {
-    type: "required_status_checks",
-    parameters: {
-      required_status_checks: [
-        { context: "repository-health", integration_id: 15368 },
-      ],
-      strict_required_status_checks_policy: true,
-    },
-  },
-];
+const audit = JSON.parse(readFileSync("hosting/github-ruleset-audit.json"));
+const mainAudit = audit.rulesets.find((s) => s.purpose === "main");
+const rules = structuredClone(mainAudit.rules).map((r) => ({
+  ...r,
+  ruleset_id: mainAudit.id,
+}));
+const fixtureRulesets = () =>
+  audit.rulesets.map(({ purpose, bypass_actors, ...s }) => structuredClone(s));
 export const fixturePolicy = () => ({
   schemaVersion: 1,
   repository: "katpb/katpb.dev",
@@ -111,7 +100,7 @@ const facts = () => ({
     },
   ],
   rules,
-  rulesets: [{ enforcement: "active", bypass_actors: [], rules }],
+  rulesets: fixtureRulesets(),
   lockfileSha256: "c".repeat(64),
   controlSha: sha,
   permission: "admin",
@@ -185,11 +174,7 @@ test("unprovisioned live policy fails closed; strict target and URL validation",
 
 test("active main protection requires PR/check source/integrity and no bypass", () => {
   const p = fixturePolicy();
-  validateMainRules(
-    rules,
-    [{ enforcement: "active", bypass_actors: [], rules }],
-    p,
-  );
+  validateMainRules(rules, fixtureRulesets(), p);
   for (const defective of [
     rules.filter((r) => r.type !== "pull_request"),
     rules.filter((r) => r.type !== "deletion"),
@@ -353,7 +338,7 @@ test("recovery lookup independently resolves dispatch actor, source ancestry and
     f = facts();
   const current = "b".repeat(40);
   const seen = [];
-  let readable = true;
+  let unchanged = true;
   const fetch = async (url) => {
     const u = new URL(url);
     seen.push(u.pathname);
@@ -367,12 +352,20 @@ test("recovery lookup independently resolves dispatch actor, source ancestry and
       [root + "/actions/artifacts/9"]: f.artifact,
       [root + "/rules/branches/main"]: rules.map((r) => ({
         ...r,
-        ruleset_id: 7,
+        ruleset_id: mainAudit.id,
       })),
-      [root + "/rulesets/7"]: {
-        enforcement: "active",
-        ...(readable ? { bypass_actors: [] } : {}),
-      },
+      [root + "/rulesets"]: fixtureRulesets(),
+      ...Object.fromEntries(
+        fixtureRulesets().map((s) => [
+          root + `/rulesets/${s.id}`,
+          {
+            ...s,
+            ...(!unchanged && s.id === mainAudit.id
+              ? { updated_at: "2099-01-01T00:00:00Z" }
+              : {}),
+          },
+        ]),
+      ),
       [root + "/check-suites/7/check-runs"]: { check_runs: f.checks },
       [root + "/actions/runs/20"]: {
         id: 20,
@@ -423,8 +416,11 @@ test("recovery lookup independently resolves dispatch actor, source ancestry and
   assert.ok(
     seen.includes("/repos/katpb/katpb.dev/collaborators/katpb/permission"),
   );
-  readable = false;
-  await assert.rejects(lookupSource(input, p, { fetch }), /bypass actors/);
+  unchanged = false;
+  await assert.rejects(
+    lookupSource(input, p, { fetch }),
+    /revision|readback|audit/,
+  );
 });
 
 test("rejected provider requests invoke no process and redact credential diagnostics", async () => {

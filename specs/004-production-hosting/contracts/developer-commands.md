@@ -41,7 +41,10 @@ provider credentials in its environment. The README procedure must make this sep
 
 One-time owner setup creates the two normal delivery Workers and the separate non-production
 assets-only acceptance Worker required by the controlled failure/recovery strategy, issues separately scoped Editor tokens, creates
-main-only environments, activates main/archive rulesets and records readiness. Main requires PRs
+main-only environments, activates main/archive rulesets and records readiness. Owner/admin audit
+records complete ruleset state, bypass actors and GitHub revision timestamps; runtime read-only
+checks require unchanged audited state and fail closed until a new audit after drift. No
+Administration-write credential is stored in CI. Main requires PRs
 and passing CI with no direct/force pushes, deletion or general bypass. CODEOWNERS documents
 ownership; independent/code-owner approval is non-blocking while solo and becomes required
 when a second trusted maintainer is added.

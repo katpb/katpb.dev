@@ -1,25 +1,189 @@
+import { readFileSync } from "node:fs";
 import {
   SHA,
   HASH,
   requireThat,
   strictFields,
   digest,
+  canonical,
 } from "./release-records.mjs";
 import { validatePolicy } from "./provider.mjs";
 
-export function validateMainRules(rules, rulesets, policy) {
-  validatePolicy(policy);
-  requireThat(
-    Array.isArray(rules) && Array.isArray(rulesets) && rulesets.length > 0,
-    "active main rules missing",
-  );
-  for (const set of rulesets)
-    requireThat(
-      set.enforcement === "active" &&
-        Array.isArray(set.bypass_actors) &&
-        set.bypass_actors.length === 0,
-      "main bypass actors absent/unreadable or present; owner-authorized live readback required",
+const RULESET_FIELDS = [
+  "id",
+  "name",
+  "target",
+  "source_type",
+  "source",
+  "enforcement",
+  "conditions",
+  "rules",
+  "updated_at",
+];
+const revision = (value) => {
+  const match =
+    typeof value === "string" &&
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.(\d+))?(?:Z|[+-]\d{2}:\d{2})$/.exec(
+      value,
     );
+  requireThat(
+    match && Number.isFinite(Date.parse(value)),
+    "ruleset revision missing/invalid; new owner audit required",
+  );
+  // Normalize timezone representation without discarding GitHub's fractional precision.
+  const seconds = new Date(Math.floor(Date.parse(value) / 1000) * 1000)
+    .toISOString()
+    .slice(0, 19);
+  const fraction = (match[1] ?? "").replace(/0+$/, "");
+  return seconds + (fraction ? "." + fraction : "") + "Z";
+};
+const sortedRules = (rules) => {
+  requireThat(Array.isArray(rules), "required rules unavailable");
+  return rules
+    .map((r) => ({
+      type: r.type,
+      ...(r.parameters === undefined ? {} : { parameters: r.parameters }),
+    }))
+    .sort((a, b) => canonical(a).localeCompare(canonical(b)));
+};
+const state = (set) =>
+  Object.fromEntries(
+    RULESET_FIELDS.map((k) => [
+      k,
+      k === "updated_at"
+        ? revision(set[k])
+        : k === "rules"
+          ? sortedRules(set[k])
+          : set[k],
+    ]),
+  );
+export function readRulesetAudit() {
+  return JSON.parse(
+    readFileSync(
+      new URL("../../hosting/github-ruleset-audit.json", import.meta.url),
+      "utf8",
+    ),
+  );
+}
+export function validateOwnerAudit(audit, policy) {
+  validatePolicy(policy);
+  strictFields(audit, [
+    "schemaVersion",
+    "repository",
+    "auditedBy",
+    "auditedAt",
+    "rulesets",
+  ]);
+  requireThat(
+    audit.schemaVersion === 1 &&
+      audit.repository === policy.repository &&
+      audit.auditedBy === policy.owner,
+    "owner audit identity invalid",
+  );
+  revision(audit.auditedAt);
+  requireThat(
+    Array.isArray(audit.rulesets) &&
+      audit.rulesets.length === 3 &&
+      new Set(audit.rulesets.map((s) => s.id)).size === 3 &&
+      new Set(audit.rulesets.map((s) => s.purpose)).size === 3,
+    "complete owner audit missing",
+  );
+  for (const set of audit.rulesets) {
+    strictFields(set, ["purpose", ...RULESET_FIELDS, "bypass_actors"]);
+    requireThat(
+      ["main", "archiveImmutable", "archiveCreation"].includes(set.purpose) &&
+        Number.isSafeInteger(set.id) &&
+        set.id > 0 &&
+        typeof set.name === "string" &&
+        set.name.length > 0 &&
+        set.source_type === "Repository" &&
+        set.source === policy.repository &&
+        set.enforcement === "active",
+      "owner audit ruleset authority invalid",
+    );
+    revision(set.updated_at);
+    const main = set.purpose === "main";
+    requireThat(
+      set.target === (main ? "branch" : "tag") &&
+        canonical(set.conditions) ===
+          canonical({
+            ref_name: {
+              exclude: [],
+              include: [main ? "refs/heads/main" : "refs/tags/r4-attempt-*"],
+            },
+          }),
+      "owner audit target/conditions invalid",
+    );
+    requireThat(
+      Array.isArray(set.bypass_actors) &&
+        canonical(set.bypass_actors) ===
+          canonical(
+            set.purpose === "archiveCreation"
+              ? [
+                  {
+                    actor_id: 5176510,
+                    actor_type: "Integration",
+                    bypass_mode: "always",
+                  },
+                ]
+              : [],
+          ),
+      "owner audit bypass actors invalid",
+    );
+    const expected = main
+      ? [
+          "deletion",
+          "non_fast_forward",
+          "pull_request",
+          "required_status_checks",
+        ]
+      : set.purpose === "archiveCreation"
+        ? ["creation"]
+        : ["deletion", "non_fast_forward", "update"];
+    requireThat(
+      canonical(set.rules?.map((r) => r.type).sort()) ===
+        canonical(expected.sort()),
+      "owner audit required rules invalid",
+    );
+    if (main) validateMainRuleRequirements(set.rules, policy);
+  }
+  return true;
+}
+export function validateRulesetDrift(rulesets, audit, policy) {
+  validateOwnerAudit(audit, policy);
+  requireThat(
+    Array.isArray(rulesets) &&
+      rulesets.length === audit.rulesets.length &&
+      new Set(rulesets.map((s) => s.id)).size === rulesets.length,
+    "missing/unknown ruleset; new owner audit required",
+  );
+  for (const live of rulesets) {
+    const expected = audit.rulesets.find((s) => s.id === live.id);
+    requireThat(
+      expected && canonical(state(live)) === canonical(state(expected)),
+      "ruleset state/revision changed; new owner audit required",
+    );
+  }
+  return true;
+}
+export function validateMainRules(
+  rules,
+  rulesets,
+  policy,
+  audit = readRulesetAudit(),
+) {
+  validateRulesetDrift(rulesets, audit, policy);
+  const main = audit.rulesets.find((s) => s.purpose === "main");
+  requireThat(
+    Array.isArray(rules) &&
+      rules.every((r) => r.ruleset_id === main.id) &&
+      canonical(sortedRules(rules)) === canonical(sortedRules(main.rules)),
+    "active main required rules/checks differ from owner audit",
+  );
+  validateMainRuleRequirements(rules, policy);
+  return true;
+}
+function validateMainRuleRequirements(rules, policy) {
   const types = new Set(rules.map((r) => r.type));
   for (const type of [
     "pull_request",
@@ -287,22 +451,14 @@ export async function lookupSource(input, policy, { token, fetch } = {}) {
   requireThat(SHA.test(input.sourceSha), "source SHA invalid");
   const api = githubClient({ token, fetch });
   const root = "/repos/katpb/katpb.dev";
-  const [repository, main, workflow, run, artifact, rules] = await Promise.all([
+  const [repository, main, workflow, run, artifact] = await Promise.all([
     api.get(root),
     api.get(root + "/git/ref/heads/main"),
     api.get(root + "/actions/workflows/ci.yml"),
     api.get(`${root}/actions/runs/${input.runId}/attempts/${input.runAttempt}`),
     api.get(`${root}/actions/artifacts/${input.artifactId}`),
-    api.pages(root + "/rules/branches/main"),
   ]);
-  const ids = [...new Set(rules.map((r) => r.ruleset_id))];
-  requireThat(
-    ids.length > 0 && ids.every(Number.isSafeInteger),
-    "active ruleset authority missing",
-  );
-  const rulesets = await Promise.all(
-    ids.map((id) => api.get(`${root}/rulesets/${id}`)),
-  );
+  const { rules, rulesets } = await lookupProtections(policy, { token, fetch });
   const checks = await api.pages(
     `${root}/check-suites/${run.check_suite_id}/check-runs`,
     "check_runs",
@@ -410,4 +566,55 @@ export async function lookupSource(input, policy, { token, fetch } = {}) {
     input,
     policy,
   );
+}
+
+export async function lookupProtections(
+  policy,
+  { token, fetch, audit = readRulesetAudit() } = {},
+) {
+  validateOwnerAudit(audit, policy);
+  const api = githubClient({ token, fetch });
+  const root = "/repos/katpb/katpb.dev";
+  const inventory = await api.pages(root + "/rulesets?includes_parents=true");
+  requireThat(
+    inventory.length === audit.rulesets.length &&
+      new Set(inventory.map((s) => s.id)).size === inventory.length &&
+      inventory.every((s) => audit.rulesets.some((a) => a.id === s.id)),
+    "ruleset inventory changed/unknown; new owner audit required",
+  );
+  const [rulesets, rules] = await Promise.all([
+    Promise.all(
+      inventory.map((s) =>
+        api.get(`${root}/rulesets/${s.id}?includes_parents=true`),
+      ),
+    ),
+    api.pages(root + "/rules/branches/main"),
+  ]);
+  for (const listed of inventory) {
+    const detail = rulesets.find((s) => s.id === listed.id);
+    requireThat(
+      detail &&
+        ["id", "name", "target", "source_type", "source", "enforcement"].every(
+          (k) => detail[k] === listed[k],
+        ) &&
+        revision(detail.updated_at) === revision(listed.updated_at),
+      "ruleset changed during readback; new owner audit required",
+    );
+  }
+  validateMainRules(rules, rulesets, policy, audit);
+  return {
+    rules,
+    rulesets,
+    observation: {
+      schemaVersion: 1,
+      status: "eligible",
+      auditDigest: digest(audit),
+      auditedAt: audit.auditedAt,
+      rulesets: rulesets
+        .map((s) => ({ id: s.id, updated_at: revision(s.updated_at) }))
+        .sort((a, b) => a.id - b.id),
+      bypassTrust: "owner-audited; live revision matched",
+      access: "read-only Metadata",
+    },
+  };
 }

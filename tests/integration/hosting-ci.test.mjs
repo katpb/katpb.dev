@@ -36,6 +36,17 @@ test("CI covers every PR/main push with a read-only stable exact-source full gat
   );
   assert.match(shell, /release:prepare/);
   assert.match(shell, /archive-raw/);
+  const drift = job.steps.find(
+    (s) => s.name === "Verify read-only protection drift against owner audit",
+  );
+  assert.equal(drift.run, "node scripts/hosting/check-protections.mjs");
+  assert.deepEqual(drift.env, { GH_TOKEN: "${{ github.token }}" });
+  assert.ok(
+    job.steps.indexOf(drift) <
+      job.steps.findIndex((s) =>
+        s.uses?.startsWith("actions/upload-artifact@"),
+      ),
+  );
   assert.doesNotMatch(shell, /npx|CLOUDFLARE|secrets\./);
   const upload = job.steps.find((s) =>
     s.uses?.startsWith("actions/upload-artifact@"),

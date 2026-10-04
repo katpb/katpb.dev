@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "repository": "katpb/katpb.dev",
+  "auditedBy": "katpb",
+  "auditedAt": "2026-10-04T03:09:56.000Z",
+  "rulesets": [
+    {
+      "purpose": "main",
+      "id": 24419712,
+      "name": "r4-main-integrity",
+      "target": "branch",
+      "source_type": "Repository",
+      "source": "katpb/katpb.dev",
+      "enforcement": "active",
+      "conditions": {
+        "ref_name": {
+          "exclude": [],
+          "include": ["refs/heads/main"]
+        }
+      },
+      "rules": [
+        {
+          "type": "deletion"
+        },
+        {
+          "type": "non_fast_forward"
+        },
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": false,
+            "required_reviewers": [],
+            "require_code_owner_review": false,
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": false,
+            "require_extra_approval_for_unattributed_changes": true,
+            "allowed_merge_methods": ["merge", "squash", "rebase"]
+          }
+        },
+        {
+          "type": "required_status_checks",
+          "parameters": {
+            "strict_required_status_checks_policy": true,
+            "do_not_enforce_on_create": false,
+            "required_status_checks": [
+              {
+                "context": "repository-health",
+                "integration_id": 15368
+              }
+            ]
+          }
+        }
+      ],
+      "updated_at": "2026-10-04T00:08:08.667+05:30",
+      "bypass_actors": []
+    },
+    {
+      "purpose": "archiveImmutable",
+      "id": 24419675,
+      "name": "r4-archive-immutable",
+      "target": "tag",
+      "source_type": "Repository",
+      "source": "katpb/katpb.dev",
+      "enforcement": "active",
+      "conditions": {
+        "ref_name": {
+          "exclude": [],
+          "include": ["refs/tags/r4-attempt-*"]
+        }
+      },
+      "rules": [
+        {
+          "type": "deletion"
+        },
+        {
+          "type": "non_fast_forward"
+        },
+        {
+          "type": "update"
+        }
+      ],
+      "updated_at": "2026-10-03T20:10:48.702+05:30",
+      "bypass_actors": []
+    },
+    {
+      "purpose": "archiveCreation",
+      "id": 24419981,
+      "name": "r4-archive-creation",
+      "target": "tag",
+      "source_type": "Repository",
+      "source": "katpb/katpb.dev",
+      "enforcement": "active",
+      "conditions": {
+        "ref_name": {
+          "exclude": [],
+          "include": ["refs/tags/r4-attempt-*"]
+        }
+      },
+      "rules": [
+        {
+          "type": "creation"
+        }
+      ],
+      "updated_at": "2026-10-03T21:15:08.564+05:30",
+      "bypass_actors": [
+        {
+          "actor_id": 5176510,
+          "actor_type": "Integration",
+          "bypass_mode": "always"
+        }
+      ]
+    }
+  ]
+}

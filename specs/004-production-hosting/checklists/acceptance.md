@@ -7,8 +7,9 @@ exception, and main-only environments are configured. On 2026-10-04, real PR CI 
 the strict Actions required-check binding was activated, and exact-run local/CI bytes matched.
 T004 preflight passed; actual provisioning and T005 scoped credentials/exercises are deferred
 under the owner's foundation-first correction. T006 dependency review and T007 output/secret exclusions passed. No provider deployment, credential isolation,
-hosted acceptance is claimed. T013 and T022 remain partial: the normal read-only token cannot
-read bypass actors, and required acceptance dependencies remain pending.
+hosted acceptance is claimed. The owner approved split owner-audit/read-only drift verification
+on 2026-10-04 and rejected the Administration-write App proposal. The owner audit and public
+Metadata drift gate passed; new PR CI verification remains pending before T013/T022 completion.
 
 ## Prerequisites
 
@@ -453,35 +454,49 @@ App identity, actual scope and creation-versus-update/deletion behavior are pend
   permissions were read back, and the sole creation-only App exception was configured and
   authenticated readback passed. Main and immutable archives retain no bypass. Real actor
   mutation/secret isolation tests remain pending; no broad role/credential was substituted.
-- **B006 — Runtime no-bypass capability confirmed unavailable to normal CI:** GitHub documents that ruleset bypass actors are returned only to callers with write access to the ruleset ([official API contract](https://docs.github.com/en/rest/repos/rules#get-a-repository-ruleset)). The actual read-only CI probe omitted this field; implementation fails closed. No Administration permission, App broadening or elevated credential has been created/stored. Any necessary capability/design correction requires explicit owner approval.
+- **B006 — Original runtime bypass-enumeration requirement superseded:** GitHub documents that ruleset bypass actors are returned only to callers with write access to the ruleset ([official API contract](https://docs.github.com/en/rest/repos/rules#get-a-repository-ruleset)). The actual read-only CI probe omitted this field; implementation fails closed. No Administration permission, App broadening or elevated credential has been created/stored. The owner explicitly approved the split audit/runtime model below; no permission expansion is authorized.
 - **B007 — Resolved by owner:** the owner created draft PR #4; its real CI passed. The connector's earlier creation HTTP 403 is historical. Native browser control worked in this continuation and the required check was activated and read back.
 
-### B006 owner decision proposal — not approved or applied
+### B006 approved split owner-audit/runtime trust model
 
-The current approved state remains fail-closed. No permission expansion or new credential is
-authorized by the successful CI result. GitHub's documented ruleset-write visibility requirement
-prevents a normal read-only CI token from proving an empty bypass list.
+The owner rejected the proposed second App and Administration-write CI permission. No second
+App, new credential, secret or permission grant was created. This decision supersedes the earlier
+runtime bypass-enumeration blocker and proposal; older observations above remain historical.
 
-If the owner chooses a capability expansion, the concrete proposal for separate review is:
-
-- A separate dedicated protection-readback GitHub App, installed on `katpb/katpb.dev` only.
-- Mandatory Metadata read and repository Administration write only; no Contents, Actions,
-  account or organization permissions. Administration write can modify/delete repository
-  rulesets, even though the proposed implementation would issue GET requests only. This is a
-  material security privilege and requires explicit approval; it is not described as a
-  read-only credential.
-- No bypass on any ruleset. Keep the archive App's existing permissions and creation-only
-  exception unchanged.
-- Credential material only through an approved GitHub environment/secret mechanism, with
-  main-only restrictions, no admin bypass, no candidate build/browser access, and no use as
-  the normal source, provider or archive credential. Only current trusted protected-main
-  code would mint a short-lived installation token for fresh protection readback.
-- Before relying on it, verify effective single-repository installation, exact permissions,
-  readable live bypass actors and credential isolation. If the exact permission is still
-  insufficient, stop again; do not broaden it.
-
-Alternatively retain the present block while the owner reviews a different design. Do not
-substitute stale setup evidence or an omitted bypass field for the required live authorization.
+- The existing authorized owner setup connection read the complete repository/inherited inventory
+  and full ruleset details, including bypass actors, on 2026-10-04. The trusted non-secret
+  [audit snapshot](../../../hosting/github-ruleset-audit.json) records IDs, purposes,
+  targets/conditions, enforcement, exact rules/check source, complete bypass actors and GitHub
+  `updated_at` timestamps. Main `24419712` and immutable archives `24419675` have no bypass;
+  creation-only `24419981` has only Integration App `5176510` in always mode.
+- Owner audit validation independently enforces mandatory PR/check/integrity rules, the approved
+  solo policy, exact tag protections and the sole allowed creation exception. The audit file is
+  CODEOWNERS-covered protected-main control configuration, never candidate artifact authority.
+- Runtime uses read-only/Metadata-capable GET requests for the complete repository/inherited
+  inventory, all ruleset details and active main rules. It compares IDs, source, targets/conditions,
+  enforcement, exact rules/checks and normalized GitHub revision timestamps with the audit.
+  Missing, unknown, duplicate, changed or unreadable state fails closed and requires a new owner
+  audit. Timestamp normalization retains GitHub's fractional precision. Runtime does not require
+  or use bypass actor enumeration; unchanged live revisions connect runtime state to the owner audit.
+- The new assertions first failed because the audit/drift exports did not exist, then passed:
+  matching audited revisions with runtime actors omitted; changed/missing revisions or rulesets;
+  unknown/duplicate inventory; target/enforcement drift; check name/source drift; force-push,
+  deletion and archive update protection drift; and unsafe owner-audit bypass actors.
+- The actual credential-free public Metadata gate returned eligible with audit digest
+  `905ffa3ead2590f7d390156e722204b63104a584286d446364f348893667c767` and matching revisions for
+  all three rulesets. CI now runs the same gate with only its existing read-only token, failing
+  repository-health and withholding artifact upload on drift. Real CI verification of this change
+  remains pending at this observation.
+- Earlier exact-run CI/package evidence remains valid for its recorded SHA. T004/T005 remain
+  deferred under the owner's latest instruction, and the Phase 1/foundation checkpoint and full
+  hosted/R1 acceptance remain incomplete. T023 onward is untouched.
+- The full local gate passed after this implementation: zero Astro diagnostics, 368 default
+  browser cases, 30 operational tests (including 80 intercepted hosted-browser fixture cases),
+  and six raw files identical across two builds. All 30 preserved baseline hashes, including
+  ROADMAP, matched. A second actual public-Metadata lookup with only an in-memory expected
+  timestamp changed was blocked; no GitHub state was mutated. [Structured observations](evidence/github-split-audit-2026-10-04.json)
+  record matching and stale-audit outcomes. CI with the real read-only token is the remaining
+  verification before T013/T022 completion.
 
 - **B005 — Dependency order resolved, provider setup still pending:** the owner approved
   foundation-first execution. Credential-free/local/trusted T006–T022 controls now precede
@@ -517,7 +532,7 @@ acceptance dependencies still block completion.
 
 | Criterion                              | Outcome                                     | Evidence                             |
 | -------------------------------------- | ------------------------------------------- | ------------------------------------ |
-| SC-001 local/CI reproducibility        | Pending                                     | No matching CI run observed          |
+| SC-001 local/CI reproducibility        | Partial; hosted R1 acceptance pending       | Exact-run local/CI bytes matched     |
 | SC-002 PR previews                     | Pending; outside this implementation window | T023 onward not started              |
 | SC-003 automatic production            | Pending; outside this implementation window | No production deployment             |
 | SC-004 failure reporting               | Pending                                     | No controlled provider exercises     |

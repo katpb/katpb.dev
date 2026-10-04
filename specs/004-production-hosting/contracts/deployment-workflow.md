@@ -18,8 +18,14 @@ and its expected Actions source, force-push/deletion protection and no bypass ac
 `katpb` is the sole maintainer, require zero independent approvals and no blocking code-owner
 approval; retain CODEOWNERS for sensitive control-file ownership. Enable required independent
 and applicable code-owner approval when a second trusted maintainer is added. Verify active
-branch rules through GitHub's rules API at deployment time. Record
-setup capability/plan blockers rather than assuming protection from the branch name.
+branch rules through GitHub's rules API at deployment time. Owner/admin setup audit verifies
+complete applicable rulesets, including bypass actors, and records IDs, target/conditions,
+enforcement, exact rules/check source and GitHub `updated_at` revisions. Runtime uses only
+read-only/Metadata-capable access and requires matching live inventory, rules and revisions;
+changed, missing or unknown state blocks deployment until a new owner audit. Runtime bypass
+enumeration is not required. The audit is protected-main control configuration, not candidate
+artifact authority. No Administration-write credential is stored in CI. Record setup
+capability/plan blockers rather than assuming protection from the branch name.
 
 ## Trusted orchestration entry points
 
