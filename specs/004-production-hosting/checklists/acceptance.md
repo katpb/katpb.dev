@@ -718,3 +718,18 @@ Final validation after pinning all three actual provider Worker IDs passed the f
 again: zero Astro diagnostics, 368 local browser cases, 34 operational tests and six reproducible
 raw files. No provider credential entered that gate. The owner's ROADMAP change remains outside
 the hosting commits; source/brand/R1 files were not edited.
+
+### Final exact-source CI comparison — 2026-10-04
+
+CI run `37183095306`, check/job `111379420529`, passed on final provisioning/control revision
+`f3202216bd6bea12ebc1eb43cc650d90f8e491da`; required-check source remains Actions App `15368`.
+Clean detached preparation on that exact SHA passed the full credential-free gate. Artifact
+`11296390425` ZIP digest `5cac852c1d9f48b2b4604b6e085d955a3d15e464231e5bfa46dfffec425fb3ed`
+was verified before bounded extraction of exactly provenance, raw manifest/TAR and runtime
+protection observation. Provenance, six raw files, independently prepared package manifest and
+all eight package file bytes matched local preparation; package digest
+`d4a82fe0319091ead6a65bfc20ad7c8c0ed6ab7edb4317bb03bcc3b49945a0ed`.
+CI read-only drift status remained eligible with the unchanged owner audit and all three
+ruleset revisions. This comparison concerns the final control revision; the actual bootstrap
+continues to serve the separately recorded `9e5097…` package, with no unrecorded redeployment.
+T005/B007 remains the blocker; T004 is complete and T023+ was not started.
