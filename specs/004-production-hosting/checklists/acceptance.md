@@ -9,7 +9,10 @@ T004 preflight passed; actual provisioning and T005 scoped credentials/exercises
 under the owner's foundation-first correction. T006 dependency review and T007 output/secret exclusions passed. No provider deployment, credential isolation,
 hosted acceptance is claimed. The owner approved split owner-audit/read-only drift verification
 on 2026-10-04 and rejected the Administration-write App proposal. The owner audit and public
-Metadata drift gate passed; new PR CI verification remains pending before T013/T022 completion.
+Metadata drift gate passed, and real CI run `37177434568` verified the same gate with only
+Contents read/Metadata read permissions. Exact-source local/CI raw and packaged bytes matched;
+fresh owner and environment readbacks passed. T013/T022 are complete. T004/T005 remain deferred,
+so the Phase 1/foundation checkpoint and hosted acceptance remain incomplete.
 
 ## Prerequisites
 
@@ -485,8 +488,10 @@ runtime bypass-enumeration blocker and proposal; older observations above remain
 - The actual credential-free public Metadata gate returned eligible with audit digest
   `905ffa3ead2590f7d390156e722204b63104a584286d446364f348893667c767` and matching revisions for
   all three rulesets. CI now runs the same gate with only its existing read-only token, failing
-  repository-health and withholding artifact upload on drift. Real CI verification of this change
-  remains pending at this observation.
+  repository-health and withholding artifact upload on drift. Real CI run `37177434568`, attempt 1,
+  passed this gate on source `e6a78ab65092ea45833b77800cfdb2d07e4a8422`; its logged token permissions
+  were Contents read and Metadata read. The successful `repository-health` check came from
+  GitHub Actions App `15368`, check `111362887586`, suite `100701435531`.
 - Earlier exact-run CI/package evidence remains valid for its recorded SHA. T004/T005 remain
   deferred under the owner's latest instruction, and the Phase 1/foundation checkpoint and full
   hosted/R1 acceptance remain incomplete. T023 onward is untouched.
@@ -495,8 +500,16 @@ runtime bypass-enumeration blocker and proposal; older observations above remain
   and six raw files identical across two builds. All 30 preserved baseline hashes, including
   ROADMAP, matched. A second actual public-Metadata lookup with only an in-memory expected
   timestamp changed was blocked; no GitHub state was mutated. [Structured observations](evidence/github-split-audit-2026-10-04.json)
-  record matching and stale-audit outcomes. CI with the real read-only token is the remaining
-  verification before T013/T022 completion.
+  record matching and stale-audit outcomes and the actual CI result. The artifact ZIP digest
+  `058031fecef7b278f964932eb54e24a2c69a53a5b785335c434f3217a4c38489` matched GitHub artifact
+  `11292899349` before bounded extraction. Its provenance and six raw files matched the exact
+  clean local checkout; preparing both with identical explicit empty retention and header inputs
+  produced eight equal packaged files and digest
+  `2bc36bc41b972362d3fef8e88cc3f2bb6a458643002d51b21ebbd4124696aafd`.
+  Fresh full owner readbacks matched all audited rules and bypass actors; all three environments
+  remained main-only with no admin bypass, and recovery retained the owner reviewer. T013/T022
+  are now complete under the approved split model. This verifies protection eligibility and
+  foundation reproducibility; it does not authorize an unprovisioned target or prove hosted acceptance.
 
 - **B005 — Dependency order resolved, provider setup still pending:** the owner approved
   foundation-first execution. Credential-free/local/trusted T006–T022 controls now precede
@@ -510,23 +523,25 @@ runtime bypass-enumeration blocker and proposal; older observations above remain
 
 ### Task reconciliation at this stop
 
-| Tasks     | Status              | Reason                                                                               |
-| --------- | ------------------- | ------------------------------------------------------------------------------------ |
-| T001      | Completed           | Evidence record created, current/R1 local gates observed, procedure documented       |
-| T002      | Completed setup     | Approved solo-main/App/archive/environment readbacks passed; CI binding T022         |
-| T003      | Completed locally   | Sensitive-file ownership added with verified owner; non-blocking while solo          |
-| T004      | Partial; unchecked  | Preflight recorded; provisioning deferred until foundation validation                |
-| T005      | Deferred; unchecked | Worker-scoped credentials and isolation exercises await actual resources             |
-| T006–T007 | Completed locally   | Exact CLI pin review and generated/secret exclusions verified                        |
-| T008–T012 | Completed locally   | Adversarial tests, strict unprovisioned policy and trusted headers                   |
-| T013      | Partial; unchecked  | Authoritative source helpers implemented; runtime no-bypass capability B006          |
-| T014–T021 | Completed locally   | Shared packaging, invocation, verification, reporting, commands and CI files tested  |
-| T022      | Partial; unchecked  | CI/binding/equal bytes passed; runtime capability and acceptance dependencies remain |
-| T023–T062 | Not started         | Outside the approved execution window                                                |
+| Tasks     | Status              | Reason                                                                                |
+| --------- | ------------------- | ------------------------------------------------------------------------------------- |
+| T001      | Completed           | Evidence record created, current/R1 local gates observed, procedure documented        |
+| T002      | Completed setup     | Approved solo-main/App/archive/environment readbacks passed; CI binding T022          |
+| T003      | Completed locally   | Sensitive-file ownership added with verified owner; non-blocking while solo           |
+| T004      | Partial; unchecked  | Preflight recorded; provisioning deferred until foundation validation                 |
+| T005      | Deferred; unchecked | Worker-scoped credentials and isolation exercises await actual resources              |
+| T006–T007 | Completed locally   | Exact CLI pin review and generated/secret exclusions verified                         |
+| T008–T012 | Completed locally   | Adversarial tests, strict unprovisioned policy and trusted headers                    |
+| T013      | Completed           | Source helpers, complete owner audit and actual read-only CI revision drift gate pass |
+| T014–T021 | Completed locally   | Shared packaging, invocation, verification, reporting, commands and CI files tested   |
+| T022      | Completed           | Required-check source, owner/environment readbacks and exact-run local/CI bytes pass  |
+| T023–T062 | Not started         | Outside the approved execution window                                                 |
 
 T023 onward was not started. No provider upload, token creation or domain change occurred.
-T022 local/CI equivalence passed for the exact recorded PR head. Remaining runtime and hosted
-acceptance dependencies still block completion.
+T022 local/CI equivalence and split protection verification passed for the exact recorded PR head.
+T004/T005 provisioning, scoped-credential/isolation observations and later hosted acceptance remain
+pending. The earlier runtime capability blocker B006 is resolved without an elevated credential;
+the Phase 1/foundation checkpoint remains incomplete. No new blocker was discovered.
 
 ## Acceptance outcomes
 
