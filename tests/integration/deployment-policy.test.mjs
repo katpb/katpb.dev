@@ -107,12 +107,20 @@ const facts = () => ({
   pr: null,
 });
 
-test("unprovisioned live policy fails closed; strict target and URL validation", async () => {
+test("owner-pinned live policy validates; unprovisioned targets fail closed and URL boundaries remain strict", async () => {
   const live = JSON.parse(await fs.readFile("hosting/policy.json"));
   validatePolicy(live);
+  assert.equal(live.accountId, "45dcbe7b47e04e1f41dc571ceb86b40e");
+  assert.equal(live.subdomain, "katpb");
+  const unprovisioned = structuredClone(live);
+  unprovisioned.targets.production = {
+    ...live.targets.production,
+    workerId: null,
+    verified: false,
+  };
   assert.throws(
     () =>
-      resolveTarget(live, {
+      resolveTarget(unprovisioned, {
         kind: "production",
         environment: "production",
         workflowRef: "refs/heads/main",

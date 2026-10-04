@@ -21,8 +21,8 @@
   "targets": {
     "production": {
       "workerName": "katpb-dev-production",
-      "workerId": null,
-      "verified": false
+      "workerId": "katpb-dev-production",
+      "verified": true
     },
     "preview": {
       "workerName": "katpb-dev-preview",

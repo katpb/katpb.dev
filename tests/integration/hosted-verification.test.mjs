@@ -101,6 +101,118 @@ test("hosted smoke verifies marker/root/resources/cache/conditional freshness/re
   assert.ok(f.requests.some((u) => u.endsWith("/_astro/nested.css")));
   assert.ok(f.requests.some((u) => u.endsWith("/two.svg")));
 });
+test("directory index assets are checked at canonical public routes without following redirects", async () => {
+  const f = fixture();
+  const body = "<html><body>About</body></html>";
+  const entry = {
+    path: "about/index.html",
+    size: Buffer.byteLength(body),
+    sha256: digest(Buffer.from(body)),
+  };
+  f.manifest.packageManifest.push(entry);
+  f.manifest.packageManifest.sort((a, b) => a.path.localeCompare(b.path));
+  f.manifest.packageDigest = digest(f.manifest.packageManifest);
+  const transport = async (u, o) => {
+    const p = new URL(u).pathname;
+    if (p === "/about/index.html") throw Error("noncanonical asset request");
+    if (p !== "/about/") return f.fetch(u, o);
+    return new Response(body, {
+      headers: {
+        "content-type": "text/html",
+        "cache-control": "public, max-age=0, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-robots-tag": "noindex",
+        "referrer-policy": "strict-origin-when-cross-origin",
+      },
+    });
+  };
+  assert.equal((await run(f, transport)).resources, 7);
+});
+test("HTML without ETag proves freshness through a complete no-cache download", async () => {
+  const f = fixture();
+  let freshDownloads = 0;
+  const transport = async (u, o) => {
+    const response = await f.fetch(u, o);
+    if (new URL(u).pathname !== "/") return response;
+    if (o.headers["Cache-Control"] === "no-cache") {
+      assert.equal(o.headers.Pragma, "no-cache");
+      freshDownloads++;
+    }
+    const headers = new Headers(response.headers);
+    headers.delete("etag");
+    return new Response(await response.arrayBuffer(), { headers });
+  };
+  const result = await run(f, transport);
+  assert.equal(freshDownloads, 1);
+  assert.deepEqual(
+    result.freshness.find((x) => x.path === "index.html"),
+    {
+      path: "index.html",
+      method: "full-download-no-cache",
+    },
+  );
+  assert.equal(
+    result.freshness.find((x) => x.path === "__release.json").method,
+    "etag-304",
+  );
+});
+test("conditional GET accepts weak/strong equivalence but rejects changed or malformed validators", async () => {
+  for (const mode of ["equivalent", "changed", "malformed"]) {
+    const f = fixture();
+    const transport = async (u, o) => {
+      const response = await f.fetch(u, o);
+      if (new URL(u).pathname !== "/") return response;
+      const headers = new Headers(response.headers);
+      if (o.headers["If-None-Match"]) {
+        const tag = o.headers["If-None-Match"].replace(/^W\//, "");
+        return new Response(null, {
+          status: 304,
+          headers: { etag: mode === "changed" ? '"changed"' : tag },
+        });
+      }
+      headers.set(
+        "etag",
+        mode === "malformed" ? "invalid" : "W/" + headers.get("etag"),
+      );
+      return new Response(await response.arrayBuffer(), { headers });
+    };
+    if (mode === "equivalent")
+      assert.equal((await run(f, transport)).state, "verified-http");
+    else await assert.rejects(run(f, transport));
+  }
+});
+test("full-download freshness rejects wrong bytes/status/headers and cannot mask broken ETags", async () => {
+  for (const defect of [
+    "bytes",
+    "status",
+    "mime",
+    "cache",
+    "security",
+    "etag-304",
+  ]) {
+    const f = fixture();
+    const transport = async (u, o) => {
+      const response = await f.fetch(u, o);
+      if (new URL(u).pathname !== "/") return response;
+      if (defect === "etag-304" && o.headers["If-None-Match"])
+        return new Response(f.files.get("index.html"));
+      if (defect === "etag-304") return response;
+      const headers = new Headers(response.headers);
+      headers.delete("etag");
+      let body = await response.arrayBuffer();
+      if (o.headers["Cache-Control"] === "no-cache") {
+        if (defect === "bytes") body = "stale content";
+        if (defect === "status") return new Response(null, { status: 304 });
+        if (defect === "mime") headers.set("content-type", "text/plain");
+        if (defect === "cache")
+          headers.set("cache-control", "public, max-age=300");
+        if (defect === "security") headers.delete("x-content-type-options");
+      }
+      return new Response(body, { headers });
+    };
+    await assert.rejects(run(f, transport));
+  }
+});
 test("recursive discovery handles srcset, CSS imports and URLs, rejecting unsafe dependencies", () => {
   assert.deepEqual(
     discoverDependencies(

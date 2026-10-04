@@ -9,13 +9,13 @@ three main-only environments, and the single-repository archive App with a creat
 exception; archive immutability has no bypass. T003 adds explicit, non-blocking solo-maintainer
 ownership in `.github/CODEOWNERS`. T004 verified preflight; the owner superseded the original account observation on 2026-10-04
 with account `45dcbe7b47e04e1f41dc571ceb86b40e` / `katpb.workers.dev`. Fresh signed-in Free/identity/empty-inventory
-readbacks and updated-policy local validation passed; provisioning and scoped credentials remain pending. The owner approved foundation-first
+readbacks and updated-policy local validation passed. Production bootstrap now exists and passed real HTTPS/browser checks; preview/acceptance creation and scoped credentials remain pending. The owner approved foundation-first
 execution on 2026-10-03: T006–T022 may proceed credential-free before returning to T004/T005.
 T006–T022 are implemented and verified locally and in real PR CI. The owner approved the split
 audit/runtime model on 2026-10-04 and rejected the proposed Administration-write App. T013/T022
 passed complete owner-audit readbacks, actual read-only CI drift verification and exact-run
 local/CI byte comparisons; see `checklists/evidence/github-split-audit-2026-10-04.json`. T004/T005 remain deferred;
-no provider deployment, actor-behavior acceptance or foundation checkpoint is claimed.
+Only the explicitly authorized production bootstrap upload has occurred; actor-behavior acceptance and the foundation checkpoint remain pending.
 **Tests**: Included for the specification's validation, failure, isolation, smoke, cache-transition, and recovery scenarios. Use the existing Node test runner and Playwright/axe; no new test runner. Write the relevant automated assertions and observe their failure before implementing changed behavior.
 **Organization**: Story IDs and priorities remain those in `spec.md`. Per the owner's requested delivery sequence, implement preview US2 before production US1, perform hosted-delivery verification US4 before recovery US3, then operational documentation US5 and final evidence/domain readiness. This ordering does not change story priorities or requirements.
 

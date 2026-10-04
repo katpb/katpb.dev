@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "observedAt": "2026-10-04T05:28:38.605430+00:00",
   "authorization": "Owner authorized T004 then T005 only; stop before T023.",
-  "status": "confirmed-account preflight and full local validation passed; provisioning pending",
+  "status": "production bootstrap created; preview/acceptance provisioning and credential isolation remain pending",
   "policyAccountId": "a20534600ae6a611d09360bbc2340c6f",
   "signedInAccountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
   "signedInAccountName": "Katpb072@gmail.com's Account",
@@ -21,10 +21,10 @@
     "katpb-dev-preview",
     "katpb-dev-acceptance"
   ],
-  "workersCreated": [],
+  "workersCreated": ["katpb-dev-production"],
   "credentialsCreated": false,
   "githubSecretsChanged": false,
-  "providerUpload": false,
+  "providerUpload": true,
   "dnsNameserverRouteCustomDomainChanges": false,
   "localValidation": {
     "astroDiagnostics": 0,
@@ -95,6 +95,92 @@
       "reproducibleRawFiles": 6,
       "additionalAccountSubdomainMismatchAssertions": "passed; no provider process invoked"
     },
-    "provisioning": "not started"
+    "provisioning": "production created after confirmed-account clean preparation and CI passed"
+  },
+  "provisioningObservations": [
+    {
+      "observedAt": "2026-10-04T06:04:27.029494+00:00",
+      "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+      "workerName": "katpb-dev-production",
+      "url": "https://katpb-dev-production.katpb.workers.dev/",
+      "dashboardServiceKey": "katpb-dev-production",
+      "versionPrefix": "0028456d",
+      "assetsOnly": true,
+      "bindings": 0,
+      "customDomains": [],
+      "routes": [],
+      "bootstrapCapability": "Existing signed-in owner dashboard; no creation credential generated or stored",
+      "assetsFiles": 8,
+      "sourceSha": "9e50970941ff49e901fec382b81e71f34a3fcb1a",
+      "packageDigest": "eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe",
+      "sourceCiRun": 37180493308,
+      "sourceCiConclusion": "success",
+      "compatibilityDate": "2026-10-04",
+      "htmlHandling": "auto-trailing-slash",
+      "notFoundHandling": "none",
+      "http": {
+        "schemaVersion": 1,
+        "state": "verified-http",
+        "sourceSha": "9e50970941ff49e901fec382b81e71f34a3fcb1a",
+        "packageDigest": "eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe",
+        "url": "https://katpb-dev-production.katpb.workers.dev/",
+        "resources": 7,
+        "freshness": [
+          {
+            "path": "index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "__release.json",
+            "method": "etag-304"
+          },
+          {
+            "path": "about/index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "projects/index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "writing/index.html",
+            "method": "full-download-no-cache"
+          }
+        ],
+        "elapsedMs": 2272,
+        "nextAction": "Run credential-free browser checks and persist the outcome before declaring deployment verified."
+      },
+      "browserVerification": {
+        "state": "passed",
+        "cases": 64,
+        "browsers": ["Chromium", "WebKit"],
+        "viewports": ["desktop", "mobile"],
+        "colorSchemes": ["light", "dark"],
+        "javaScript": [true, false],
+        "credentialFree": true,
+        "normalTls": true
+      },
+      "workerId": "katpb-dev-production",
+      "workerIdentityType": "Observed legacy Worker service/script key from signed-in service URL and Name readback; not a claimed UUID",
+      "productionWorkerUrlEnabled": true,
+      "previewVersionUrlsEnabled": false,
+      "domainsReadback": "No custom domains or zone routes"
+    }
+  ],
+  "verificationHistory": [
+    "Initial strict HTTP check blocked on HTML missing ETag; no further creation attempted.",
+    "Second check exposed weak compressed ETag / strong 304 equivalence.",
+    "Third check exposed directory-index canonical route mapping.",
+    "Verifier corrected to the approved equivalent freshness contract, RFC 9110 weak comparison, and configured directory routes. Redirects, changed validators, missing non-HTML validators and wrong bytes/headers remain blocked.",
+    "Production HTTP verification then passed all seven resources and genuine nonce 404; no full deployment acceptance claimed."
+  ],
+  "postBootstrapControlValidation": {
+    "observedAt": "2026-10-04T06:08:59.988351+00:00",
+    "fullGate": "passed",
+    "browserCases": 368,
+    "operationalTests": 34,
+    "reproducibleRawFiles": 6,
+    "productionHostedBrowserCases": 64,
+    "tokenScopeUiReadback": "Specified Workers offers Individual Workers Editor; no account token created"
   }
 }

@@ -610,3 +610,37 @@ assertions passed with zero provider invocations. All 30 preserved baseline file
 including the owner's ROADMAP change, still match. The policy remains explicit; no credential
 can substitute a different account or host in the trusted target passed to the provider helper.
 Creation remains pending the exact clean-source preparation/CI gate and actual provider readbacks.
+
+### Production bootstrap and observed hosted behavior — 2026-10-04
+
+After the confirmed-account policy passed clean exact-source preparation and CI run
+`37180493308`, the owner dashboard created only `katpb-dev-production` at
+https://katpb-dev-production.katpb.workers.dev/. The eight-file trusted assets package came
+from `9e50970941ff49e901fec382b81e71f34a3fcb1a`, digest
+`eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe`.
+The signed-in account remained `45dcbe7b47e04e1f41dc571ceb86b40e`. Settings showed assets-only,
+zero bindings, no routes/custom domains, compatibility date `2026-10-04`; upload settings
+were auto-trailing-slash HTML and no fallback. This one-time owner bootstrap generated no
+creation token or GitHub secret. Earlier no-upload observations remain historical.
+
+The first hosted checks blocked further creation: Cloudflare HTML omitted ETag, compressed
+JSON returned a weak ETag with a matching strong 304 validator, and directory index URLs
+redirected to canonical slash routes. The existing contract permits equivalent HTML freshness.
+The verifier now repeats a bounded full no-cache HTML GET and checks exact bytes, MIME,
+freshness and security headers; existing ETags still require 304 and RFC 9110 weak equivalence.
+Directory indexes are requested at configured canonical routes; redirects remain forbidden.
+Adversarial tests cover stale bytes, wrong status/types/cache/security headers, changed or
+malformed validators and broken conditional responses. Live production HTTP then passed
+all seven served resources, release identity, recursive assets and genuine nonce 404.
+Browser acceptance, preview/acceptance creation and T005 credentials/isolation are pending.
+T004/T005 and the complete foundation checkpoint remain unchecked; T023 was not started.
+
+Production signed-in Domains readback confirmed the stable workers.dev URL enabled, preview
+version URLs disabled, and no custom domains or zone routes. Policy binds the observed legacy
+Worker service/script key `katpb-dev-production` (not a claimed UUID); preview and acceptance
+remain unverified. The real credential-free browser suite passed all 64 cases across Chromium/
+WebKit, desktop/mobile, light/dark and JavaScript enabled/disabled, with normal TLS, exact HTML
+bytes, no unexpected network requests/cookies and applicable axe checks. The complete local
+gate then passed zero Astro diagnostics, 368 local browser cases, 34 operational tests and six
+reproducible raw files. The token builder exposes Specified Workers → Individual Workers Editor;
+this is configuration availability only, not credential or permission acceptance.

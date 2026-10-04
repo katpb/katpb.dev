@@ -32,6 +32,13 @@ const types = {
   xml: ["application/xml", "text/xml"],
   pdf: ["application/pdf"],
 };
+function opaqueEtag(value) {
+  // RFC 9110 sections 8.8.3.2/13.1.2: If-None-Match uses weak comparison.
+  return typeof value === "string" &&
+    /^(?:W\/)?"[\x21\x23-\x7e\x80-\xff]*"$/.test(value)
+    ? value.replace(/^W\//, "")
+    : null;
+}
 export function validateHostedUrl(value, allowedHosts) {
   const u = new URL(value);
   requireThat(
@@ -212,6 +219,7 @@ async function verifyHostedUnchecked(
     "invalid verification deadline",
   );
   const visited = new Set();
+  const freshness = [];
   const immutable = new Set(manifest.immutableManifest.map((e) => e.path));
   async function request(u, headers = {}) {
     requireThat(Date.now() - start < totalTimeoutMs, "hosted total timeout");
@@ -318,15 +326,40 @@ async function verifyHostedUnchecked(
         `mutable freshness mismatch: ${entry.path}`,
       );
       const etag = response.headers.get("etag");
-      requireThat(
-        etag && !/[\r\n]/.test(etag),
-        `freshness ETag missing: ${entry.path}`,
-      );
-      const conditional = await request(u, { "If-None-Match": etag });
-      requireThat(
-        conditional.status === 304 && conditional.headers.get("etag") === etag,
-        `ETag revalidation failed: ${entry.path}`,
-      );
+      if (etag !== null) {
+        requireThat(opaqueEtag(etag) !== null, `invalid ETag: ${entry.path}`);
+        const conditional = await request(u, { "If-None-Match": etag });
+        requireThat(
+          conditional.status === 304 &&
+            opaqueEtag(conditional.headers.get("etag")) === opaqueEtag(etag),
+          `ETag revalidation failed: ${entry.path}`,
+        );
+        freshness.push({ path: entry.path, method: "etag-304" });
+      } else {
+        requireThat(ext === "html", `freshness ETag missing: ${entry.path}`);
+        const fresh = await request(u, {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+        });
+        requireThat(
+          fresh.status === 200 &&
+            fresh.bytes.length === entry.size &&
+            digest(fresh.bytes) === entry.sha256 &&
+            (fresh.headers.get("content-type") ?? "")
+              .split(";")[0]
+              .trim()
+              .toLowerCase() === "text/html" &&
+            /^public,\s*max-age=0,\s*must-revalidate$/i.test(
+              fresh.headers.get("cache-control") ?? "",
+            ) &&
+            fresh.headers.get("x-content-type-options") === "nosniff" &&
+            /\bnoindex\b/i.test(fresh.headers.get("x-robots-tag") ?? "") &&
+            fresh.headers.get("referrer-policy") ===
+              "strict-origin-when-cross-origin",
+          `full-download freshness verification failed: ${entry.path}`,
+        );
+        freshness.push({ path: entry.path, method: "full-download-no-cache" });
+      }
     }
     if (entry.path === "__release.json") {
       let marker;
@@ -372,8 +405,14 @@ async function verifyHostedUnchecked(
     new URL("/__release.json", base).href,
   );
   for (const entry of manifest.packageManifest)
-    if (entry.path !== "_headers")
-      await verify(entry, new URL("/" + entry.path, base).href);
+    if (entry.path !== "_headers") {
+      // The trusted assets configuration serves directory indexes at slash routes.
+      const publicPath =
+        entry.path === "index.html"
+          ? ""
+          : entry.path.replace(/\/index\.html$/, "/");
+      await verify(entry, new URL("/" + publicPath, base).href);
+    }
   const nonce = `/__r4_missing_${crypto.randomBytes(16).toString("hex")}`;
   requireThat(
     !manifest.packageManifest.some((e) => "/" + e.path === nonce),
@@ -394,6 +433,7 @@ async function verifyHostedUnchecked(
     packageDigest: manifest.packageDigest,
     url: base.href,
     resources: visited.size,
+    freshness,
     elapsedMs: Date.now() - start,
     nextAction:
       "Run credential-free browser checks and persist the outcome before declaring deployment verified.",

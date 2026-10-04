@@ -99,7 +99,13 @@ relative URLs safely against the document and asset origins; reject traversal or
 redirects. Check missing paths with a nonce known absent from the manifest.
 
 Check immutable headers, unchanged asset reuse, HTML/mutable ETag revalidation, and freshness
-after a release and recovery. A credential-free browser job checks rendering, JavaScript-disabled
+after a release and recovery. Conditional GET requires 304 and the same valid opaque ETag,
+using HTTP weak comparison (RFC 9110 sections 8.8.3.2 and 13.1.2). Only when HTML has no ETag,
+the equivalent freshness check is a bounded second full GET with `Cache-Control: no-cache`
+and `Pragma: no-cache`, requiring 200, exact manifest bytes/hash, HTML MIME and all required
+freshness/security headers. Missing validators on other mutable assets, malformed validators,
+changed validators and unsuccessful conditional responses remain failures.
+A credential-free browser job checks rendering, JavaScript-disabled
 readability, requests, and applicable R1 accessibility expectations. No certificate bypass,
 credential-bearing browser execution, or dynamic health endpoint is allowed.
 

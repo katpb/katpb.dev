@@ -57,10 +57,9 @@ test("same packaging/HTTP verifier handles exact historical R1 and current-site 
     });
     const immutable = new Set(manifest.immutableManifest.map((e) => e.path));
     const fetch = async (u, o) => {
+      const pathname = new URL(u).pathname;
       const p =
-        new URL(u).pathname === "/"
-          ? "index.html"
-          : new URL(u).pathname.slice(1);
+        pathname.slice(1) + (pathname.endsWith("/") ? "index.html" : "");
       let b;
       try {
         b = await fs.readFile(path.join(output, "assets", p));
