@@ -12,8 +12,11 @@ exact-package HTTP checks, 192 live browser cases and final full local validatio
 The owner has created the three T005 account-owned tokens and stored the production/preview
 GitHub environment secrets. Signed-in readbacks confirm active, separate single-Worker Editor
 policies and secret-name presence in the approved main-only environments. Effective allowed/denied
-provider operations and named-preview create/update/delete remain unverified: a secure local
-credential source for the controlled runner has not yet been identified. Never supply values in chat.
+provider operations and named-preview create/update/delete remain unverified. The owner approved
+1Password CLI secret references, to be resolved one at a time with masked `op run` only into a trusted
+short-lived provider subprocess. The first attempt stopped before launching that subprocess:
+`No accounts configured for use with 1Password CLI.` T005 now awaits working desktop/CLI access,
+not another credential source or broader Cloudflare permission. Never supply values in chat.
 Main/archive/environment readbacks and owner-audited/read-only drift checks remain effective.
 T013/T022 are complete; no Administration-write App or CI credential was created.
 The complete Phase 1/foundation checkpoint stays pending until T005 passes. No T023+ work.

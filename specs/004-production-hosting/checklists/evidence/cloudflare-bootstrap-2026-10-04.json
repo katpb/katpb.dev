@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "observedAt": "2026-10-04T05:28:38.605430+00:00",
   "authorization": "Owner authorized T004 then T005 only; stop before T023.",
-  "status": "T004 complete; T005 issued-token/environment configuration read back; effective permission/isolation exercises blocked on secure local credential access",
+  "status": "T004 complete; T005 issued scopes/readbacks and 1Password source documented; effective provider tests blocked on 1Password CLI account access",
   "policyAccountId": "a20534600ae6a611d09360bbc2340c6f",
   "signedInAccountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
   "signedInAccountName": "Katpb072@gmail.com's Account",
@@ -483,9 +483,10 @@
     }
   ],
   "t005Blocker": {
-    "id": "B008",
-    "reason": "The trusted local runner has no identified secure source for any of the three scoped tokens. GitHub environment secrets cannot be read back, and the authorized T001–T022 CI has no deployment job that consumes them. Owner dashboard authority is not scoped-token authorization proof.",
-    "requiredNextAction": "Identify existing secure local credential references, such as Keychain service/account or secret-manager item references, never values. Do not add a T023 deployment workflow, relax main-only environments, merge, or broaden access to obtain credentials."
+    "id": "B009",
+    "reason": "1Password CLI exited before provider launch: No accounts configured for use with 1Password CLI.",
+    "requiredNextAction": "Owner makes the intended account available to the invoking CLI through desktop integration and approves authentication. No token values or broader Cloudflare permissions are requested.",
+    "underlyingCause": "Not independently established; desktop configuration, account sign-in and OS application access were not inspected or changed."
   },
   "finalExactCiComparison": {
     "sourceSha": "f3202216bd6bea12ebc1eb43cc650d90f8e491da",
@@ -531,7 +532,15 @@
       "requiredNextAction": "Owner completes approved individual-Worker credential creation and GitHub environment secret entry/storage, then supplies credentials to isolated trusted permission tests through a secure local mechanism, never chat/source/logs.",
       "supersededAt": "2026-10-04T09:03:12.991Z",
       "resolution": "Owner completed credential creation/storage; signed-in issued-policy/secret-name readbacks verified. Original historical observations above are retained."
+    },
+    {
+      "id": "B008",
+      "reason": "The trusted local runner has no identified secure source for any of the three scoped tokens. GitHub environment secrets cannot be read back, and the authorized T001–T022 CI has no deployment job that consumes them. Owner dashboard authority is not scoped-token authorization proof.",
+      "requiredNextAction": "Identify existing secure local credential references, such as Keychain service/account or secret-manager item references, never values. Do not add a T023 deployment workflow, relax main-only environments, merge, or broaden access to obtain credentials.",
+      "supersededAt": "2026-10-04T10:07:07.508Z",
+      "resolution": "Owner identified and approved the three 1Password secret references. Masked op run was attempted; CLI account access, not source selection, is now blocking."
     }
   ],
-  "t005CredentialReadbackEvidence": "cloudflare-t005-credential-readback-2026-10-04.json"
+  "t005CredentialReadbackEvidence": "cloudflare-t005-credential-readback-2026-10-04.json",
+  "t005SecureSourceEvidence": "cloudflare-t005-1password-attempt-2026-10-04.json"
 }

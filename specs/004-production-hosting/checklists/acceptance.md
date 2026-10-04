@@ -786,3 +786,37 @@ has been observed because no credential-authenticated provider operation was att
 records this distinction and the pending matrix. T005 stays unchecked: T001–T022 remains
 21/22, PR #4 stays draft and is not ready to merge the full foundation checkpoint.
 T023+ was not started. Stop for owner review.
+
+### T005 approved 1Password source; CLI access blocked — 2026-10-04
+
+The owner supplied the three secret references recorded in
+`contracts/developer-commands.md` and approved 1Password CLI as the secure local credential
+source. This resolves B008's unidentified-source condition without changing any security
+requirement. Production, preview and acceptance remain separately Worker-scoped; acceptance
+remains outside GitHub. Only one reference may be resolved per short-lived trusted provider
+subprocess, using `op run` with normal masking. No `op read`, reveal, unmasked execution,
+resolved-token file/argument/log or credential-bearing Codex/build/browser process is allowed.
+
+1Password CLI `2.40.0` is installed at `/opt/homebrew/bin/op`. A normally masked `op run`
+attempt used only the preview reference for a trusted read-only own-Worker preflight.
+The CLI exited 1 with `No accounts configured for use with 1Password CLI.` It did not
+launch the provider subprocess, resolve a token or send a Cloudflare request. No desktop/
+Touch ID approval was reached. No authentication setting, account, permission or secret
+was changed; the owner instruction to stop on insufficient access was followed.
+
+**B008 resolved; B009 — 1Password CLI account access unavailable**: The source is approved
+and identified, but the invoking CLI cannot access a configured account. The owner needs
+to make the intended account available through the existing desktop/CLI integration and
+approve its authentication prompt; no credential value or broader Cloudflare scope is needed.
+[1Password's integration/troubleshooting guide](https://www.1password.dev/cli/app-integration)
+describes this error and setup. The error alone does not establish whether the desktop
+integration, account sign-in or OS application access caused it; those settings were not
+inspected or changed.
+
+All own-Worker updates, six cross-Worker mutation denials and named-preview create/update/
+delete remain unrun. No Editor capability failure has been observed. No provider mutation,
+DNS/nameserver/custom-domain/route/certificate/paid-product change or T023+ work occurred.
+[Non-secret attempt evidence](evidence/cloudflare-t005-1password-attempt-2026-10-04.json)
+retains the command boundary and actual failure. T005 remains unchecked, the foundation
+remains 21/22 and PR #4 is not ready to merge. Prior successful provider readbacks and full
+validation remain historical observations rather than fresh credential-test results.

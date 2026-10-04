@@ -51,6 +51,27 @@ when a second trusted maintainer is added.
 No Admin, zone DNS, or zone route token is retained in CI. Test named-preview create/update/delete
 with the scoped token; handle a cleanup-permission limitation explicitly.
 
+For T005 controlled local tests, the owner-approved secure credential source is 1Password CLI:
+
+| Credential | Secret reference                                | Only authorized Worker |
+| ---------- | ----------------------------------------------- | ---------------------- |
+| Production | `op://katpb-dev/katpb-r4-production/credential` | `katpb-dev-production` |
+| Preview    | `op://katpb-dev/katpb-r4-preview/credential`    | `katpb-dev-preview`    |
+| Acceptance | `op://katpb-dev/katpb-r4-acceptance/credential` | `katpb-dev-acceptance` |
+
+These are references, never resolved values. Assign only the needed reference to
+`CLOUDFLARE_API_TOKEN` for each `op run -- <trusted-provider-subprocess>` invocation, with
+normal output masking enabled. Only that short-lived trusted provider subprocess receives
+the resolved credential. Do not start Codex, candidate code, build/validation scripts or
+browser checks under the resolved-token environment. Never use `op read`,
+`op item get --reveal` or `--no-masking`; never print, copy, serialize or log values into
+arguments, source, plaintext `.env` files, generated files, evidence or chat. The provider
+subprocess uses the credential only for the approved Cloudflare API authentication.
+The owner handles desktop/Touch ID prompts. If CLI access or narrow provider permission
+is insufficient, stop and record the actual error without exposing values or broadening
+permissions. This secure source satisfies the existing credential boundary; it grants no
+exception to source/target validation, trusted packaging, main-only environments or approvals.
+
 The acceptance Worker is used only for controlled provider/failure/recovery exercises,
 isolated from production and normal PR previews, with its own Worker-only credential and
 explicit allowlisted test binding. Record the secure credential source and authorization

@@ -274,6 +274,14 @@ the same trusted control path, validation, authorization and credential-free hos
 record the secure test-credential source and authorization boundary before use. This
 clarifies acceptance infrastructure without adding a visitor service or deployment mode.
 
+For T005 local credential exercises, use the owner-approved 1Password CLI references in
+`contracts/developer-commands.md`. Resolve only the needed reference with normally masked
+`op run` into each short-lived trusted provider subprocess. Values never enter Codex,
+candidate/build/browser processes, arguments, plaintext files, logs or evidence. The owner
+handles desktop/Touch ID access prompts; unavailable CLI access or insufficient scoped
+permissions blocks T005 without permission broadening. This is the approved secure local
+source under the existing trust boundary, not a security exception.
+
 ### Domain readiness
 
 `katpb.dev` was registered with Namecheap on 2026-10-03, as confirmed by the owner.
