@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-04",
+  "task": "T005",
+  "status": "harness corrected; third owner results pending",
+  "historicalAttempts": [
+    {
+      "attempt": 1,
+      "path": "cloudflare-t005-owner-attempt-1-2026-10-04.json",
+      "sha256": "f04798ecf1135a12e8c3c198a29aa66c481a0a831ece1ddf1d1a7b562cf0b4bd",
+      "pass": false
+    },
+    {
+      "attempt": 2,
+      "path": "cloudflare-t005-owner-attempt-2-2026-10-04.json",
+      "sha256": "fce3b1dbe5bf257a929e1ae253243e4a7300a13ace3302cffa62dde3087bf156",
+      "pass": false
+    }
+  ],
+  "secondObserved": {
+    "ownPasses": ["production", "preview", "acceptance"],
+    "ownHttpStatuses": [200, 200, 200],
+    "cross": {
+      "source": "production",
+      "target": "preview",
+      "httpStatus": 403,
+      "errorCodes": [],
+      "category": "authorization",
+      "tokenStatus": "active",
+      "accountExplicit": true,
+      "phase": "during-deployment",
+      "endpointFamily": "worker-deployments",
+      "method": "POST",
+      "providerExitCode": 1,
+      "historicalRunnerPass": false
+    },
+    "finalBasesExpected": true,
+    "previewLifecycleStarted": false
+  },
+  "rootCause": "Denial classifier required Cloudflare numeric error code 10000, incorrectly failing the verified deployment HTTP 403.",
+  "correction": {
+    "own": "2xx plus matching authoritative deployment and unchanged version/settings/served state passes; denial/malformed response fails",
+    "cross": "Valid 403 denial on the exact deployment POST with independently active source token and explicit correct account passes without numeric-code equality; 2xx fails security boundary; unrelated failures cannot establish isolation",
+    "perProbeTargetEvidence": "Target-own credential before/after verifies deployment ID/version, settings/subdomain digests and all public package bytes",
+    "matrixPairs": 6,
+    "expectedProviderInvocations": 28,
+    "previewGate": "Only after all own updates, six denials and twelve target checks pass",
+    "finalBasesChecked": 3
+  },
+  "localStateInspection": {
+    "lockPath": ".deploy/r4-hosting.lock",
+    "lockPresent": false,
+    "temporaryT005EvidencePresent": false,
+    "secondPreviewOperationPresent": false,
+    "deletedFiles": [],
+    "reconciliation": "No retained lock or unfinished temporary attempt was found; existing final readbacks establish expected base state. Historical evidence retained."
+  },
+  "thirdAttempt": {
+    "commandFlag": "--third-owner-attempt",
+    "evidencePath": ".deploy/evidence/t005-owner-run-third.json",
+    "requiresHistoricalEvidenceHashes": true,
+    "executedByCodex": false
+  },
+  "codeSha256": {
+    "scripts/hosting/t005-owner-run.mjs": "b8c015eaa9368dbf4bb8c323a6378b0b7b68ded2106da88eef484c1418de32a7",
+    "scripts/hosting/t005-provider.mjs": "21f0ed30f265d76c95894019703ecb5d6dff158530a54cb7c260096275f300a5",
+    "scripts/hosting/t005-diagnostics.mjs": "ae68c05f39f4e5dcdb266246b0bae3cfc9bd883c2a924ff77d76d364ff91707f"
+  },
+  "localValidation": {
+    "status": "passed",
+    "command": "npm run verify (Node 24.21.0/npm 11.21.0; offline proxy boundary)",
+    "integrationTestsPassed": 59,
+    "integrationTestsFailed": 0,
+    "t005RegressionsPassed": 25,
+    "browserTestsPassed": 368,
+    "browserTestsFailed": 0,
+    "formattingPassed": true,
+    "astroDiagnostics": {
+      "errors": 0,
+      "warnings": 0,
+      "hints": 0
+    },
+    "buildPassed": true,
+    "reproducibleGeneratedFiles": 6,
+    "diffWhitespacePassed": true,
+    "providerCallsMocked": true,
+    "liveCredentialBearingExecution": false
+  },
+  "tokenChanges": false,
+  "t005Complete": false,
+  "pr4Draft": true,
+  "t023Started": false
+}

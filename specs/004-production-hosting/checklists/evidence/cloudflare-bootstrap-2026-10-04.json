@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "observedAt": "2026-10-04T05:28:38.605430+00:00",
   "authorization": "Owner authorized T004 then T005 only; stop before T023.",
-  "status": "T004 complete; T005 issued scopes/readbacks and 1Password source documented; effective provider tests blocked on 1Password CLI account access",
+  "status": "T004 complete; first T005 owner run preserved base state but failed local deployment-response assertion; diagnostic correction prepared, mutation rerun held",
   "policyAccountId": "a20534600ae6a611d09360bbc2340c6f",
   "signedInAccountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
   "signedInAccountName": "Katpb072@gmail.com's Account",
@@ -484,9 +484,9 @@
   ],
   "t005Blocker": {
     "id": "B009",
-    "reason": "1Password CLI exited before provider launch: No accounts configured for use with 1Password CLI.",
-    "requiredNextAction": "Owner makes the intended account available to the invoking CLI through desktop integration and approves authentication. No token values or broader Cloudflare permissions are requested.",
-    "underlyingCause": "Not independently established; desktop configuration, account sign-in and OS application access were not inspected or changed."
+    "reason": "Owner execution boundary is addressed by manual terminal run. First mutation runner failed post-success response assertion; exact response mismatch not retained. T005 effective matrix remains incomplete.",
+    "requiredNextAction": "Review read-only production account-token diagnostic and corrected response diagnostics; resolve cause before any second mutation. Do not change token scopes/values or start T023.",
+    "underlyingCause": "Owner-reported execution boundary; earlier CLI failures are historical. No configuration or permission changes authorized."
   },
   "finalExactCiComparison": {
     "sourceSha": "f3202216bd6bea12ebc1eb43cc650d90f8e491da",
@@ -535,12 +535,21 @@
     },
     {
       "id": "B008",
-      "reason": "The trusted local runner has no identified secure source for any of the three scoped tokens. GitHub environment secrets cannot be read back, and the authorized T001–T022 CI has no deployment job that consumes them. Owner dashboard authority is not scoped-token authorization proof.",
+      "reason": "The trusted local runner has no identified secure source for any of the three scoped tokens. GitHub environment secrets cannot be read back, and the authorized T001\u2013T022 CI has no deployment job that consumes them. Owner dashboard authority is not scoped-token authorization proof.",
       "requiredNextAction": "Identify existing secure local credential references, such as Keychain service/account or secret-manager item references, never values. Do not add a T023 deployment workflow, relax main-only environments, merge, or broaden access to obtain credentials.",
       "supersededAt": "2026-10-04T10:07:07.508Z",
       "resolution": "Owner identified and approved the three 1Password secret references. Masked op run was attempted; CLI account access, not source selection, is now blocking."
     }
   ],
   "t005CredentialReadbackEvidence": "cloudflare-t005-credential-readback-2026-10-04.json",
-  "t005SecureSourceEvidence": "cloudflare-t005-1password-attempt-2026-10-04.json"
+  "t005SecureSourceEvidence": "cloudflare-t005-1password-attempt-2026-10-04.json",
+  "t005OwnerRun": {
+    "executionBoundary": "Codex cannot access the working normal VS Code 1Password integration",
+    "procedure": "../t005-owner-run.md",
+    "status": "first attempt failed; unchanged base state verified; diagnostic/cause review pending",
+    "evidence": "cloudflare-t005-owner-attempt-1-2026-10-04.json",
+    "t005Complete": false,
+    "t023Started": false,
+    "analysis": "cloudflare-t005-owner-attempt-1-analysis-2026-10-04.json"
+  }
 }

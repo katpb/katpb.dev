@@ -1,0 +1,1966 @@
+{
+  "schemaVersion": 1,
+  "task": "T005",
+  "execution": "owner VS Code terminal",
+  "attempt": 3,
+  "startedAt": "2026-10-04T15:54:45.629Z",
+  "finishedAt": "2026-10-04T15:58:47.333Z",
+  "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+  "providerCodeSha256": "21f0ed30f265d76c95894019703ecb5d6dff158530a54cb7c260096275f300a5",
+  "ownerRunnerSha256": "b8c015eaa9368dbf4bb8c323a6378b0b7b68ded2106da88eef484c1418de32a7",
+  "baselineFileSha256": "02b778ab92e7f50bb7d7c9427a6c84359d2b019f73dcbc3a54806b18f4fd69c7",
+  "previewName": "local-katpb-75e53dc285f5fe59cfdbdcb7cb5c0890c68100a6",
+  "results": [
+    {
+      "operation": "baseline",
+      "credential": "production",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "0028456d-f204-4a33-a165-12203f2cc51c",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "diagnostics": {
+        "operation": "baseline",
+        "targetWorkerName": "katpb-dev-production",
+        "workerPolicyId": "1fe57381f57848dbb722225ef8949ea2",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "baseline",
+      "credential": "preview",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "3c6c5306-a585-4980-84aa-73dfe6ef0cce",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "diagnostics": {
+        "operation": "baseline",
+        "targetWorkerName": "katpb-dev-preview",
+        "workerPolicyId": "ede742fe3b12494b928f3785441dca6a",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "baseline",
+      "credential": "acceptance",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "2dbb8ee8-2bf8-4f82-828a-b042b2dadadd",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "diagnostics": {
+        "operation": "baseline",
+        "targetWorkerName": "katpb-dev-acceptance",
+        "workerPolicyId": "bc035ed004424484b1151cdda8c437de",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "own",
+      "credential": "production",
+      "target": "production",
+      "pass": true,
+      "stage": "complete",
+      "status": 200,
+      "diagnostics": {
+        "operation": "own",
+        "targetWorkerName": "katpb-dev-production",
+        "workerPolicyId": "1fe57381f57848dbb722225ef8949ea2",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "after-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": {
+          "idFormat": "uuid",
+          "versionsPresent": false,
+          "versionsMatch": false
+        },
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "POST",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "after-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "after-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "after-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "own",
+      "credential": "preview",
+      "target": "preview",
+      "pass": true,
+      "stage": "complete",
+      "status": 200,
+      "diagnostics": {
+        "operation": "own",
+        "targetWorkerName": "katpb-dev-preview",
+        "workerPolicyId": "ede742fe3b12494b928f3785441dca6a",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "after-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": {
+          "idFormat": "uuid",
+          "versionsPresent": false,
+          "versionsMatch": false
+        },
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "POST",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "after-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "after-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "after-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "own",
+      "credential": "acceptance",
+      "target": "acceptance",
+      "pass": true,
+      "stage": "complete",
+      "status": 200,
+      "diagnostics": {
+        "operation": "own",
+        "targetWorkerName": "katpb-dev-acceptance",
+        "workerPolicyId": "bc035ed004424484b1151cdda8c437de",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "after-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": {
+          "idFormat": "uuid",
+          "versionsPresent": false,
+          "versionsMatch": false
+        },
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "POST",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "after-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "after-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "after-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross-before",
+      "credential": "preview",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "3c6c5306-a585-4980-84aa-73dfe6ef0cce",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "deploymentId": "c22df5cb-b75e-43f5-80ce-ec04f65d08c8",
+      "diagnostics": {
+        "operation": "cross-before",
+        "targetWorkerName": "katpb-dev-preview",
+        "workerPolicyId": "ede742fe3b12494b928f3785441dca6a",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross",
+      "credential": "production",
+      "target": "preview",
+      "pass": true,
+      "stage": "complete",
+      "outcome": "denied-as-expected",
+      "status": 403,
+      "diagnostics": {
+        "operation": "cross",
+        "targetWorkerName": "katpb-dev-preview",
+        "workerPolicyId": "ede742fe3b12494b928f3785441dca6a",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-deployments",
+        "method": "POST",
+        "httpStatus": 403,
+        "errorCodes": [],
+        "category": "authorization",
+        "message": "Cloudflare denied this request.",
+        "phase": "during-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "POST",
+            "httpStatus": 403,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross-after",
+      "credential": "preview",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "3c6c5306-a585-4980-84aa-73dfe6ef0cce",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "deploymentId": "c22df5cb-b75e-43f5-80ce-ec04f65d08c8",
+      "diagnostics": {
+        "operation": "cross-after",
+        "targetWorkerName": "katpb-dev-preview",
+        "workerPolicyId": "ede742fe3b12494b928f3785441dca6a",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross-before",
+      "credential": "acceptance",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "2dbb8ee8-2bf8-4f82-828a-b042b2dadadd",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "deploymentId": "fc529e08-919d-461e-95d6-cd51c9742fdf",
+      "diagnostics": {
+        "operation": "cross-before",
+        "targetWorkerName": "katpb-dev-acceptance",
+        "workerPolicyId": "bc035ed004424484b1151cdda8c437de",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross",
+      "credential": "production",
+      "target": "acceptance",
+      "pass": true,
+      "stage": "complete",
+      "outcome": "denied-as-expected",
+      "status": 403,
+      "diagnostics": {
+        "operation": "cross",
+        "targetWorkerName": "katpb-dev-acceptance",
+        "workerPolicyId": "bc035ed004424484b1151cdda8c437de",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-deployments",
+        "method": "POST",
+        "httpStatus": 403,
+        "errorCodes": [],
+        "category": "authorization",
+        "message": "Cloudflare denied this request.",
+        "phase": "during-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "POST",
+            "httpStatus": 403,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross-after",
+      "credential": "acceptance",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "2dbb8ee8-2bf8-4f82-828a-b042b2dadadd",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "deploymentId": "fc529e08-919d-461e-95d6-cd51c9742fdf",
+      "diagnostics": {
+        "operation": "cross-after",
+        "targetWorkerName": "katpb-dev-acceptance",
+        "workerPolicyId": "bc035ed004424484b1151cdda8c437de",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross-before",
+      "credential": "production",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "0028456d-f204-4a33-a165-12203f2cc51c",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "deploymentId": "b43da677-4537-46b6-be52-0782ec0fec61",
+      "diagnostics": {
+        "operation": "cross-before",
+        "targetWorkerName": "katpb-dev-production",
+        "workerPolicyId": "1fe57381f57848dbb722225ef8949ea2",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross",
+      "credential": "preview",
+      "target": "production",
+      "pass": true,
+      "stage": "complete",
+      "outcome": "denied-as-expected",
+      "status": 403,
+      "diagnostics": {
+        "operation": "cross",
+        "targetWorkerName": "katpb-dev-production",
+        "workerPolicyId": "1fe57381f57848dbb722225ef8949ea2",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-deployments",
+        "method": "POST",
+        "httpStatus": 403,
+        "errorCodes": [],
+        "category": "authorization",
+        "message": "Cloudflare denied this request.",
+        "phase": "during-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "POST",
+            "httpStatus": 403,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross-after",
+      "credential": "production",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "0028456d-f204-4a33-a165-12203f2cc51c",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "deploymentId": "b43da677-4537-46b6-be52-0782ec0fec61",
+      "diagnostics": {
+        "operation": "cross-after",
+        "targetWorkerName": "katpb-dev-production",
+        "workerPolicyId": "1fe57381f57848dbb722225ef8949ea2",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross-before",
+      "credential": "acceptance",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "2dbb8ee8-2bf8-4f82-828a-b042b2dadadd",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "deploymentId": "fc529e08-919d-461e-95d6-cd51c9742fdf",
+      "diagnostics": {
+        "operation": "cross-before",
+        "targetWorkerName": "katpb-dev-acceptance",
+        "workerPolicyId": "bc035ed004424484b1151cdda8c437de",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross",
+      "credential": "preview",
+      "target": "acceptance",
+      "pass": true,
+      "stage": "complete",
+      "outcome": "denied-as-expected",
+      "status": 403,
+      "diagnostics": {
+        "operation": "cross",
+        "targetWorkerName": "katpb-dev-acceptance",
+        "workerPolicyId": "bc035ed004424484b1151cdda8c437de",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-deployments",
+        "method": "POST",
+        "httpStatus": 403,
+        "errorCodes": [],
+        "category": "authorization",
+        "message": "Cloudflare denied this request.",
+        "phase": "during-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "POST",
+            "httpStatus": 403,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross-after",
+      "credential": "acceptance",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "2dbb8ee8-2bf8-4f82-828a-b042b2dadadd",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "deploymentId": "fc529e08-919d-461e-95d6-cd51c9742fdf",
+      "diagnostics": {
+        "operation": "cross-after",
+        "targetWorkerName": "katpb-dev-acceptance",
+        "workerPolicyId": "bc035ed004424484b1151cdda8c437de",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross-before",
+      "credential": "production",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "0028456d-f204-4a33-a165-12203f2cc51c",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "deploymentId": "b43da677-4537-46b6-be52-0782ec0fec61",
+      "diagnostics": {
+        "operation": "cross-before",
+        "targetWorkerName": "katpb-dev-production",
+        "workerPolicyId": "1fe57381f57848dbb722225ef8949ea2",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross",
+      "credential": "acceptance",
+      "target": "production",
+      "pass": true,
+      "stage": "complete",
+      "outcome": "denied-as-expected",
+      "status": 403,
+      "diagnostics": {
+        "operation": "cross",
+        "targetWorkerName": "katpb-dev-production",
+        "workerPolicyId": "1fe57381f57848dbb722225ef8949ea2",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-deployments",
+        "method": "POST",
+        "httpStatus": 403,
+        "errorCodes": [],
+        "category": "authorization",
+        "message": "Cloudflare denied this request.",
+        "phase": "during-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "POST",
+            "httpStatus": 403,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross-after",
+      "credential": "production",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "0028456d-f204-4a33-a165-12203f2cc51c",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "deploymentId": "b43da677-4537-46b6-be52-0782ec0fec61",
+      "diagnostics": {
+        "operation": "cross-after",
+        "targetWorkerName": "katpb-dev-production",
+        "workerPolicyId": "1fe57381f57848dbb722225ef8949ea2",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross-before",
+      "credential": "preview",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "3c6c5306-a585-4980-84aa-73dfe6ef0cce",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "deploymentId": "c22df5cb-b75e-43f5-80ce-ec04f65d08c8",
+      "diagnostics": {
+        "operation": "cross-before",
+        "targetWorkerName": "katpb-dev-preview",
+        "workerPolicyId": "ede742fe3b12494b928f3785441dca6a",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross",
+      "credential": "acceptance",
+      "target": "preview",
+      "pass": true,
+      "stage": "complete",
+      "outcome": "denied-as-expected",
+      "status": 403,
+      "diagnostics": {
+        "operation": "cross",
+        "targetWorkerName": "katpb-dev-preview",
+        "workerPolicyId": "ede742fe3b12494b928f3785441dca6a",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-deployments",
+        "method": "POST",
+        "httpStatus": 403,
+        "errorCodes": [],
+        "category": "authorization",
+        "message": "Cloudflare denied this request.",
+        "phase": "during-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "POST",
+            "httpStatus": 403,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "cross-after",
+      "credential": "preview",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "3c6c5306-a585-4980-84aa-73dfe6ef0cce",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "deploymentId": "c22df5cb-b75e-43f5-80ce-ec04f65d08c8",
+      "diagnostics": {
+        "operation": "cross-after",
+        "targetWorkerName": "katpb-dev-preview",
+        "workerPolicyId": "ede742fe3b12494b928f3785441dca6a",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "preview-lifecycle",
+      "credential": "preview",
+      "pass": false,
+      "stage": "served-package",
+      "created": false,
+      "updated": false,
+      "cleanup": true,
+      "diagnostics": {
+        "operation": "preview-lifecycle",
+        "targetWorkerName": "katpb-dev-preview",
+        "workerPolicyId": "ede742fe3b12494b928f3785441dca6a",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-preview",
+        "method": "GET",
+        "httpStatus": 404,
+        "errorCodes": [
+          10025
+        ],
+        "category": "client-error",
+        "message": "Cloudflare rejected this request.",
+        "phase": "after-deployment",
+        "providerSubprocessExitCode": 1,
+        "opExitCode": 1,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "GET",
+            "httpStatus": 404,
+            "errorCodes": [
+              10025
+            ],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "POST",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-assets",
+            "method": "POST",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-assets",
+            "method": "POST",
+            "httpStatus": 201,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "POST",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "after-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "DELETE",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "GET",
+            "httpStatus": 404,
+            "errorCodes": [
+              10025
+            ],
+            "phase": "after-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "final",
+      "credential": "production",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "0028456d-f204-4a33-a165-12203f2cc51c",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "diagnostics": {
+        "operation": "final",
+        "targetWorkerName": "katpb-dev-production",
+        "workerPolicyId": "1fe57381f57848dbb722225ef8949ea2",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "final",
+      "credential": "preview",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "3c6c5306-a585-4980-84aa-73dfe6ef0cce",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "diagnostics": {
+        "operation": "final",
+        "targetWorkerName": "katpb-dev-preview",
+        "workerPolicyId": "ede742fe3b12494b928f3785441dca6a",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "final",
+      "credential": "acceptance",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "2dbb8ee8-2bf8-4f82-828a-b042b2dadadd",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "diagnostics": {
+        "operation": "final",
+        "targetWorkerName": "katpb-dev-acceptance",
+        "workerPolicyId": "bc035ed004424484b1151cdda8c437de",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    }
+  ],
+  "pass": false,
+  "baseWorkersExpected": true,
+  "previewRemoved": true,
+  "t023Started": false,
+  "matrixSucceeded": true
+}

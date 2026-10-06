@@ -1,15 +1,16 @@
 # R4 implementation and acceptance evidence
 
 **Window**: Owner-approved T001–T022 only, branch `004-production-hosting`, 2026-10-03.
-**Status**: T001–T004 and T006–T022 are complete. Main PR/integrity, archive-tag protections,
+**Status**: T001–T022 are complete: **22/22**, including T005. Main PR/integrity, archive-tag protections,
 the single-repository archive App creation-only exception and main-only environments are verified.
 Owner-audited/read-only drift checks remain effective; no Administration-write credential is in CI.
 On 2026-10-04, T004 created/read back exactly three assets-only Workers in owner-confirmed account
 `45dcbe7b47e04e1f41dc571ceb86b40e` / `katpb.workers.dev`, still Free $0. Their exact-package
 HTTP checks and 192 credential-free hosted browser cases passed. Final local validation passed
-368 browser cases, 34 operational tests and reproducible raw bytes. T005 scoped credentials and
-actual allowed/denied/named-preview permission exercises remain pending. The complete Phase 1/
-foundation checkpoint and full R4 acceptance remain incomplete. T023+ has not started.
+368 browser cases, 34 operational tests and reproducible raw bytes at the bootstrap checkpoint.
+T005 is complete from the preserved third authorization matrix plus fourth owner-run Preview
+lifecycle. The approved Phase 1/foundation checkpoint is complete; full R4 story acceptance
+remains pending. Final closeout validation/CI is recorded below. T023+ has not started.
 Earlier dated observations below are historical evidence, not current completion claims.
 
 ## Prerequisites
@@ -22,7 +23,7 @@ Earlier dated observations below are historical evidence, not current completion
 | Active GitHub main/archive/environment protections | Readbacks passed | Strict Actions repository-health binding, PR/integrity, archive creation-only exception, three main-only environments |
 | Cloudflare Workers Free plan                       | Verified         | Signed-in Workers plans shows Free, $0, Current plan; no upgrade performed                                            |
 | Three isolated assets-only Workers and Free quotas | Verified         | T004; production, preview parent, controlled acceptance only                                                          |
-| Individual-Worker credentials and isolation        | Pending          | T005; no account-wide/Admin/DNS/zone-route permission                                                                 |
+| Individual-Worker credentials and isolation        | Verified         | T005 third matrix + fourth lifecycle; separate Worker Editor tokens, approved 1Password source                        |
 | `katpb.dev` ownership                              | Owner-confirmed  | Registered with Namecheap on 2026-10-03                                                                               |
 
 ## Observed evidence
@@ -820,3 +821,270 @@ DNS/nameserver/custom-domain/route/certificate/paid-product change or T023+ work
 retains the command boundary and actual failure. T005 remains unchecked, the foundation
 remains 21/22 and PR #4 is not ready to merge. Prior successful provider readbacks and full
 validation remain historical observations rather than fresh credential-test results.
+
+Owner-requested retry recorded at `2026-10-04T10:19:15Z` on control
+`c4a24f4651291316588c4d37c0a4a5ec915d0264`: the same normally masked preview-only
+read-only settings preflight failed both in the sandbox and outside it with approved
+escalation. Both attempts exited 1 with `No accounts configured for use with 1Password CLI.`
+The trusted provider subprocess never launched; no credential resolved, Cloudflare request
+or mutation occurred, and no authentication setting or permission was changed. B009 and
+all pending T005 provider exercises remain unchanged; no T023+ work was started.
+
+### T005 execution boundary corrected; owner-run tests prepared — 2026-10-04
+
+The owner confirms all three 1Password references resolve successfully in the normal
+VS Code integrated terminal. Codex cannot access that existing desktop/CLI integration.
+This supersedes B009's configuration-remediation interpretation: it is an execution
+boundary, not evidence of failed credentials or owner configuration. Historical failed
+attempts above remain unchanged. Do not reconfigure 1Password, expand macOS permissions,
+create alternate credentials, export tokens, create plaintext secret files or ask for
+values. Do not execute credential-bearing T005 tests from Codex.
+
+T005 is now owner-executed using [the exact manual procedure](../t005-owner-run.md),
+`scripts/hosting/t005-owner-run.mjs` and its trusted built-ins-only provider subprocess.
+Each masked `op run --no-masking=false` resolves one approved reference; only the short-lived
+provider process receives the resolved token, with no children, raw diagnostics or secret
+files. Three initial package/version/settings readbacks precede three same-package own
+deployment mutations and all six valid cross-Worker mutation probes. Only explicit HTTP 403
+authentication denials pass. A named-preview lifecycle test uses distinct fixed HTML-only
+packages under the preview credential and deletes only its newly created preview, including
+failure reconciliation. Three final readbacks compare original version/settings/subdomain
+digests and seven public resource hashes per Worker.
+
+The runner emits only validated non-secret pass/fail evidence to
+`.deploy/evidence/t005-owner-run.json`. Unexpected authorization behavior returns nonzero;
+unproven cleanup/base state retains the local hosting lock. Prepared code and mocked tests
+are not live provider acceptance. **T005 remains unchecked, foundation remains 21/22,
+and owner-run evidence is pending.** Codex will use only the completed sanitized results
+to update the effective permission matrix and T005 evidence. Existing main-only
+environment and recovery-owner-review readbacks remain configuration evidence.
+No credential-bearing test was executed during preparation; T023 remains unstarted.
+
+Credential-free validation passed all 44 integration tests, then all 10 T005 regressions
+after adding both pinned-provider asset-upload modes. Formatting and diff whitespace
+checks passed. Coverage includes strict reference/env isolation, six real request shapes
+against mocked providers, unexpected allows and non-authorization failures, package/state
+preservation, distinct preview packages, successful cleanup, failed cleanup, existing-preview
+refusal and raw-diagnostic rejection.
+[Preparation evidence](evidence/cloudflare-t005-owner-run-preparation-2026-10-04.json)
+explicitly distinguishes these mocked checks from pending owner provider observations.
+
+### T005 first owner attempt failed; diagnostic correction — 2026-10-04
+
+The owner run from `2026-10-04T14:51:44.469Z` to `2026-10-04T14:52:50.917Z` passed all
+three baseline and final version/settings/subdomain/served-package checks. The production
+own update returned `pass: false, stage: authorization` without a retained HTTP status,
+and the process exited 1. Further mutations stopped; no named preview was attempted.
+[Original sanitized owner evidence](evidence/cloudflare-t005-owner-attempt-1-2026-10-04.json)
+is preserved unchanged. This is a failed T005 runner outcome, not a completed permission
+matrix or evidence that Cloudflare requires broader scope.
+
+The provider and runner SHA-256 values match the first evidence exactly. Static inspection
+finds that the token was injected by masked `op run` but the subprocess account environment
+variable was omitted. The direct REST URL itself explicitly used the correct account.
+The actual operation was `POST /accounts/45dcbe7b47e04e1f41dc571ceb86b40e/workers/scripts/katpb-dev-production/deployments`
+with existing version `0028456d-f204-4a33-a165-12203f2cc51c` at 100%. Target name and
+Worker/policy ID `1fe57381f57848dbb722225ef8949ea2` match the recorded issued policy.
+No Wrangler/config-generation/login/OAuth/auto-configuration path was invoked; installed
+4.147.0 was only a static request-format reference. No own-path creation/deletion,
+route/domain change or account/product discovery operation occurred.
+
+The matching first source's only `authorization` failure without status follows a
+successful 2xx/`success: true` response: the local deployment ID/versions assertion.
+This strongly indicates a response-schema failure mislabeled as authorization. The exact
+HTTP status, numeric error code and mismatching response field were not captured and must
+remain unknown. The idempotent POST may have added deployment history even though served
+state stayed unchanged. Do not claim no mutation occurred or that a Cloudflare denial was
+observed.
+
+The correction explicitly supplies/checks `CLOUDFLARE_ACCOUNT_ID`, pins recorded policy IDs,
+separates deployment-response/readback failures from authorization, and captures only
+fixed-schema status/codes/categories, subprocess exits, verification status, explicit-account
+presence, request phases and response-shape booleans. Compact/UUID deployment IDs and
+optional response versions require authoritative matching deployment/version readback.
+A new owner diagnostic performs only `GET /accounts/45dcbe7b47e04e1f41dc571ceb86b40e/tokens/verify`.
+It records active/inactive status and optional expiry metadata, never token ID/value.
+Future token-verification failure stops before Worker operations and is not a scope denial.
+
+[Exact diagnostic and conditional second-attempt commands](../t005-owner-diagnostics.md)
+are prepared. No credential-bearing diagnostic or mutation was executed from Codex.
+No token was changed. Keep T005 unchecked, foundation 21/22 and PR #4 draft. T023 remains
+unstarted; another mutation is held until diagnostic review and cause resolution.
+
+The final credential-free integration suite passed **51/51** tests, including verification-only
+request isolation, explicit-account fail-closed behavior, status/code/category redaction,
+response-schema versus authorization separation, deployment ID/version readback, and gated
+second-attempt evidence preservation. Formatting and diff whitespace checks passed.
+[Structured investigation](evidence/cloudflare-t005-owner-attempt-1-analysis-2026-10-04.json)
+records the observed first attempt separately from static inferences and unrun diagnostics.
+
+### T005 second owner attempt: expected-denial harness correction — 2026-10-04
+
+The second owner run passed all three own updates with HTTP 200 and authoritative
+readbacks. It stopped at production → preview HTTP 403 with independently verified
+active source token, explicit correct account, POST worker-deployments and phase
+during-deployment. Its classifier incorrectly required numeric code 10000; this report
+contains no numeric error code. All three final base-state checks passed and no named
+preview lifecycle ran. This is a historical failed runner attempt, not a completed matrix.
+
+[First report](evidence/cloudflare-t005-owner-attempt-1-2026-10-04.json) and
+[second report](evidence/cloudflare-t005-owner-attempt-2-2026-10-04.json) are preserved
+byte-for-byte. Their original failures are not rewritten. The corrected provider accepts
+only a valid deployment 403 in independently verified token/account context as
+pass/denied-as-expected, exits 0 and continues the remaining pairs. Cross 2xx fails the
+security boundary. Own denial, 400/404/network/local validation, wrong account/target/version,
+malformed responses and unrelated provider failures remain failures.
+
+Each cross pair now has target-own credential checks before and after for latest deployment
+identity, version, settings/subdomain and all seven served package hashes. The complete
+six-pair matrix and twelve target-state checks must pass before named-preview lifecycle;
+all three final bases are checked, including failure paths. A successful third run has
+28 masked single-reference subprocesses and a separate evidence file. Inspection found no
+local hosting lock or temporary T005 evidence; no lock/evidence was deleted. Existing
+second-run final checks passed, and no uncertain owner-process result was recorded.
+
+[Third manual owner command](../t005-owner-run.md) and
+[structured correction/inspection evidence](evidence/cloudflare-t005-owner-attempt-2-analysis-2026-10-04.json)
+are prepared. Full credential-free validation passed **59/59 integration tests**
+(including **25 T005 regressions**) and **368/368 browser tests**, formatting, Astro checks
+(0 errors/warnings/hints), build and reproducibility for six generated files.
+Provider requests in the T005 tests are mocked; these checks do not complete live T005.
+Codex has not executed a credential-bearing command and no token has been changed.
+**T005 remains unchecked, foundation 21/22, PR #4 draft, and T023 unstarted.**
+
+### T005 authorization matrix proven; Preview host correction — 2026-10-04
+
+The [third original owner report](evidence/cloudflare-t005-owner-attempt-3-2026-10-04.json)
+proves all three own existing-Worker updates (HTTP 200), all six cross-Worker denials
+(HTTP 403 with active source tokens and explicit account), twelve target-state readbacks
+and all final bases. This completes the observed authorization matrix, not all of T005.
+The report remains overall failed at Preview served-package verification and is unchanged.
+The resource creation POST and first deployment POST both returned HTTP 200; its old
+created flag meant served package verified. Cleanup DELETE returned HTTP 200 and absence
+GET returned HTTP 404/code 10025. No further cleanup is needed; no lock remains.
+
+Live signed-in dashboard readback confirmed katpb-dev-preview normal workers.dev enabled,
+Preview URLs disabled, no custom domains/routes. The owner-authorized correction enabled
+only its Preview URL switch and verified normal workers.dev still enabled. Separate
+production/acceptance readbacks confirmed normal URLs enabled, Preview URLs disabled and
+no domains/routes. No token, DNS, nameserver, route, custom domain or certificate changed.
+Historical T004 disabled observations remain unchanged and are superseded only for this
+later preview-parent host adjustment.
+
+The runner had discarded Cloudflare's returned stable/deployment URL arrays and constructed
+a 70-character DNS label. The saved 404 is cleanup absence; the public HTTP/transport
+outcome was not independently captured. The actual deleted Preview's returned URLs cannot
+be recovered from the sanitized report or empty dashboard and are not inferred. Both
+hosting/hostname defects are confirmed; an exact historical public response remains unknown.
+The next runner records resource creation, provider-returned URLs, deployments and public
+GET statuses separately, fetches only those validated URL values and has no hostname fallback.
+New local names use 32 random hex characters (62-character DNS label). Empty/unsafe URLs
+fail closed; deletion/absence and final base checks still run.
+
+Trusted policy/config explicitly requires workers_dev true and preview_urls true only for
+the preview parent, plus its required previews block; production/acceptance preview_urls
+stay false. Baseline/final/preview-host API readbacks fail closed on missing/wrong enablement.
+Pinned Wrangler 4.147.0 satisfies the documented 4.135.0 minimum. T005 uses direct REST.
+[The structured adjustment](evidence/cloudflare-t005-preview-host-adjustment-2026-10-04.json)
+records the live observations, generated config, historical limitations and credential-free
+validation. [Next focused owner command](../t005-owner-run.md) performs only Preview lifecycle
+and fresh baseline/final reads, with seven single-reference masked subprocesses, gated on
+the preserved third authorization matrix. It has not been executed by Codex.
+**T005 remains unchecked, PR #4 draft, foundation 21/22, and T023 unstarted.**
+
+The final full credential-free gate passed **67/67 integration tests** (including
+**33 T005 regressions**) and **368/368 browser tests**, formatting, Astro checks
+(0 errors/warnings/hints), build and reproducibility for six generated files.
+Historical owner reports are explicitly excluded from formatting to preserve their
+byte hashes. All T005 provider calls in regressions are mocked; no owner credential
+script ran. All three original/archived owner-report hashes and the historical T004
+bootstrap hash were checked unchanged. The focused fourth report does not yet exist.
+
+### T005 completed from combined owner evidence — 2026-10-06
+
+The authoritative sanitized fourth report is
+`.deploy/evidence/t005-preview-lifecycle-fourth.json`, archived byte-for-byte as
+[fourth owner report](evidence/cloudflare-t005-owner-attempt-4-2026-10-06.json).
+Its SHA-256 is `4be9c5db75a45dd4498d3b6e785def159a962640adb8e848362cedd77674e02a`.
+It ran in the owner's normal VS Code terminal from `2026-10-06T17:19:07.507Z` to
+`2026-10-06T17:20:26.483Z`, in focused lifecycle-only mode. Its matrix reference matches
+the preserved third report SHA-256
+`08091cf8b423efd4678910482087bc277c11a2d462b030cf6dad4a47b88e3a03`.
+All recorded runner/provider/diagnostic/policy/baseline hashes match the reviewed local files.
+Codex reviewed sanitized files only and executed no credential-bearing T005 command.
+
+The [third report](evidence/cloudflare-t005-owner-attempt-3-2026-10-04.json) retains its
+original overall failure at served-package verification. Its successful authorization
+matrix and preservation results are independently complete and are combined with the
+fourth lifecycle; neither historical overall outcome is rewritten.
+
+| Credential | Production target | Preview target    | Acceptance target |
+| ---------- | ----------------- | ----------------- | ----------------- |
+| Production | Allowed, HTTP 200 | Denied, HTTP 403  | Denied, HTTP 403  |
+| Preview    | Denied, HTTP 403  | Allowed, HTTP 200 | Denied, HTTP 403  |
+| Acceptance | Denied, HTTP 403  | Denied, HTTP 403  | Allowed, HTTP 200 |
+
+All six denied probes have passing before/after target-own readbacks with identical
+deployment identity, version, settings/subdomain digests and verified served package.
+All three third-run final base checks passed. The fourth run passed all three fresh
+baselines and all three final version/settings/subdomain/served-package checks.
+Production and acceptance retain their previous subdomain digests; the preview parent's
+changed digest reflects the approved Preview URL enablement and is unchanged between
+fourth-run baseline and final readback.
+
+The fourth lifecycle entry is `pass: true`, `stage: complete`, `created: true`,
+`updated: true`, `cleanup: true`. Both create and update deployments have
+`servedVerified: true` at exact validated provider-returned stable and unique URLs.
+One intermediate update propagation fetch returned HTTP 200 with `passed: false`;
+the bounded retry then verified the updated stable URL and unique deployment URL.
+Delete succeeded and the final resource GET's HTTP 404/code 10025 is the expected
+post-delete absence check. It is not a lifecycle failure. Overall `pass`,
+`baseWorkersExpected` and `previewRemoved` are true; `t023Started` is false.
+
+Corrected preview-parent configuration: `workers_dev: true`, `preview_urls: true`,
+`previews: {}`. Only `katpb-dev-preview` has Preview URLs enabled; production and
+acceptance retain `workers_dev: true` and `preview_urls: false`. No domain/DNS/route/
+certificate/token-scope change accompanies this closeout.
+
+**Secure credential source and issued expiration**: 1Password is the approved local
+source, resolved one reference at a time using masked `op run` into the owner's short-lived
+trusted provider subprocess. Acceptance remains outside GitHub. Existing main-only
+`preview`, `production`, `production-recovery` environment readbacks and configured
+recovery review by owner `katpb` (`50702152`) satisfy T005's configuration requirement;
+no recovery approval job is claimed. Signed-in existing token forms show **No expiration** for all three issued tokens.
+The owner reports independently verify active status with `expiresOn: null` and
+`notBefore: null`. These observations are recorded in the
+[combined closeout evidence](evidence/cloudflare-t005-completion-2026-10-06.json) and supersede the historical prospective 90-day date
+`2027-01-02T23:59:59Z`; no token was modified during readback.
+
+**Reconciliation**: T005 is checked complete; **T001–T022 = 22/22**. B008 is resolved by
+the approved 1Password source and B009's Codex boundary is resolved for acceptance by
+owner-executed sanitized evidence. Earlier failed CLI/owner runs, bootstrap observations
+and investigations are preserved as historical evidence with their original outcomes.
+The complete approved setup/foundation checkpoint is satisfied. SC-001's full hosted
+R1 exercise and all later R4 stories remain pending within their original task windows.
+T023+ remains unchecked and unstarted. PR #4 stays draft until the owner marks Ready for
+Review and merges after final validation/CI readback; this closeout performs neither action.
+
+### Final T001–T022 credential-free closeout validation — 2026-10-06
+
+The final sequential `npm run verify` passed on Node **24.21.0** / npm **11.21.0**:
+formatting, Astro diagnostics (**0 errors, 0 warnings, 0 hints**), build,
+**368/368 browser tests**, **67/67 integration tests** (including **33 T005 regressions**),
+and reproducibility for **6 generated files**. `git diff --check` passed.
+The subprocess environment was empty except explicit toolchain/local browser settings;
+no Cloudflare, 1Password or GitHub credential was passed. External HTTP/HTTPS requests
+were blocked by loopback proxies with only localhost exempted. T005 provider regression
+calls were mocked. No credential-bearing owner runner was executed.
+
+The first sandbox attempt passed formatting/check/build and stopped at the local browser
+server's `listen EPERM 127.0.0.1:4322`. The explicitly approved loopback-capable rerun
+passed the complete gate. Log: `/private/tmp/t005-closeout-credential-free-verify-2026-10-06-unrestricted.log`.
+All preserved historical evidence hashes and original/archived owner-run byte equality
+were checked again. All T001–T022 checkboxes are complete; every T023+ checkbox is still
+unchecked. Owner ROADMAP changes remain untouched and outside this closeout commit.
+
+The closeout is being committed to PR #4's existing head branch for exact-head CI.
+The PR description will record the final head/run/check/artifact readback; earlier CI
+runs remain historical evidence for their own revisions. Ready for Review and merge
+remain the owner's final actions, and T023 must not start in this execution window.

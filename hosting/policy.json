@@ -22,16 +22,22 @@
     "production": {
       "workerName": "katpb-dev-production",
       "workerId": "1fe57381f57848dbb722225ef8949ea2",
+      "workersDev": true,
+      "previewUrls": false,
       "verified": true
     },
     "preview": {
       "workerName": "katpb-dev-preview",
       "workerId": "ede742fe3b12494b928f3785441dca6a",
+      "workersDev": true,
+      "previewUrls": true,
       "verified": true
     },
     "acceptance": {
       "workerName": "katpb-dev-acceptance",
       "workerId": "bc035ed004424484b1151cdda8c437de",
+      "workersDev": true,
+      "previewUrls": false,
       "verified": true
     }
   },

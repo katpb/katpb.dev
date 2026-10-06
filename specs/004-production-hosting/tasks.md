@@ -4,22 +4,22 @@
 **Prerequisites**: `spec.md`, `plan.md`, `research.md`, `data-model.md`, `quickstart.md`, all three `contracts/` documents, and `.specify/memory/constitution.md`.
 **Status**: Owner approved on 2026-10-03 for T001–T022 only. Implementation/evidence status is recorded below and in `checklists/acceptance.md`; T023 onward remains outside this execution window.
 
-**Resume checkpoint**: T001–T004 and T006–T022 are complete; T005 remains pending.
-T004 created exactly the three approved assets-only Workers in owner-confirmed account
-`45dcbe7b47e04e1f41dc571ceb86b40e` / `katpb.workers.dev`, Free $0. Earlier account observations
-remain historical and superseded. Signed-in identity/name/URL/settings/domain/inventory readbacks,
-exact-package HTTP checks, 192 live browser cases and final full local validation passed.
-The owner has created the three T005 account-owned tokens and stored the production/preview
-GitHub environment secrets. Signed-in readbacks confirm active, separate single-Worker Editor
-policies and secret-name presence in the approved main-only environments. Effective allowed/denied
-provider operations and named-preview create/update/delete remain unverified. The owner approved
-1Password CLI secret references, to be resolved one at a time with masked `op run` only into a trusted
-short-lived provider subprocess. The first attempt stopped before launching that subprocess:
-`No accounts configured for use with 1Password CLI.` T005 now awaits working desktop/CLI access,
-not another credential source or broader Cloudflare permission. Never supply values in chat.
-Main/archive/environment readbacks and owner-audited/read-only drift checks remain effective.
-T013/T022 are complete; no Administration-write App or CI credential was created.
-The complete Phase 1/foundation checkpoint stays pending until T005 passes. No T023+ work.
+**Resume checkpoint**: T001–T022 are complete: **22/22**. T005 completion combines
+preserved third-run authorization/isolation evidence with the successful fourth owner-run
+Preview lifecycle on 2026-10-06. All three own updates, all six cross-Worker denials,
+target-state preservation, named-preview create/update/served-package/delete/absence checks,
+and all three final base-Worker checks passed. Earlier failed reports remain historical.
+The corrected preview-parent configuration is `workers_dev: true`, `preview_urls: true`,
+`previews: {}`; only `katpb-dev-preview` enables Preview URLs. Production/acceptance retain
+Preview URLs disabled. 1Password is the approved secure local source; issued-token
+expiration is **No expiration** on all three existing token forms, corroborated by
+`expiresOn: null`; this supersedes the earlier prospective 90-day assumption.
+Codex consumes sanitized owner evidence only; no credential-bearing T005 rerun is authorized.
+Main-only environments, recovery owner review and owner-audited/read-only drift controls
+remain effective. The approved setup/foundation checkpoint is complete; full R4 story
+acceptance remains pending. PR #4 remains draft for the owner's Ready for Review/merge
+step after final credential-free validation and exact-head CI. **T023+ is unstarted.**
+
 **Tests**: Included for the specification's validation, failure, isolation, smoke, cache-transition, and recovery scenarios. Use the existing Node test runner and Playwright/axe; no new test runner. Write the relevant automated assertions and observe their failure before implementing changed behavior.
 **Organization**: Story IDs and priorities remain those in `spec.md`. Per the owner's requested delivery sequence, implement preview US2 before production US1, perform hosted-delivery verification US4 before recovery US3, then operational documentation US5 and final evidence/domain readiness. This ordering does not change story priorities or requirements.
 
@@ -60,11 +60,11 @@ authorized in this execution window.
 - [x] T002 Inspect GitHub `katpb/katpb.dev` plan capabilities and document the required main PR/check/force-push/deletion/no-bypass rules (zero independent approvals and non-blocking code-owner ownership while solo; enable independent/applicable code-owner approval with a second trusted maintainer), archive tag protection and permitted archive actor, and main-only `preview`, `production`, and `production-recovery` environments in `specs/004-production-hosting/checklists/acceptance.md`; establish available protections before Cloudflare provisioning, record the future `repository-health` check binding for activation at T022, and record unsupported gates as blockers rather than weakening policy.
 - [x] T003 Create `.github/CODEOWNERS` covering `.github/`, `hosting/`, deployment scripts, `package.json`, `package-lock.json`, and `.github/CODEOWNERS` itself with verified owner identities; document ownership without blocking code-owner approval while solo, enable required independent/applicable code-owner approval with a second trusted maintainer, align with T002 and document the effective protection in `specs/004-production-hosting/checklists/acceptance.md`.
 - [x] T004 After T002–T003, have the authorized owner provision distinct assets-only production and preview-parent Workers and the non-production controlled-acceptance Worker defined in `specs/004-production-hosting/plan.md`; restrict the acceptance Worker to controlled provider/failure/recovery exercises, isolate it from production and normal PR previews, and exclude it from application/runtime environments and public launch topology; record account/subdomain, confirmed Worker names, HTTPS provider addresses and asset/preview quotas in `specs/004-production-hosting/checklists/acceptance.md`; use `workers.dev` only, no `katpb.dev` custom domain, and leave Namecheap DNS, nameservers, Cloudflare custom domains/routes, and custom-domain certificates unchanged.
-- [ ] T005 After T004, establish separate individual-Worker Editor tokens and main-only environment restrictions for `preview`, `production`, and `production-recovery`; use a separate acceptance-Worker-only credential and explicit isolated target binding for controlled acceptance exercises, never production/normal-preview tokens or bindings, and record its secure credential source and authorization boundary; per the owner's T005 direction, exercise named-preview create/update/delete with the preview-parent credential/target and controlled non-destructive own-Worker updates plus all six cross-Worker mutation denials; verify the configured recovery owner-review capability in `specs/004-production-hosting/checklists/acceptance.md`; retain no repository-wide/Admin/DNS/zone-route token, log no secret values, and block on unsupported narrow permissions rather than broadening them implicitly.
+- [x] T005 After T004, establish separate individual-Worker Editor tokens and main-only environment restrictions for `preview`, `production`, and `production-recovery`; use a separate acceptance-Worker-only credential and explicit isolated target binding for controlled acceptance exercises, never production/normal-preview tokens or bindings, and record its secure credential source and authorization boundary; per the owner's T005 direction, have the owner execute `scripts/hosting/t005-owner-run.mjs` from the normal VS Code integrated terminal with only the three approved references and one credential resolved per masked `op run` into its short-lived trusted provider subprocess (never from Codex), exercise named-preview create/update/delete with the preview-parent credential/target and controlled non-destructive own-Worker updates plus all six cross-Worker mutation denials, verify the expected version/settings/served package on all three base Workers, and complete evidence using only sanitized owner-run results; do not start T023; verify the configured recovery owner-review capability in `specs/004-production-hosting/checklists/acceptance.md`; retain no repository-wide/Admin/DNS/zone-route token, log no secret values, and block on unsupported narrow permissions rather than broadening them implicitly.
 - [x] T006 Review Wrangler 4.147.0 license, supported runtime, install scripts, transitive changes and advisories, then add only this exactly pinned development dependency in `package.json` and `package-lock.json`; record the review in `specs/004-production-hosting/checklists/acceptance.md`, preserve Node 24.21.0/npm 11.x and existing dependencies, and require an explicit design correction if the pin cannot satisfy the contracts.
 - [x] T007 Add ignored `.deploy/`, Wrangler local state and secret-file coverage to `.gitignore` and appropriate generated-output exclusions to `.prettierignore`; preserve existing repository-health coverage and do not exclude deployment source, workflows or policy from validation.
 
-**Checkpoint**: Repository and account capabilities are recorded; no hosting acceptance is claimed. This checkpoint remains pending until actual T004 provisioning and T005 scoped-credential/permission checks pass. Domain registration is complete, and cutover remains deferred.
+**Checkpoint**: Setup is complete: T004 provisioning and T005 scoped-credential/isolation/Preview lifecycle observations passed. Domain registration is complete; cutover and full story acceptance remain deferred.
 
 ## Phase 2: Foundational — Validation and Release Packaging
 
@@ -91,7 +91,7 @@ authorized in this execution window.
 - [x] T021 Create SHA-pinned `.github/workflows/ci.yml` named `CI` exposing stable `repository-health` on every PR to main and main push without path bypasses; checkout exact PR head/push SHA with persistence off, use Node 24.21.0/npm 11.x, locked dependencies and pinned Chromium/WebKit Ubuntu dependencies, run full verification and credential-free raw preparation, and upload static output/manifests bound to source/run/attempt only after success; use read-only build permissions and no deployment environments, provider secrets or shared privileged caches.
 - [x] T022 Activate and verify the exact CI required-check binding and remaining T002 main/archive/environment protections; compare local and exact-run CI raw manifests and two packages made from identical explicit retained/policy inputs, preserving tracked source and exact raw bytes; record tool versions, raw/package manifests and capability results in `specs/004-production-hosting/checklists/acceptance.md`, verify the complete owner-side bypass audit and actual read-only runtime revision drift gate; keep T004/T005 and full hosted acceptance deferred rather than claiming SC-001 or the foundation checkpoint. Store no Administration-write credential in CI.
 
-**Checkpoint**: Full validation, trusted preparation, HTTPS/browser verification and reporting are usable without executing candidate code with credentials. Return to deferred T004/T005 only after applicable local/CI foundation checks pass; this checkpoint remains pending until those setup tasks pass. No story uploads before this checkpoint passes; T023 onward is outside this execution window.
+**Checkpoint**: The approved T001–T022 foundation is complete (22/22), including actual T004/T005 setup evidence. Final credential-free validation and PR-head CI are recorded in `checklists/acceptance.md`. T023 onward remains outside this execution window; no full R4 story acceptance is claimed.
 
 ## Phase 3: User Story 2 — Isolated PR Previews (Priority: P1; First Reviewable Increment)
 

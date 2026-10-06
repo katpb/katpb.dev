@@ -83,9 +83,17 @@ export function validatePolicy(p) {
   strictFields(p.targets, ["production", "preview", "acceptance"]);
   for (const kind of Object.keys(p.targets)) {
     const t = p.targets[kind];
-    strictFields(t, ["workerName", "workerId", "verified"]);
+    strictFields(t, [
+      "workerName",
+      "workerId",
+      "verified",
+      "workersDev",
+      "previewUrls",
+    ]);
     requireThat(
       t.workerName === `katpb-dev-${kind}` &&
+        t.workersDev === true &&
+        t.previewUrls === (kind === "preview") &&
         typeof t.verified === "boolean" &&
         (t.workerId === null ||
           (typeof t.workerId === "string" &&
@@ -121,7 +129,9 @@ export function resolveTarget(policy, input) {
   );
   requireThat(
     kind === "preview"
-      ? /^(?:pr-[1-9]\d*|local-katpb-[a-f0-9]{40})$/.test(previewName)
+      ? /^(?:pr-[1-9]\d*|local-katpb-(?:[a-f0-9]{32}|[a-f0-9]{40}))$/.test(
+          previewName,
+        )
       : previewName === null,
     "invalid preview name",
   );
@@ -138,6 +148,8 @@ export function resolveTarget(policy, input) {
     accountId: policy.accountId,
     workerName: t.workerName,
     workerId: t.workerId,
+    workersDev: t.workersDev,
+    previewUrls: t.previewUrls,
     subdomain: policy.subdomain,
     quota: policy.quotas,
   };
@@ -155,6 +167,9 @@ export function validateProviderUrl(target, value, { unique = false } = {}) {
       !u.port &&
       !u.search &&
       !u.hash &&
+      u.hostname
+        .split(".")
+        .every((label) => label.length > 0 && label.length <= 63) &&
       u.pathname === "/",
     "unsafe provider URL",
   );
@@ -191,9 +206,12 @@ export function allowedHostedHosts(policy, value) {
     if (kind === "preview" && u.hostname.endsWith("-" + suffix)) {
       const prefix = u.hostname.slice(0, -suffix.length - 1);
       if (
-        /^(?:pr-[1-9]\d*|local-katpb-[a-f0-9]{40}|[a-f0-9]{8,32}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/.test(
+        /^(?:pr-[1-9]\d*|local-katpb-(?:[a-f0-9]{32}|[a-f0-9]{40})|[a-f0-9]{8,32}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/.test(
           prefix,
-        )
+        ) &&
+        u.hostname
+          .split(".")
+          .every((label) => label.length > 0 && label.length <= 63)
       )
         allowed.push(u.hostname);
     }
@@ -202,6 +220,11 @@ export function allowedHostedHosts(policy, value) {
 }
 export function generatedConfig(target, assetsDir) {
   requireThat(
+    target.workersDev === true &&
+      target.previewUrls === (target.kind === "preview"),
+    "required workers.dev Preview host configuration missing",
+  );
+  requireThat(
     path.isAbsolute(assetsDir) && assetsDir.split(path.sep).includes(".deploy"),
     "trusted assets directory required",
   );
@@ -209,7 +232,8 @@ export function generatedConfig(target, assetsDir) {
     name: target.workerName,
     account_id: target.accountId,
     compatibility_date: "2026-10-02",
-    workers_dev: true,
+    workers_dev: target.workersDev,
+    preview_urls: target.previewUrls,
     assets: {
       directory: assetsDir,
       html_handling: "auto-trailing-slash",

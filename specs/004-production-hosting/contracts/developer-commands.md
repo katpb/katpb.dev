@@ -72,6 +72,13 @@ is insufficient, stop and record the actual error without exposing values or bro
 permissions. This secure source satisfies the existing credential boundary; it grants no
 exception to source/target validation, trusted packaging, main-only environments or approvals.
 
+The owner confirms these references work from the normal VS Code integrated terminal.
+Codex integration access is an execution-boundary limitation, not a credential or
+configuration failure. Do not retry credential-bearing tests from Codex, reconfigure
+1Password, broaden macOS permissions, export tokens, create alternate credentials or secret
+files, or request token values. Provider exercises are owner-executed using the
+[owner-run procedure](../t005-owner-run.md). Codex consumes only the sanitized results.
+
 The acceptance Worker is used only for controlled provider/failure/recovery exercises,
 isolated from production and normal PR previews, with its own Worker-only credential and
 explicit allowlisted test binding. Record the secure credential source and authorization
@@ -88,6 +95,14 @@ trusted control code into a clean directory, never copied from a candidate archi
 Preview create/update uses `wrangler preview --config <trusted-config> --worker-name
 <preview-parent> --name <validated-name> --tag <source-sha> --message <attempt-id> --json
 --ignore-base-config`. Parse typed provider JSON and validate returned stable/unique HTTPS URLs.
+
+The preview-parent policy explicitly requires normal workers.dev and workers.dev Preview
+URLs enabled. Generated trusted configuration sets `workers_dev: true`, `preview_urls: true`
+and the required `previews: {}` block. Production/acceptance explicitly retain
+`preview_urls: false`. T005 live readbacks fail closed on missing/wrong enablement.
+New local T005 names use `local-katpb-<32 random hex>` so the hostname's first label fits
+63 characters. Fetch only validated provider-returned stable/deployment URL values; no
+hostname fallback is used. Wrangler 4.147.0 exceeds the 4.135.0 Worker Previews minimum.
 
 Production uses `wrangler deploy --config <trusted-config> --name <production-worker> --tag
 <source-sha> --message <attempt-id>` only inside the trusted authorized workflow. Capture the

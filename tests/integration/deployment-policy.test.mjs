@@ -46,12 +46,22 @@ export const fixturePolicy = () => ({
     production: {
       workerName: "katpb-dev-production",
       workerId: "p",
+      workersDev: true,
+      previewUrls: false,
       verified: true,
     },
-    preview: { workerName: "katpb-dev-preview", workerId: "v", verified: true },
+    preview: {
+      workerName: "katpb-dev-preview",
+      workerId: "v",
+      verified: true,
+      workersDev: true,
+      previewUrls: true,
+    },
     acceptance: {
       workerName: "katpb-dev-acceptance",
       workerId: "a",
+      workersDev: true,
+      previewUrls: false,
       verified: true,
     },
   },
@@ -176,8 +186,48 @@ test("owner-pinned live policy validates; unprovisioned targets fail closed and 
   const config = generatedConfig(t, "/tmp/.deploy/assets");
   assert.equal(config.assets.not_found_handling, "none");
   assert.deepEqual(config.previews, {});
+  assert.equal(config.preview_urls, true);
+  assert.equal(config.workers_dev, true);
+  for (const change of [
+    { workersDev: false },
+    { previewUrls: false },
+    { previewUrls: undefined },
+  ]) {
+    const invalid = structuredClone(p);
+    Object.assign(invalid.targets.preview, change);
+    assert.throws(() => validatePolicy(invalid));
+  }
+  assert.throws(() =>
+    generatedConfig({ ...t, previewUrls: false }, "/tmp/.deploy/assets"),
+  );
   assert.equal(config.main, undefined);
   assert.equal(config.routes, undefined);
+  const shortLocal = resolveTarget(p, {
+    kind: "preview",
+    environment: "preview",
+    workflowRef: "refs/heads/main",
+    previewName: "local-katpb-" + "a".repeat(32),
+  });
+  assert.doesNotThrow(() =>
+    validateProviderUrl(
+      shortLocal,
+      "https://" +
+        shortLocal.previewName +
+        "-katpb-dev-preview.test.workers.dev/",
+    ),
+  );
+  const overlong = {
+    ...shortLocal,
+    previewName: "local-katpb-" + "a".repeat(40),
+  };
+  assert.throws(() =>
+    validateProviderUrl(
+      overlong,
+      "https://" +
+        overlong.previewName +
+        "-katpb-dev-preview.test.workers.dev/",
+    ),
+  );
 });
 
 test("active main protection requires PR/check source/integrity and no bypass", () => {
