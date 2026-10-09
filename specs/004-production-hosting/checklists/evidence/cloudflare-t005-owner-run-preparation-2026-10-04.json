@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-04",
+  "task": "T005",
+  "status": "prepared; owner-run results pending",
+  "executionBoundary": {
+    "ownerReportsAllReferencesWork": true,
+    "authorizedSurface": "normal VS Code integrated terminal",
+    "credentialBearingCodexExecutionAllowed": false,
+    "configurationOrPermissionRemediationAuthorized": false
+  },
+  "scripts": [
+    "scripts/hosting/t005-owner-run.mjs",
+    "scripts/hosting/t005-provider.mjs"
+  ],
+  "procedure": "specs/004-production-hosting/t005-owner-run.md",
+  "expectedOwnerEvidence": ".deploy/evidence/t005-owner-run.json",
+  "localValidation": {
+    "allIntegrationTestsPassed": 44,
+    "allIntegrationTestsFailed": 0,
+    "finalT005RegressionTestsPassed": 10,
+    "finalT005RegressionTestsFailed": 0,
+    "providerCallsMocked": true,
+    "liveCredentialBearingExecution": false,
+    "formattingPassed": true,
+    "diffWhitespacePassed": true
+  },
+  "pendingProviderObservations": {
+    "ownWorkerMutations": 3,
+    "crossWorkerDenials": 6,
+    "previewLifecycle": ["create", "update", "delete"],
+    "finalBaseStateChecks": 3
+  },
+  "t005Complete": false,
+  "completedFoundationTasks": 21,
+  "totalFoundationTasks": 22,
+  "t023Started": false
+}

@@ -1,0 +1,97 @@
+
+> katpb.dev@0.0.0 verify
+> npm run format:check && npm run check && npm run build && npm run test:e2e && npm run test:workflow && npm run test:reproducible
+
+
+> katpb.dev@0.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> katpb.dev@0.0.0 check
+> ASTRO_TELEMETRY_DISABLED=1 astro check --minimumFailingSeverity warning
+
+19:38:34 [types] Generated 17ms
+19:38:34 [check] Getting diagnostics for Astro files in /private/tmp/r4-r1-foundation-check...
+Result (11 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+
+
+> katpb.dev@0.0.0 build
+> ASTRO_TELEMETRY_DISABLED=1 astro build
+
+19:38:35 [types] Generated 14ms
+19:38:35 [build] output: "static"
+19:38:35 [build] mode: "static"
+19:38:35 [build] directory: /private/tmp/r4-r1-foundation-check/dist/
+19:38:35 [build] Collecting build info...
+19:38:35 [build] ✓ Completed in 25ms.
+19:38:35 [build] Building static entrypoints...
+19:38:35 [vite] ✓ built in 44ms
+19:38:35 [vite] ✓ built in 6ms
+19:38:35 [build] Rearranging server assets...
+
+ generating static routes 
+19:38:35   ├─ /index.html (+4ms) 
+19:38:35 ✓ Completed in 8ms.
+
+19:38:35 [build] ✓ Completed in 70ms.
+19:38:35 [build] 1 page(s) built in 96ms
+19:38:35 [build] Complete!
+
+> katpb.dev@0.0.0 test:e2e
+> playwright test
+
+[WebServer] (node:16593) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 8 workers
+
+(node:16595) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16594) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16600) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16598) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16601) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16596) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16597) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16599) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  8 [chromium-mobile] › tests/e2e/foundation.spec.ts:73:1 › keeps core content readable without JavaScript (341ms)
+  ✓  7 [chromium-desktop] › tests/e2e/foundation.spec.ts:73:1 › keeps core content readable without JavaScript (342ms)
+  ✓  4 [webkit-desktop] › tests/e2e/foundation.spec.ts:73:1 › keeps core content readable without JavaScript (488ms)
+  ✓  6 [webkit-mobile] › tests/e2e/foundation.spec.ts:73:1 › keeps core content readable without JavaScript (492ms)
+  ✓  5 [chromium-desktop] › tests/e2e/foundation.spec.ts:4:1 › renders the foundation page contract (596ms)
+  ✓  2 [chromium-mobile] › tests/e2e/foundation.spec.ts:4:1 › renders the foundation page contract (598ms)
+  ✓  3 [webkit-mobile] › tests/e2e/foundation.spec.ts:4:1 › renders the foundation page contract (864ms)
+  ✓  1 [webkit-desktop] › tests/e2e/foundation.spec.ts:4:1 › renders the foundation page contract (866ms)
+
+  8 passed (1.8s)
+
+> katpb.dev@0.0.0 test:workflow
+> node --test tests/integration/*.test.mjs
+
+✔ full builds replace stale output and preserve source state (709.226958ms)
+✔ development startup fails with actionable guidance when port 4321 is occupied (30.029292ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 741.646291
+
+> katpb.dev@0.0.0 test:reproducible
+> node scripts/check-reproducible-build.mjs
+
+Reproducible build verified for 1 generated file(s).

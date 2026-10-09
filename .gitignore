@@ -1,6 +1,8 @@
 /node_modules/
 /dist/
 /.astro/
+/.deploy/
+/.wrangler/
 /playwright-report/
 /test-results/
 /blob-report/
@@ -11,6 +13,10 @@ npm-debug.log*
 
 .env
 .env.*
+.dev.vars
+.dev.vars.*
+*.private-key.pem
+*.private-key.key
 
 .DS_Store
 Thumbs.db

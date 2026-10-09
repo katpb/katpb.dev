@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "task": "T005",
+  "reviewedAt": "2026-10-06T17:35:00Z",
+  "authorization": "Close T001-T022; no credential-bearing T005 rerun; stop before T023; PR remains draft for owner Ready for Review/merge decision.",
+  "evidenceSources": [
+    {
+      "path": "specs/004-production-hosting/checklists/evidence/cloudflare-t005-owner-attempt-3-2026-10-04.json",
+      "sha256": "08091cf8b423efd4678910482087bc277c11a2d462b030cf6dad4a47b88e3a03",
+      "overallPass": false
+    },
+    {
+      "path": "specs/004-production-hosting/checklists/evidence/cloudflare-t005-owner-attempt-4-2026-10-06.json",
+      "sha256": "4be9c5db75a45dd4498d3b6e785def159a962640adb8e848362cedd77674e02a",
+      "overallPass": true
+    }
+  ],
+  "combination": "Third authorization matrix and preservation results plus fourth complete lifecycle and fresh baselines/finals; original outcomes unchanged.",
+  "fourthReferencesExactThirdHash": true,
+  "fourthMatchesCurrentCodePolicyBaselineHashes": true,
+  "authorizationMatrix": [
+    {
+      "credential": "production",
+      "target": "production",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "credential": "preview",
+      "target": "preview",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "credential": "acceptance",
+      "target": "acceptance",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "credential": "production",
+      "target": "preview",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "credential": "production",
+      "target": "acceptance",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "credential": "preview",
+      "target": "production",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "credential": "preview",
+      "target": "acceptance",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "credential": "acceptance",
+      "target": "production",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "credential": "acceptance",
+      "target": "preview",
+      "pass": true,
+      "status": 403
+    }
+  ],
+  "deniedProbeTargetStatePairs": 6,
+  "deniedProbeTargetStateUnchanged": true,
+  "thirdFinalBaseChecksPassed": 3,
+  "fourthBaselineChecksPassed": 3,
+  "fourthFinalBaseChecksPassed": 3,
+  "previewLifecycle": {
+    "pass": true,
+    "stage": "complete",
+    "created": true,
+    "updated": true,
+    "cleanup": true,
+    "previewEvidence": {
+      "resourceCreated": true,
+      "previewName": "local-katpb-a8a5a21103049c2ca5c07e4163a2627a",
+      "previewSlug": "local-katpb-a8a5a21103049c2ca5c07e4163a2627a",
+      "stableUrls": [
+        "https://local-katpb-a8a5a21103049c2ca5c07e4163a2627a-katpb-dev-preview.katpb.workers.dev"
+      ],
+      "deployments": [
+        {
+          "stage": "create",
+          "id": "aa123593-f703-455c-8879-8949657bccaf",
+          "urls": ["https://aa123593-katpb-dev-preview.katpb.workers.dev"],
+          "servedVerified": true
+        },
+        {
+          "stage": "update",
+          "id": "52c3e4c5-a5ce-4ef3-a0e8-37d4a993aabc",
+          "urls": ["https://52c3e4c5-katpb-dev-preview.katpb.workers.dev"],
+          "servedVerified": true
+        }
+      ],
+      "servedRequests": [
+        {
+          "url": "https://local-katpb-a8a5a21103049c2ca5c07e4163a2627a-katpb-dev-preview.katpb.workers.dev",
+          "httpStatus": 200,
+          "passed": true
+        },
+        {
+          "url": "https://aa123593-katpb-dev-preview.katpb.workers.dev",
+          "httpStatus": 200,
+          "passed": true
+        },
+        {
+          "url": "https://local-katpb-a8a5a21103049c2ca5c07e4163a2627a-katpb-dev-preview.katpb.workers.dev",
+          "httpStatus": 200,
+          "passed": false
+        },
+        {
+          "url": "https://local-katpb-a8a5a21103049c2ca5c07e4163a2627a-katpb-dev-preview.katpb.workers.dev",
+          "httpStatus": 200,
+          "passed": true
+        },
+        {
+          "url": "https://52c3e4c5-katpb-dev-preview.katpb.workers.dev",
+          "httpStatus": 200,
+          "passed": true
+        }
+      ]
+    }
+  },
+  "lifecycleLastHttpStatus": 404,
+  "lifecycleLastErrorCodes": [10025],
+  "lifecycleLastStatusMeaning": "Expected post-delete absence; complete passing lifecycle.",
+  "approvedPreviewParentConfiguration": {
+    "workerName": "katpb-dev-preview",
+    "workers_dev": true,
+    "preview_urls": true,
+    "previews": {}
+  },
+  "otherWorkersConfiguration": [
+    {
+      "workerName": "katpb-dev-production",
+      "workers_dev": true,
+      "preview_urls": false
+    },
+    {
+      "workerName": "katpb-dev-acceptance",
+      "workers_dev": true,
+      "preview_urls": false
+    }
+  ],
+  "credentialSource": {
+    "approved": "1Password CLI",
+    "execution": "Owner normal VS Code integrated terminal only",
+    "resolution": "One approved reference per normally masked op run into short-lived trusted provider subprocess",
+    "acceptanceStoredInGithub": false,
+    "valuesReadByCodex": false
+  },
+  "issuedTokenExpirationReadback": {
+    "observedAt": "2026-10-06T17:35:00Z",
+    "method": "Signed-in Cloudflare existing token forms, accessibility and screenshot readback; no edit/review/submission",
+    "tokens": [
+      {
+        "name": "katpb-r4-production",
+        "expirationConfiguration": "No expiration",
+        "expiresOn": null,
+        "notBefore": null,
+        "permission": "Individual Workers Editor",
+        "workerName": "katpb-dev-production",
+        "selectedWorkers": 1,
+        "additionalPolicies": 0
+      },
+      {
+        "name": "katpb-r4-preview",
+        "expirationConfiguration": "No expiration",
+        "expiresOn": null,
+        "notBefore": null,
+        "permission": "Individual Workers Editor",
+        "workerName": "katpb-dev-preview",
+        "selectedWorkers": 1,
+        "additionalPolicies": 0
+      },
+      {
+        "name": "katpb-r4-acceptance",
+        "expirationConfiguration": "No expiration",
+        "expiresOn": null,
+        "notBefore": null,
+        "permission": "Individual Workers Editor",
+        "workerName": "katpb-dev-acceptance",
+        "selectedWorkers": 1,
+        "additionalPolicies": 0
+      }
+    ],
+    "supersededDraftExpiration": "2027-01-02T23:59:59Z",
+    "tokensModified": false
+  },
+  "environmentConfiguration": {
+    "source": "cloudflare-t005-credential-readback-2026-10-04.json",
+    "environments": ["preview", "production", "production-recovery"],
+    "allowedBranches": ["main"],
+    "allowedTags": [],
+    "adminBypass": false,
+    "recoveryRequiredReviewer": {
+      "login": "katpb",
+      "id": 50702152
+    },
+    "recoveryApprovalJobExercised": false
+  },
+  "historicalEvidenceHashes": {
+    "specs/004-production-hosting/checklists/evidence/cloudflare-t005-owner-attempt-2-analysis-2026-10-04.json": "97f57db0fb7acd28a6b08cad01f271575f1ee747b58dd5a0dd1ec6b49f96000e",
+    "specs/004-production-hosting/checklists/evidence/cloudflare-t005-owner-attempt-3-2026-10-04.json": "08091cf8b423efd4678910482087bc277c11a2d462b030cf6dad4a47b88e3a03",
+    "specs/004-production-hosting/checklists/evidence/cloudflare-t005-owner-attempt-2-2026-10-04.json": "fce3b1dbe5bf257a929e1ae253243e4a7300a13ace3302cffa62dde3087bf156",
+    "specs/004-production-hosting/checklists/evidence/cloudflare-t005-owner-attempt-1-analysis-2026-10-04.json": "ee4a06f71a3b5d2533088cf308cd855918b466a6aabed6efe5bfb7f0bb0e9c80",
+    "specs/004-production-hosting/checklists/evidence/cloudflare-t005-1password-attempt-2026-10-04.json": "95b90537599d62487d041100e6ccbb4765c13c92e78512ad8946576968335add",
+    "specs/004-production-hosting/checklists/evidence/cloudflare-t005-owner-run-preparation-2026-10-04.json": "62f073354ebe2b07689c58165fad94675bf705d873d5c62a5c76b7149e4ae1f1",
+    "specs/004-production-hosting/checklists/evidence/cloudflare-t005-preview-host-adjustment-2026-10-04.json": "f6eadc8b26f7bc47c8d3429310c3cc9f5642faa2b68692e2799ae69766b4b814",
+    "specs/004-production-hosting/checklists/evidence/cloudflare-t005-owner-attempt-4-2026-10-06.json": "4be9c5db75a45dd4498d3b6e785def159a962640adb8e848362cedd77674e02a",
+    "specs/004-production-hosting/checklists/evidence/cloudflare-t005-owner-attempt-1-2026-10-04.json": "f04798ecf1135a12e8c3c198a29aa66c481a0a831ece1ddf1d1a7b562cf0b4bd",
+    "specs/004-production-hosting/checklists/evidence/cloudflare-t005-credential-readback-2026-10-04.json": "9e5c830e6f5fb52ce5da725f020beb01349968da83cfcc653a66a46ecc078cfc",
+    "specs/004-production-hosting/checklists/evidence/cloudflare-bootstrap-2026-10-04.json": "8bc537110b69e03a56d11630cf0220df209027d09fe32b59e93fc6d603136f01"
+  },
+  "credentialBearingTestsRerun": false,
+  "t005Complete": true,
+  "t001ThroughT022Completed": 22,
+  "t001ThroughT022Total": 22,
+  "t023Started": false,
+  "foundationCheckpointComplete": true,
+  "fullR4StoryAcceptanceComplete": false,
+  "finalCredentialFreeValidation": "Recorded in acceptance.md and credential-free closeout log; separate from owner provider observations.",
+  "prHeadCI": "Required exact updated head CI readback before merge recommendation.",
+  "localValidation": {
+    "status": "passed",
+    "command": "npm run verify",
+    "node": "24.21.0",
+    "npm": "11.21.0",
+    "browserTestsPassed": 368,
+    "integrationTestsPassed": 67,
+    "t005RegressionsPassed": 33,
+    "astroErrors": 0,
+    "astroWarnings": 0,
+    "astroHints": 0,
+    "reproducibleGeneratedFiles": 6,
+    "formattingPassed": true,
+    "diffWhitespacePassed": true,
+    "credentialFreeEnvironment": "Empty environment with explicit local toolchain/browser settings and external-blocking proxies",
+    "providerCallsMocked": true,
+    "credentialBearingScriptExecution": false,
+    "logPath": "/private/tmp/t005-closeout-credential-free-verify-2026-10-06-unrestricted.log",
+    "logSha256": "3c9cf3287ec97690c7f19e401c3e06c477e3c89046df446cf88804c48ff0e077",
+    "initialSandboxAttempt": "Formatting/check/build passed; browser server EPERM; approved loopback-capable rerun passed."
+  }
+}

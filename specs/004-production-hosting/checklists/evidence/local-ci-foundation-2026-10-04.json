@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "sourceSha": "19478d000b598ce6f0e807623cfd63cc49f00804",
+  "workflowId": 374100170,
+  "workflowPath": ".github/workflows/ci.yml",
+  "runId": 37144339502,
+  "runAttempt": 1,
+  "checkSuiteId": 100613391730,
+  "checkRunId": 111265088994,
+  "checkName": "repository-health",
+  "checkAppId": 15368,
+  "conclusion": "success",
+  "artifactId": 11281532875,
+  "artifactName": "r4-raw-19478d000b598ce6f0e807623cfd63cc49f00804-37144339502-1",
+  "artifactDigest": "sha256:2044fa89660886bd572c36b946c5a1553fbf87752c714966a127c8923e4067cc",
+  "artifactDigestVerified": true,
+  "validation": {
+    "clean": true,
+    "lockfileSha256": "738211633a7bf77ffc7e91d37f3944b1d509daabeee52b01048f2a1e0ef5c9b3",
+    "nodeVersion": "24.21.0",
+    "npmVersion": "11.21.0",
+    "rawDigest": "7bdbd0d423edcff320be8806ba6808ff394a4911bfe3e998964e6d967b2dd19f",
+    "reproducibility": {
+      "rawEqual": true,
+      "trackedEqual": true
+    },
+    "schemaVersion": 1,
+    "sourceSha": "19478d000b598ce6f0e807623cfd63cc49f00804",
+    "validationResult": "success"
+  },
+  "rawManifest": [
+    {
+      "path": "_astro/PageIntro.cyrCZwD0.css",
+      "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492",
+      "size": 6084
+    },
+    {
+      "path": "_astro/brand-mark.D9O_vNL9.svg",
+      "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e",
+      "size": 1495
+    },
+    {
+      "path": "about/index.html",
+      "sha256": "2ba5e289e96d84170a5f98add56c731985493e4fdb23edc4f58c5b38fd2fa90f",
+      "size": 7152
+    },
+    {
+      "path": "index.html",
+      "sha256": "b980eb5eb4e682b43d48e5c645bcddaa4f89b7c1b7d54f35319a40a7a075b20d",
+      "size": 9204
+    },
+    {
+      "path": "projects/index.html",
+      "sha256": "b2ea45d2f2051ae2676b9a8c0450dba230a047c64b36e083ae341b4e87597fe3",
+      "size": 7562
+    },
+    {
+      "path": "writing/index.html",
+      "sha256": "5a57335844c698f7048fa795a902a4fd73da994c0e3e907771a31e82ef713fb8",
+      "size": 6949
+    }
+  ],
+  "rawBytesEqual": true,
+  "packageManifest": {
+    "schemaVersion": 1,
+    "sourceSha": "19478d000b598ce6f0e807623cfd63cc49f00804",
+    "rawDigest": "7bdbd0d423edcff320be8806ba6808ff394a4911bfe3e998964e6d967b2dd19f",
+    "policySha256": "4fc4e91bf60b9b66f8e96403199c78434b88ccaff2bbda1b81e6b9031be7cfb0",
+    "retainedDigest": "ceecaebe943fd000a2eb802627e2dddeceec0ac105b0273a4ce95d12178b786a",
+    "predecessorArchiveId": null,
+    "immutableManifest": [
+      {
+        "path": "_astro/PageIntro.cyrCZwD0.css",
+        "size": 6084,
+        "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492"
+      },
+      {
+        "path": "_astro/brand-mark.D9O_vNL9.svg",
+        "size": 1495,
+        "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e"
+      }
+    ],
+    "packageManifest": [
+      {
+        "path": "__release.json",
+        "size": 154,
+        "sha256": "e65d22684f1bb0c7353a42f7f8a9ec2c5bf282ec55eb8d5ce03dcc383f0910e4"
+      },
+      {
+        "path": "_astro/PageIntro.cyrCZwD0.css",
+        "size": 6084,
+        "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492"
+      },
+      {
+        "path": "_astro/brand-mark.D9O_vNL9.svg",
+        "size": 1495,
+        "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e"
+      },
+      {
+        "path": "_headers",
+        "size": 283,
+        "sha256": "4fc4e91bf60b9b66f8e96403199c78434b88ccaff2bbda1b81e6b9031be7cfb0"
+      },
+      {
+        "path": "about/index.html",
+        "size": 7152,
+        "sha256": "2ba5e289e96d84170a5f98add56c731985493e4fdb23edc4f58c5b38fd2fa90f"
+      },
+      {
+        "path": "index.html",
+        "size": 9204,
+        "sha256": "b980eb5eb4e682b43d48e5c645bcddaa4f89b7c1b7d54f35319a40a7a075b20d"
+      },
+      {
+        "path": "projects/index.html",
+        "size": 7562,
+        "sha256": "b2ea45d2f2051ae2676b9a8c0450dba230a047c64b36e083ae341b4e87597fe3"
+      },
+      {
+        "path": "writing/index.html",
+        "size": 6949,
+        "sha256": "5a57335844c698f7048fa795a902a4fd73da994c0e3e907771a31e82ef713fb8"
+      }
+    ],
+    "packageDigest": "871fbcde94a668a456fc3478776da50f596cba4114efcdd90eba9ffdaa24ac92"
+  },
+  "packageBytesEqual": true,
+  "explicitInputs": {
+    "retainedInput": [],
+    "retainedDigest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "predecessorArchiveId": null,
+    "publicAstroPaths": [],
+    "headers": "/*\n  X-Robots-Tag: noindex\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n"
+  },
+  "runtimeProtection": {
+    "rulesetId": 24419712,
+    "enforcement": "active",
+    "bypassActorsVisible": false,
+    "bypassActorCount": null
+  },
+  "providerMutation": false,
+  "checkpointComplete": false
+}

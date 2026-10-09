@@ -1,0 +1,629 @@
+{
+  "schemaVersion": 1,
+  "task": "T005",
+  "execution": "owner VS Code terminal",
+  "attempt": 4,
+  "mode": "preview-lifecycle-only",
+  "authorizationMatrixEvidence": {
+    "path": ".deploy/evidence/t005-owner-run-third.json",
+    "sha256": "08091cf8b423efd4678910482087bc277c11a2d462b030cf6dad4a47b88e3a03"
+  },
+  "startedAt": "2026-10-06T17:19:07.507Z",
+  "finishedAt": "2026-10-06T17:20:26.483Z",
+  "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+  "providerCodeSha256": "a201215e65fe83d7ac2def14a23760408088c7bacaedc48a67f5adb0b049f90c",
+  "ownerRunnerSha256": "cb6ef228adce7a1d6e971ed120357c97c4cf4b89bdba4b07d4d10b5919367fbb",
+  "baselineFileSha256": "02b778ab92e7f50bb7d7c9427a6c84359d2b019f73dcbc3a54806b18f4fd69c7",
+  "policyFileSha256": "bba83fcf6d942373192b681ea3cc4343bb4e65e37ab2ee48366459110d174dca",
+  "diagnosticCodeSha256": "4f87ee5826ae015a7e5c65e07144bf7430ef6e5d1775077f0b6f67780d3d42e9",
+  "previewName": "local-katpb-a8a5a21103049c2ca5c07e4163a2627a",
+  "results": [
+    {
+      "operation": "baseline",
+      "credential": "production",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "0028456d-f204-4a33-a165-12203f2cc51c",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "diagnostics": {
+        "operation": "baseline",
+        "targetWorkerName": "katpb-dev-production",
+        "workerPolicyId": "1fe57381f57848dbb722225ef8949ea2",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "baseline",
+      "credential": "preview",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "3c6c5306-a585-4980-84aa-73dfe6ef0cce",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "81d85b2e35295c30a89a15cfce655824db618966f23be5b068d6f55c545429f3"
+      },
+      "diagnostics": {
+        "operation": "baseline",
+        "targetWorkerName": "katpb-dev-preview",
+        "workerPolicyId": "ede742fe3b12494b928f3785441dca6a",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "baseline",
+      "credential": "acceptance",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "2dbb8ee8-2bf8-4f82-828a-b042b2dadadd",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "diagnostics": {
+        "operation": "baseline",
+        "targetWorkerName": "katpb-dev-acceptance",
+        "workerPolicyId": "bc035ed004424484b1151cdda8c437de",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "preview-lifecycle",
+      "credential": "preview",
+      "pass": true,
+      "stage": "complete",
+      "created": true,
+      "updated": true,
+      "cleanup": true,
+      "previewEvidence": {
+        "resourceCreated": true,
+        "previewName": "local-katpb-a8a5a21103049c2ca5c07e4163a2627a",
+        "previewSlug": "local-katpb-a8a5a21103049c2ca5c07e4163a2627a",
+        "stableUrls": [
+          "https://local-katpb-a8a5a21103049c2ca5c07e4163a2627a-katpb-dev-preview.katpb.workers.dev"
+        ],
+        "deployments": [
+          {
+            "stage": "create",
+            "id": "aa123593-f703-455c-8879-8949657bccaf",
+            "urls": [
+              "https://aa123593-katpb-dev-preview.katpb.workers.dev"
+            ],
+            "servedVerified": true
+          },
+          {
+            "stage": "update",
+            "id": "52c3e4c5-a5ce-4ef3-a0e8-37d4a993aabc",
+            "urls": [
+              "https://52c3e4c5-katpb-dev-preview.katpb.workers.dev"
+            ],
+            "servedVerified": true
+          }
+        ],
+        "servedRequests": [
+          {
+            "url": "https://local-katpb-a8a5a21103049c2ca5c07e4163a2627a-katpb-dev-preview.katpb.workers.dev",
+            "httpStatus": 200,
+            "passed": true
+          },
+          {
+            "url": "https://aa123593-katpb-dev-preview.katpb.workers.dev",
+            "httpStatus": 200,
+            "passed": true
+          },
+          {
+            "url": "https://local-katpb-a8a5a21103049c2ca5c07e4163a2627a-katpb-dev-preview.katpb.workers.dev",
+            "httpStatus": 200,
+            "passed": false
+          },
+          {
+            "url": "https://local-katpb-a8a5a21103049c2ca5c07e4163a2627a-katpb-dev-preview.katpb.workers.dev",
+            "httpStatus": 200,
+            "passed": true
+          },
+          {
+            "url": "https://52c3e4c5-katpb-dev-preview.katpb.workers.dev",
+            "httpStatus": 200,
+            "passed": true
+          }
+        ]
+      },
+      "diagnostics": {
+        "operation": "preview-lifecycle",
+        "targetWorkerName": "katpb-dev-preview",
+        "workerPolicyId": "ede742fe3b12494b928f3785441dca6a",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-preview",
+        "method": "GET",
+        "httpStatus": 404,
+        "errorCodes": [
+          10025
+        ],
+        "category": "client-error",
+        "message": "Cloudflare rejected this request.",
+        "phase": "after-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "GET",
+            "httpStatus": 404,
+            "errorCodes": [
+              10025
+            ],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "POST",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-assets",
+            "method": "POST",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "POST",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "after-deployment"
+          },
+          {
+            "endpointFamily": "worker-assets",
+            "method": "POST",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-assets",
+            "method": "POST",
+            "httpStatus": 201,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "POST",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "after-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "after-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "DELETE",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "during-deployment"
+          },
+          {
+            "endpointFamily": "worker-preview",
+            "method": "GET",
+            "httpStatus": 404,
+            "errorCodes": [
+              10025
+            ],
+            "phase": "after-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "final",
+      "credential": "production",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "0028456d-f204-4a33-a165-12203f2cc51c",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "diagnostics": {
+        "operation": "final",
+        "targetWorkerName": "katpb-dev-production",
+        "workerPolicyId": "1fe57381f57848dbb722225ef8949ea2",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "final",
+      "credential": "preview",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "3c6c5306-a585-4980-84aa-73dfe6ef0cce",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "81d85b2e35295c30a89a15cfce655824db618966f23be5b068d6f55c545429f3"
+      },
+      "diagnostics": {
+        "operation": "final",
+        "targetWorkerName": "katpb-dev-preview",
+        "workerPolicyId": "ede742fe3b12494b928f3785441dca6a",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "final",
+      "credential": "acceptance",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "2dbb8ee8-2bf8-4f82-828a-b042b2dadadd",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      },
+      "diagnostics": {
+        "operation": "final",
+        "targetWorkerName": "katpb-dev-acceptance",
+        "workerPolicyId": "bc035ed004424484b1151cdda8c437de",
+        "provider": "direct-rest",
+        "wranglerInvoked": false,
+        "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+        "accountIdExplicit": true,
+        "endpointFamily": "worker-subdomain",
+        "method": "GET",
+        "httpStatus": 200,
+        "errorCodes": [],
+        "category": "none",
+        "message": "No provider error reported.",
+        "phase": "before-deployment",
+        "providerSubprocessExitCode": 0,
+        "opExitCode": 0,
+        "tokenVerification": {
+          "succeeded": true,
+          "status": "active",
+          "expiresOn": null,
+          "notBefore": null,
+          "httpStatus": 200,
+          "errorCodes": []
+        },
+        "responseShape": null,
+        "requests": [
+          {
+            "endpointFamily": "account-token-verification",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-deployments",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-settings",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          },
+          {
+            "endpointFamily": "worker-subdomain",
+            "method": "GET",
+            "httpStatus": 200,
+            "errorCodes": [],
+            "phase": "before-deployment"
+          }
+        ]
+      }
+    }
+  ],
+  "pass": true,
+  "baseWorkersExpected": true,
+  "previewRemoved": true,
+  "t023Started": false
+}

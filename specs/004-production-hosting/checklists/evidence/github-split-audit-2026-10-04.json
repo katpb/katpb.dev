@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-04T04:34:29.185Z",
+  "ownerAuditPath": "hosting/github-ruleset-audit.json",
+  "ownerAuditAccess": "existing authorized owner setup connection; complete bypass actors read",
+  "runtimeAccess": "public read-only Metadata GET; no token",
+  "matching": {
+    "schemaVersion": 1,
+    "status": "eligible",
+    "auditDigest": "905ffa3ead2590f7d390156e722204b63104a584286d446364f348893667c767",
+    "auditedAt": "2026-10-04T03:09:56.000Z",
+    "rulesets": [
+      {
+        "id": 24419675,
+        "updated_at": "2026-10-03T14:40:48.702Z"
+      },
+      {
+        "id": 24419712,
+        "updated_at": "2026-10-03T18:38:08.667Z"
+      },
+      {
+        "id": 24419981,
+        "updated_at": "2026-10-03T15:45:08.564Z"
+      }
+    ],
+    "bypassTrust": "owner-audited; live revision matched",
+    "access": "read-only Metadata"
+  },
+  "changedRevisionLiveProbe": "blocked; only the in-memory expected timestamp was changed",
+  "localValidation": {
+    "astroDiagnostics": 0,
+    "browserCases": 368,
+    "operationalTests": 30,
+    "reproducibleRawFiles": 6
+  },
+  "administrationWriteCredentialCreated": false,
+  "secondAppCreated": false,
+  "providerMutation": false,
+  "ciVerification": {
+    "status": "verified",
+    "headSha": "e6a78ab65092ea45833b77800cfdb2d07e4a8422",
+    "runId": 37177434568,
+    "runAttempt": 1,
+    "workflowId": 374100170,
+    "checkSuiteId": 100701435531,
+    "checkId": 111362887586,
+    "checkName": "repository-health",
+    "checkAppId": 15368,
+    "conclusion": "success",
+    "url": "https://github.com/katpb/katpb.dev/actions/runs/37177434568",
+    "tokenPermissions": {
+      "contents": "read",
+      "metadata": "read"
+    },
+    "artifactId": 11292899349,
+    "artifactDigest": "sha256:058031fecef7b278f964932eb54e24a2c69a53a5b785335c434f3217a4c38489",
+    "artifactZipDigestVerified": true,
+    "runtimeObservation": {
+      "schemaVersion": 1,
+      "status": "eligible",
+      "auditDigest": "905ffa3ead2590f7d390156e722204b63104a584286d446364f348893667c767",
+      "auditedAt": "2026-10-04T03:09:56.000Z",
+      "rulesets": [
+        {
+          "id": 24419675,
+          "updated_at": "2026-10-03T14:40:48.702Z"
+        },
+        {
+          "id": 24419712,
+          "updated_at": "2026-10-03T18:38:08.667Z"
+        },
+        {
+          "id": 24419981,
+          "updated_at": "2026-10-03T15:45:08.564Z"
+        }
+      ],
+      "bypassTrust": "owner-audited; live revision matched",
+      "access": "read-only Metadata"
+    },
+    "comparison": {
+      "sourceSha": "e6a78ab65092ea45833b77800cfdb2d07e4a8422",
+      "runId": 37177434568,
+      "rawFiles": 6,
+      "packageFiles": 8,
+      "rawDigest": "7bdbd0d423edcff320be8806ba6808ff394a4911bfe3e998964e6d967b2dd19f",
+      "packageDigest": "2bc36bc41b972362d3fef8e88cc3f2bb6a458643002d51b21ebbd4124696aafd",
+      "rawManifestEqual": true,
+      "rawBytesEqual": true,
+      "packageManifestEqual": true,
+      "packageBytesEqual": true,
+      "provenanceEqual": true,
+      "trackedSourceClean": true
+    },
+    "provenance": {
+      "clean": true,
+      "lockfileSha256": "738211633a7bf77ffc7e91d37f3944b1d509daabeee52b01048f2a1e0ef5c9b3",
+      "nodeVersion": "24.21.0",
+      "npmVersion": "11.21.0",
+      "rawDigest": "7bdbd0d423edcff320be8806ba6808ff394a4911bfe3e998964e6d967b2dd19f",
+      "reproducibility": {
+        "rawEqual": true,
+        "trackedEqual": true
+      },
+      "schemaVersion": 1,
+      "sourceSha": "e6a78ab65092ea45833b77800cfdb2d07e4a8422",
+      "validationResult": "success"
+    },
+    "rawManifest": [
+      {
+        "path": "_astro/PageIntro.cyrCZwD0.css",
+        "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492",
+        "size": 6084
+      },
+      {
+        "path": "_astro/brand-mark.D9O_vNL9.svg",
+        "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e",
+        "size": 1495
+      },
+      {
+        "path": "about/index.html",
+        "sha256": "2ba5e289e96d84170a5f98add56c731985493e4fdb23edc4f58c5b38fd2fa90f",
+        "size": 7152
+      },
+      {
+        "path": "index.html",
+        "sha256": "b980eb5eb4e682b43d48e5c645bcddaa4f89b7c1b7d54f35319a40a7a075b20d",
+        "size": 9204
+      },
+      {
+        "path": "projects/index.html",
+        "sha256": "b2ea45d2f2051ae2676b9a8c0450dba230a047c64b36e083ae341b4e87597fe3",
+        "size": 7562
+      },
+      {
+        "path": "writing/index.html",
+        "sha256": "5a57335844c698f7048fa795a902a4fd73da994c0e3e907771a31e82ef713fb8",
+        "size": 6949
+      }
+    ],
+    "packageManifest": {
+      "immutableManifest": [
+        {
+          "path": "_astro/PageIntro.cyrCZwD0.css",
+          "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492",
+          "size": 6084
+        },
+        {
+          "path": "_astro/brand-mark.D9O_vNL9.svg",
+          "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e",
+          "size": 1495
+        }
+      ],
+      "packageDigest": "2bc36bc41b972362d3fef8e88cc3f2bb6a458643002d51b21ebbd4124696aafd",
+      "packageManifest": [
+        {
+          "path": "__release.json",
+          "sha256": "30c5d97ca9be1315d4a956b6756c55c126cd9bd16bd96c71718931b3a240826d",
+          "size": 154
+        },
+        {
+          "path": "_astro/PageIntro.cyrCZwD0.css",
+          "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492",
+          "size": 6084
+        },
+        {
+          "path": "_astro/brand-mark.D9O_vNL9.svg",
+          "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e",
+          "size": 1495
+        },
+        {
+          "path": "_headers",
+          "sha256": "4fc4e91bf60b9b66f8e96403199c78434b88ccaff2bbda1b81e6b9031be7cfb0",
+          "size": 283
+        },
+        {
+          "path": "about/index.html",
+          "sha256": "2ba5e289e96d84170a5f98add56c731985493e4fdb23edc4f58c5b38fd2fa90f",
+          "size": 7152
+        },
+        {
+          "path": "index.html",
+          "sha256": "b980eb5eb4e682b43d48e5c645bcddaa4f89b7c1b7d54f35319a40a7a075b20d",
+          "size": 9204
+        },
+        {
+          "path": "projects/index.html",
+          "sha256": "b2ea45d2f2051ae2676b9a8c0450dba230a047c64b36e083ae341b4e87597fe3",
+          "size": 7562
+        },
+        {
+          "path": "writing/index.html",
+          "sha256": "5a57335844c698f7048fa795a902a4fd73da994c0e3e907771a31e82ef713fb8",
+          "size": 6949
+        }
+      ],
+      "policySha256": "4fc4e91bf60b9b66f8e96403199c78434b88ccaff2bbda1b81e6b9031be7cfb0",
+      "predecessorArchiveId": null,
+      "rawDigest": "7bdbd0d423edcff320be8806ba6808ff394a4911bfe3e998964e6d967b2dd19f",
+      "retainedDigest": "ceecaebe943fd000a2eb802627e2dddeceec0ac105b0273a4ce95d12178b786a",
+      "schemaVersion": 1,
+      "sourceSha": "e6a78ab65092ea45833b77800cfdb2d07e4a8422"
+    }
+  },
+  "finalReadbackAt": "2026-10-04T04:42:47.479174+00:00",
+  "ownerFinalReadback": "all three full rulesets and bypass actor lists exactly match hosting/github-ruleset-audit.json",
+  "environments": [
+    {
+      "name": "preview",
+      "canAdminsBypass": false,
+      "deploymentBranchPolicy": {
+        "protected_branches": false,
+        "custom_branch_policies": true
+      },
+      "branchPolicies": [
+        {
+          "id": 61852785,
+          "name": "main",
+          "type": "branch"
+        }
+      ]
+    },
+    {
+      "name": "production",
+      "canAdminsBypass": false,
+      "deploymentBranchPolicy": {
+        "protected_branches": false,
+        "custom_branch_policies": true
+      },
+      "branchPolicies": [
+        {
+          "id": 61852919,
+          "name": "main",
+          "type": "branch"
+        }
+      ]
+    },
+    {
+      "name": "production-recovery",
+      "canAdminsBypass": false,
+      "deploymentBranchPolicy": {
+        "protected_branches": false,
+        "custom_branch_policies": true
+      },
+      "branchPolicies": [
+        {
+          "id": 61853140,
+          "name": "main",
+          "type": "branch"
+        }
+      ],
+      "requiredReviewer": "katpb",
+      "preventSelfReview": false
+    }
+  ]
+}

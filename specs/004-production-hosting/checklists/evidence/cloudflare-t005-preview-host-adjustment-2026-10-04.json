@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-04",
+  "task": "T005",
+  "status": "authorization matrix proven; preview lifecycle pending",
+  "thirdAttempt": {
+    "path": "cloudflare-t005-owner-attempt-3-2026-10-04.json",
+    "sha256": "08091cf8b423efd4678910482087bc277c11a2d462b030cf6dad4a47b88e3a03",
+    "overallPass": false,
+    "authorizationMatrixPass": true,
+    "ownWorkerSuccesses": 3,
+    "crossWorkerDenials": 6,
+    "targetStateChecks": 12,
+    "finalBaseChecksPass": 3,
+    "previewName": "local-katpb-75e53dc285f5fe59cfdbdcb7cb5c0890c68100a6",
+    "previewResourceCreated": true,
+    "previewResourceCreateHttpStatus": 200,
+    "firstPreviewDeploymentCreated": true,
+    "firstPreviewDeploymentHttpStatus": 200,
+    "servedPackageVerified": false,
+    "publicFetchHttpStatus": null,
+    "saved404IsCleanupAbsence": true,
+    "cleanupDeleteHttpStatus": 200,
+    "cleanupAbsenceHttpStatus": 404,
+    "cleanupAbsenceErrorCodes": [10025],
+    "cleanupConfirmed": true,
+    "previewRemoved": true,
+    "providerReturnedStableUrls": null,
+    "providerReturnedDeploymentUrls": null,
+    "returnedUrlsNotRetained": true,
+    "returnedUrlsRecovery": "The original runner discarded urls fields; the resource and deployment were subsequently deleted. The dashboard now shows Create your first Preview. No provider-returned URL can be recovered from the saved sanitized report.",
+    "ownerReportedServedHttpStatus": 404
+  },
+  "staticFindings": {
+    "constructedUrl": "https://local-katpb-75e53dc285f5fe59cfdbdcb7cb5c0890c68100a6-katpb-dev-preview.katpb.workers.dev/",
+    "constructedHostnameLabelLength": 70,
+    "dnsLabelLimit": 63,
+    "runnerUsedProviderReturnedUrls": false,
+    "publicFetchErrorWasNotRecordedSeparately": true,
+    "createdFlagMeaning": "created package verified as served, not resource creation",
+    "configurationGap": "workers.dev Preview host disabled on preview parent",
+    "exactPublicFailure": "Unknown: public response/transport status not retained. Disabled Preview hosting and an invalid constructed DNS label are both confirmed defects; the saved 404 is successful cleanup, not a recorded served response."
+  },
+  "configurationAdjustment": {
+    "observedVia": "existing signed-in Cloudflare dashboard; native UI only",
+    "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+    "workerName": "katpb-dev-preview",
+    "before": {
+      "workersDevEnabled": true,
+      "previewUrlsEnabled": false,
+      "customDomains": [],
+      "zoneRoutes": []
+    },
+    "after": {
+      "workersDevEnabled": true,
+      "previewUrlsEnabled": true,
+      "customDomains": [],
+      "zoneRoutes": []
+    },
+    "otherTargets": {
+      "production": {
+        "workersDevEnabled": true,
+        "previewUrlsEnabled": false,
+        "customDomains": [],
+        "zoneRoutes": []
+      },
+      "acceptance": {
+        "workersDevEnabled": true,
+        "previewUrlsEnabled": false,
+        "customDomains": [],
+        "zoneRoutes": []
+      }
+    },
+    "applied": true,
+    "tokenChanges": false,
+    "dnsNameserverRouteCertificateChanges": false,
+    "historicalT004DisabledObservationsPreserved": true,
+    "requiresReadbackPreviewHostEnabled": true,
+    "persistedReadbackAfterReload": true,
+    "recordedAt": "2026-10-04T16:37:49.894Z"
+  },
+  "generatedTrustedPreviewConfig": {
+    "name": "katpb-dev-preview",
+    "account_id": "45dcbe7b47e04e1f41dc571ceb86b40e",
+    "compatibility_date": "2026-10-02",
+    "workers_dev": true,
+    "preview_urls": true,
+    "assets": {
+      "directory": "/Users/kathirprabhakaran/grepos/katpb.dev-r4/.deploy/t005-controlled/assets",
+      "html_handling": "auto-trailing-slash",
+      "not_found_handling": "none"
+    },
+    "previews": {}
+  },
+  "wrangler": {
+    "installed": "4.147.0",
+    "minimumRequired": "4.135.0",
+    "satisfiesMinimum": true,
+    "invokedByT005": false,
+    "requiredPreviewsBlockPresent": true,
+    "previewsBlock": {}
+  },
+  "runnerCorrection": {
+    "hostPreflight": "Read enabled and previews_enabled before mutations; baseline/final require preview only enabled; production/acceptance require disabled",
+    "urlHandling": "Fetch exact validated resource.urls and deployment.urls strings; use provider slug for allowlist, bind unique URL prefix to returned deployment ID; reject missing/unsafe URLs with no fallback",
+    "sanitizedEvidence": "Retain resource creation, stable URLs, each deployment ID/URLs, public fetch HTTP status separately from API cleanup",
+    "nextMode": "--preview-lifecycle-only",
+    "nextEvidence": ".deploy/evidence/t005-preview-lifecycle-fourth.json",
+    "authorizationMatrixRerun": false,
+    "successfulInvocations": 7,
+    "newLocalNameRandomHexCharacters": 32,
+    "newLocalNameDnsLabelLength": 62
+  },
+  "cleanupRequired": false,
+  "localLockPresent": false,
+  "localValidation": {
+    "status": "passed",
+    "command": "npm run verify",
+    "node": "24.21.0",
+    "npm": "11.21.0",
+    "integrationTestsPassed": 67,
+    "integrationTestsFailed": 0,
+    "t005RegressionsPassed": 33,
+    "browserTestsPassed": 368,
+    "browserTestsFailed": 0,
+    "astroDiagnostics": {
+      "errors": 0,
+      "warnings": 0,
+      "hints": 0
+    },
+    "formattingPassed": true,
+    "historicalOwnerReportsExcludedFromFormatting": true,
+    "buildPassed": true,
+    "reproducibleGeneratedFiles": 6,
+    "diffWhitespacePassed": true,
+    "providerCallsMocked": true,
+    "credentialBearingScriptExecution": false,
+    "credentialsExplicitlyRemovedFromRegressionEnvironment": true,
+    "externalRequestsBlockedByProxy": true,
+    "localBrowserServerOutsideSandboxApproved": true
+  },
+  "documentation": [
+    "https://developers.cloudflare.com/workers/previews/",
+    "https://developers.cloudflare.com/workers/previews/custom-domains/",
+    "https://developers.cloudflare.com/workers/previews/configuration/"
+  ],
+  "t005Complete": false,
+  "pr4Draft": true,
+  "t023Started": false,
+  "codeSha256": {
+    "hosting/policy.json": "bba83fcf6d942373192b681ea3cc4343bb4e65e37ab2ee48366459110d174dca",
+    "scripts/hosting/provider.mjs": "a05660aaa0511058dfa7863276119b50142cd614a8289fb59daf95ddb4a73a30",
+    "scripts/hosting/t005-owner-run.mjs": "cb6ef228adce7a1d6e971ed120357c97c4cf4b89bdba4b07d4d10b5919367fbb",
+    "scripts/hosting/t005-provider.mjs": "a201215e65fe83d7ac2def14a23760408088c7bacaedc48a67f5adb0b049f90c",
+    "scripts/hosting/t005-diagnostics.mjs": "4f87ee5826ae015a7e5c65e07144bf7430ef6e5d1775077f0b6f67780d3d42e9"
+  },
+  "historicalT004EvidenceSha256": "8bc537110b69e03a56d11630cf0220df209027d09fe32b59e93fc6d603136f01",
+  "generatedTrustedPreviewConfigPurpose": "Credential-free generator output for review; T005 itself invokes direct REST, not Wrangler."
+}

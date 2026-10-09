@@ -1,6 +1,11 @@
 node_modules/
 dist/
 .astro/
+.deploy/
+.wrangler/
+.dev.vars*
+*.private-key.pem
+*.private-key.key
 coverage/
 playwright-report/
 test-results/
@@ -9,3 +14,8 @@ package-lock.json
 .agents/
 .specify/
 ROADMAP.md
+# Preserve hashed owner-generated historical reports byte-for-byte.
+specs/004-production-hosting/checklists/evidence/cloudflare-t005-owner-attempt-1-2026-10-04.json
+specs/004-production-hosting/checklists/evidence/cloudflare-t005-owner-attempt-2-2026-10-04.json
+specs/004-production-hosting/checklists/evidence/cloudflare-t005-owner-attempt-3-2026-10-04.json
+specs/004-production-hosting/checklists/evidence/cloudflare-t005-owner-attempt-4-2026-10-06.json

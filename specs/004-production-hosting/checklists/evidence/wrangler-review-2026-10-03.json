@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-03",
+  "version": "4.147.0",
+  "license": "MIT OR Apache-2.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "runtime": {
+    "node": "24.21.0",
+    "npm": "11.21.0"
+  },
+  "integrity": "sha512-pQYRoiq8PTAxphaG69z8+GC1DkSGd19EDZehQ8zxjo/Ko3mRB6Qs1mTrd8ZuKAarLklIjTqr1lUdCK9r4q2hUg==",
+  "install": {
+    "ignoreScripts": true,
+    "wranglerLifecycleScripts": [],
+    "newPostinstallPackages": [
+      "node_modules/workerd",
+      "node_modules/wrangler/node_modules/esbuild"
+    ],
+    "review": "workerd and nested esbuild native installers validate optional platform binaries; both can fall back to network downloads when missing. No lifecycle scripts executed; do not enable fallback downloads in offline verification."
+  },
+  "graph": {
+    "existingVersionsAndIntegritiesPreserved": true,
+    "addedLockEntries": 83,
+    "sharedMetadataChange": "@img/colour optional becomes devOptional"
+  },
+  "advisories": {
+    "sameAsBaseline": true,
+    "high": 3,
+    "wranglerSubtreeFindings": 0,
+    "existingAdvisory": "GHSA-ch52-4w7c-c8xp",
+    "assessment": "Static output contains no Node server. Candidate build/checks receive no provider credentials. Existing advisory remains unresolved; no dependency downgrade or audit fix performed."
+  },
+  "cli": {
+    "version": true,
+    "previewHelp": true,
+    "deployHelp": true,
+    "autoconfigDefault": true,
+    "requiredInvocationFlag": "--autoconfig=false"
+  },
+  "providerMutation": false
+}

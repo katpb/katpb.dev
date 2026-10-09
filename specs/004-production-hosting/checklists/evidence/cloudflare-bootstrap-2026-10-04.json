@@ -1,0 +1,555 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-04T05:28:38.605430+00:00",
+  "authorization": "Owner authorized T004 then T005 only; stop before T023.",
+  "status": "T004 complete; first T005 owner run preserved base state but failed local deployment-response assertion; diagnostic correction prepared, mutation rerun held",
+  "policyAccountId": "a20534600ae6a611d09360bbc2340c6f",
+  "signedInAccountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+  "signedInAccountName": "Katpb072@gmail.com's Account",
+  "observedSubdomain": "katpb.workers.dev",
+  "plan": {
+    "name": "Free",
+    "priceUsd": 0,
+    "dashboardCurrentPlan": true,
+    "workerLimit": 100,
+    "computeRequestsPerDay": 100000,
+    "computeCpuMsPerRequest": 10
+  },
+  "signedInInventory": "No projects found",
+  "approvedWorkerNames": [
+    "katpb-dev-production",
+    "katpb-dev-preview",
+    "katpb-dev-acceptance"
+  ],
+  "workersCreated": [
+    "katpb-dev-production",
+    "katpb-dev-preview",
+    "katpb-dev-acceptance"
+  ],
+  "credentialsCreated": false,
+  "githubSecretsChanged": false,
+  "providerUpload": true,
+  "dnsNameserverRouteCustomDomainChanges": false,
+  "localValidation": {
+    "astroDiagnostics": 0,
+    "browserCases": 368,
+    "operationalTests": 30,
+    "reproducibleRawFiles": 6
+  },
+  "exactLatestCiComparison": {
+    "sourceSha": "da4b7451e80f405514adc3e694065f75a99fb280",
+    "runId": 37177854365,
+    "artifactId": 11293709420,
+    "artifactZipDigest": "0babb9cf7a036777f3c001c00e025372deccb12acfd3d4b775af9244bccf2836",
+    "artifactZipDigestVerified": true,
+    "rawFiles": 6,
+    "packageFiles": 8,
+    "rawDigest": "7bdbd0d423edcff320be8806ba6808ff394a4911bfe3e998964e6d967b2dd19f",
+    "packageDigest": "cb71c17c43139b8b3ac1801b7328757e22a9afa443a58185c3be6e2d48d66610",
+    "rawBytesEqual": true,
+    "packageBytesEqual": true,
+    "provenanceEqual": true,
+    "trackedSourceClean": true,
+    "runtime": {
+      "schemaVersion": 1,
+      "status": "eligible",
+      "auditDigest": "905ffa3ead2590f7d390156e722204b63104a584286d446364f348893667c767",
+      "auditedAt": "2026-10-04T03:09:56.000Z",
+      "rulesets": [
+        {
+          "id": 24419675,
+          "updated_at": "2026-10-03T14:40:48.702Z"
+        },
+        {
+          "id": 24419712,
+          "updated_at": "2026-10-03T18:38:08.667Z"
+        },
+        {
+          "id": 24419981,
+          "updated_at": "2026-10-03T15:45:08.564Z"
+        }
+      ],
+      "bypassTrust": "owner-audited; live revision matched",
+      "access": "read-only Metadata"
+    }
+  },
+  "permissionDocumentation": "https://developers.cloudflare.com/workers/authorization/workers/",
+  "permissionReadbackStatus": "Issued account-owned tokens are Active with one Individual Workers Editor Worker policy each; GitHub approved environment secret names and restrictions read back. Real effective permissions remain untested.",
+  "t004Complete": true,
+  "t005Complete": false,
+  "foundationCheckpointComplete": false,
+  "t023Started": false,
+  "accountResolution": {
+    "confirmedAt": "2026-10-04T05:36:36.516921+00:00",
+    "ownerConfirmedAccountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+    "ownerConfirmedSubdomain": "katpb.workers.dev",
+    "supersededAccountId": "a20534600ae6a611d09360bbc2340c6f",
+    "supersededMeaning": "historical T004 preflight only; not an authorized deployment target",
+    "signedInReadbackMatched": true,
+    "freePlanReadbackMatched": true,
+    "inventoryReadback": "No projects found; search empty; filter Show all",
+    "conflictingR4Workers": false,
+    "policyAccountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+    "policySubdomainLabel": "katpb",
+    "validationAfterPolicyChange": {
+      "observedAt": "2026-10-04T05:38:13.839893+00:00",
+      "fullGate": "passed",
+      "browserCases": 368,
+      "operationalTests": 30,
+      "reproducibleRawFiles": 6,
+      "additionalAccountSubdomainMismatchAssertions": "passed; no provider process invoked"
+    },
+    "provisioning": "all three approved Workers created and read back"
+  },
+  "provisioningObservations": [
+    {
+      "observedAt": "2026-10-04T06:04:27.029494+00:00",
+      "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+      "workerName": "katpb-dev-production",
+      "url": "https://katpb-dev-production.katpb.workers.dev/",
+      "dashboardServiceKey": "katpb-dev-production",
+      "versionPrefix": "0028456d",
+      "assetsOnly": true,
+      "bindings": 0,
+      "customDomains": [],
+      "routes": [],
+      "bootstrapCapability": "Existing signed-in owner dashboard; no creation credential generated or stored",
+      "assetsFiles": 8,
+      "sourceSha": "9e50970941ff49e901fec382b81e71f34a3fcb1a",
+      "packageDigest": "eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe",
+      "sourceCiRun": 37180493308,
+      "sourceCiConclusion": "success",
+      "compatibilityDate": "2026-10-04",
+      "htmlHandling": "auto-trailing-slash",
+      "notFoundHandling": "none",
+      "http": {
+        "schemaVersion": 1,
+        "state": "verified-http",
+        "sourceSha": "9e50970941ff49e901fec382b81e71f34a3fcb1a",
+        "packageDigest": "eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe",
+        "url": "https://katpb-dev-production.katpb.workers.dev/",
+        "resources": 7,
+        "freshness": [
+          {
+            "path": "index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "__release.json",
+            "method": "etag-304"
+          },
+          {
+            "path": "about/index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "projects/index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "writing/index.html",
+            "method": "full-download-no-cache"
+          }
+        ],
+        "elapsedMs": 2272,
+        "nextAction": "Run credential-free browser checks and persist the outcome before declaring deployment verified."
+      },
+      "browserVerification": {
+        "state": "passed",
+        "cases": 64,
+        "browsers": ["Chromium", "WebKit"],
+        "viewports": ["desktop", "mobile"],
+        "colorSchemes": ["light", "dark"],
+        "javaScript": [true, false],
+        "credentialFree": true,
+        "normalTls": true
+      },
+      "workerId": "1fe57381f57848dbb722225ef8949ea2",
+      "workerIdentityType": "Signed-in Specified Workers selector / production-only token review JSON resource ID; legacy service key retained separately",
+      "productionWorkerUrlEnabled": true,
+      "previewVersionUrlsEnabled": false,
+      "domainsReadback": "No custom domains or zone routes"
+    },
+    {
+      "observedAt": "2026-10-04T06:16:49.194528+00:00",
+      "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+      "workerName": "katpb-dev-preview",
+      "workerId": "ede742fe3b12494b928f3785441dca6a",
+      "workerIdentityType": "Signed-in Specified Workers selector / preview-only token review JSON resource ID",
+      "url": "https://katpb-dev-preview.katpb.workers.dev/",
+      "versionPrefix": "3c6c5306",
+      "assetsOnly": true,
+      "bindings": 0,
+      "customDomains": [],
+      "routes": [],
+      "bootstrapCapability": "Existing signed-in owner dashboard; no creation credential generated or stored",
+      "assetsFiles": 8,
+      "sourceSha": "9e50970941ff49e901fec382b81e71f34a3fcb1a",
+      "packageDigest": "eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe",
+      "htmlHandling": "auto-trailing-slash",
+      "notFoundHandling": "none",
+      "http": {
+        "schemaVersion": 1,
+        "state": "verified-http",
+        "sourceSha": "9e50970941ff49e901fec382b81e71f34a3fcb1a",
+        "packageDigest": "eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe",
+        "url": "https://katpb-dev-preview.katpb.workers.dev/",
+        "resources": 7,
+        "freshness": [
+          {
+            "path": "index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "__release.json",
+            "method": "etag-304"
+          },
+          {
+            "path": "about/index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "projects/index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "writing/index.html",
+            "method": "full-download-no-cache"
+          }
+        ],
+        "elapsedMs": 3636,
+        "nextAction": "Run credential-free browser checks and persist the outcome before declaring deployment verified."
+      },
+      "browserVerification": {
+        "state": "passed",
+        "cases": 64,
+        "browsers": ["Chromium", "WebKit"],
+        "viewports": ["desktop", "mobile"],
+        "colorSchemes": ["light", "dark"],
+        "javaScript": [true, false],
+        "credentialFree": true,
+        "normalTls": true
+      },
+      "compatibilityDate": "2026-10-04",
+      "productionWorkerUrlEnabled": true,
+      "previewVersionUrlsEnabled": false,
+      "domainsReadback": "No custom domains or zone routes"
+    },
+    {
+      "observedAt": "2026-10-04T06:20:03.067587+00:00",
+      "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+      "workerName": "katpb-dev-acceptance",
+      "workerId": "bc035ed004424484b1151cdda8c437de",
+      "workerIdentityType": "Signed-in Specified Workers selector / acceptance-only token review JSON resource ID",
+      "url": "https://katpb-dev-acceptance.katpb.workers.dev/",
+      "versionPrefix": "2dbb8ee8",
+      "assetsOnly": true,
+      "bindings": 0,
+      "customDomains": [],
+      "routes": [],
+      "bootstrapCapability": "Existing signed-in owner dashboard; no creation credential generated or stored",
+      "assetsFiles": 8,
+      "sourceSha": "9e50970941ff49e901fec382b81e71f34a3fcb1a",
+      "packageDigest": "eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe",
+      "htmlHandling": "auto-trailing-slash",
+      "notFoundHandling": "none",
+      "http": {
+        "schemaVersion": 1,
+        "state": "verified-http",
+        "sourceSha": "9e50970941ff49e901fec382b81e71f34a3fcb1a",
+        "packageDigest": "eab7db70606d852c64469f0a1ddc4812165c70bdb565fb927355fe3b61b9c9fe",
+        "url": "https://katpb-dev-acceptance.katpb.workers.dev/",
+        "resources": 7,
+        "freshness": [
+          {
+            "path": "index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "__release.json",
+            "method": "etag-304"
+          },
+          {
+            "path": "about/index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "projects/index.html",
+            "method": "full-download-no-cache"
+          },
+          {
+            "path": "writing/index.html",
+            "method": "full-download-no-cache"
+          }
+        ],
+        "elapsedMs": 3836,
+        "nextAction": "Run credential-free browser checks and persist the outcome before declaring deployment verified."
+      },
+      "browserVerification": {
+        "state": "passed",
+        "cases": 64,
+        "browsers": ["Chromium", "WebKit"],
+        "viewports": ["desktop", "mobile"],
+        "colorSchemes": ["light", "dark"],
+        "javaScript": [true, false],
+        "credentialFree": true,
+        "normalTls": true
+      },
+      "compatibilityDate": "2026-10-04",
+      "productionWorkerUrlEnabled": true,
+      "previewVersionUrlsEnabled": false,
+      "domainsReadback": "No custom domains or zone routes"
+    }
+  ],
+  "verificationHistory": [
+    "Initial strict HTTP check blocked on HTML missing ETag; no further creation attempted.",
+    "Second check exposed weak compressed ETag / strong 304 equivalence.",
+    "Third check exposed directory-index canonical route mapping.",
+    "Verifier corrected to the approved equivalent freshness contract, RFC 9110 weak comparison, and configured directory routes. Redirects, changed validators, missing non-HTML validators and wrong bytes/headers remain blocked.",
+    "Production HTTP verification then passed all seven resources and genuine nonce 404; no full deployment acceptance claimed."
+  ],
+  "postBootstrapControlValidation": {
+    "observedAt": "2026-10-04T06:08:59.988351+00:00",
+    "fullGate": "passed",
+    "browserCases": 368,
+    "operationalTests": 34,
+    "reproducibleRawFiles": 6,
+    "productionHostedBrowserCases": 64,
+    "tokenScopeUiReadback": "Specified Workers offers Individual Workers Editor; no account token created",
+    "ci": {
+      "sha": "accc6a2df5bbf1e12637b5adc73c4dbfd837b891",
+      "runId": 37181969057,
+      "jobId": 111376180831,
+      "conclusion": "success"
+    }
+  },
+  "freshGithubEnvironmentReadback": {
+    "observedAt": "2026-10-04T06:16:15.779039+00:00",
+    "environments": [
+      {
+        "name": "preview",
+        "canAdminsBypass": false,
+        "deploymentBranchPolicy": {
+          "protected_branches": false,
+          "custom_branch_policies": true
+        },
+        "branchPolicies": [
+          {
+            "id": 61852785,
+            "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3k2MTg1Mjc4NQ==",
+            "name": "main",
+            "type": "branch"
+          }
+        ],
+        "reviewers": []
+      },
+      {
+        "name": "production",
+        "canAdminsBypass": false,
+        "deploymentBranchPolicy": {
+          "protected_branches": false,
+          "custom_branch_policies": true
+        },
+        "branchPolicies": [
+          {
+            "id": 61852919,
+            "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3k2MTg1MjkxOQ==",
+            "name": "main",
+            "type": "branch"
+          }
+        ],
+        "reviewers": []
+      },
+      {
+        "name": "production-recovery",
+        "canAdminsBypass": false,
+        "deploymentBranchPolicy": {
+          "protected_branches": false,
+          "custom_branch_policies": true
+        },
+        "branchPolicies": [
+          {
+            "id": 61853140,
+            "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3k2MTg1MzE0MA==",
+            "name": "main",
+            "type": "branch"
+          }
+        ],
+        "reviewers": [
+          {
+            "login": "katpb",
+            "id": 50702152
+          }
+        ]
+      }
+    ],
+    "runtimeProtection": {
+      "schemaVersion": 1,
+      "status": "eligible",
+      "auditDigest": "905ffa3ead2590f7d390156e722204b63104a584286d446364f348893667c767",
+      "auditedAt": "2026-10-04T03:09:56.000Z",
+      "rulesets": [
+        {
+          "id": 24419675,
+          "updated_at": "2026-10-03T14:40:48.702Z"
+        },
+        {
+          "id": 24419712,
+          "updated_at": "2026-10-03T18:38:08.667Z"
+        },
+        {
+          "id": 24419981,
+          "updated_at": "2026-10-03T15:45:08.564Z"
+        }
+      ],
+      "bypassTrust": "owner-audited; live revision matched",
+      "access": "read-only Metadata"
+    }
+  },
+  "finalProvisioningReadback": {
+    "observedAt": "2026-10-04T06:21:56.418779+00:00",
+    "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+    "subdomain": "katpb.workers.dev",
+    "inventoryCount": 3,
+    "inventoryNames": [
+      "katpb-dev-production",
+      "katpb-dev-preview",
+      "katpb-dev-acceptance"
+    ],
+    "search": "empty",
+    "filter": "Show all",
+    "plan": "Free",
+    "priceUsd": 0,
+    "currentPlan": true,
+    "paidServicesEnabled": false,
+    "limits": {
+      "workersPerAccount": 100,
+      "maxAssetFilesPerVersion": 20000,
+      "maxAssetFileBytes": 26214400,
+      "maxPreviewsPerWorker": 100,
+      "maxDeploymentsPerPreview": 100,
+      "maxHeaderRules": 100,
+      "maxHeaderLineBytes": 2000,
+      "computeRequestsPerDay": 100000,
+      "computeCpuMsPerInvocation": 10
+    },
+    "assetRequests": "Unlimited and free for assets-only serving; compute quota is not a static-asset-request cap",
+    "limitSources": [
+      "https://developers.cloudflare.com/workers/platform/limits/",
+      "https://developers.cloudflare.com/workers/previews/",
+      "https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/"
+    ],
+    "dnsNameserverRouteCustomDomainCertificateChanges": false
+  },
+  "finalValidation": {
+    "observedAt": "2026-10-04T06:32:05.903533+00:00",
+    "fullGate": "passed",
+    "astroDiagnostics": 0,
+    "localBrowserCases": 368,
+    "operationalTests": 34,
+    "reproducibleRawFiles": 6,
+    "liveHostedBrowserCases": 192,
+    "actualProviderWorkerIdsValidated": true
+  },
+  "t005DraftReviews": [
+    {
+      "tokenCreated": false,
+      "worker": "katpb-dev-production",
+      "workerId": "1fe57381f57848dbb722225ef8949ea2",
+      "permissionName": "Individual Workers Editor",
+      "permissionGroupId": "7e79ec33834341f28dd431ab73884400",
+      "resource": "com.cloudflare.api.account.45dcbe7b47e04e1f41dc571ceb86b40e/com.cloudflare.edge.worker.script.1fe57381f57848dbb722225ef8949ea2",
+      "additionalPolicies": 0,
+      "expiresOn": "2027-01-02T23:59:59Z",
+      "secretHandling": "No value generated or entered; owner handoff required for final credential entry/storage"
+    },
+    {
+      "tokenCreated": false,
+      "worker": "katpb-dev-preview",
+      "workerId": "ede742fe3b12494b928f3785441dca6a",
+      "permissionName": "Individual Workers Editor",
+      "permissionGroupId": "7e79ec33834341f28dd431ab73884400",
+      "additionalPolicies": 0,
+      "expiresOn": "2027-01-02T23:59:59Z"
+    },
+    {
+      "tokenCreated": false,
+      "worker": "katpb-dev-acceptance",
+      "workerId": "bc035ed004424484b1151cdda8c437de",
+      "permissionName": "Individual Workers Editor",
+      "permissionGroupId": "7e79ec33834341f28dd431ab73884400",
+      "additionalPolicies": 0,
+      "expiresOn": "2027-01-02T23:59:59Z"
+    }
+  ],
+  "t005Blocker": {
+    "id": "B009",
+    "reason": "Owner execution boundary is addressed by manual terminal run. First mutation runner failed post-success response assertion; exact response mismatch not retained. T005 effective matrix remains incomplete.",
+    "requiredNextAction": "Review read-only production account-token diagnostic and corrected response diagnostics; resolve cause before any second mutation. Do not change token scopes/values or start T023.",
+    "underlyingCause": "Owner-reported execution boundary; earlier CLI failures are historical. No configuration or permission changes authorized."
+  },
+  "finalExactCiComparison": {
+    "sourceSha": "f3202216bd6bea12ebc1eb43cc650d90f8e491da",
+    "ciRun": 37183095306,
+    "artifactId": 11296390425,
+    "artifactZipDigest": "5cac852c1d9f48b2b4604b6e085d955a3d15e464231e5bfa46dfffec425fb3ed",
+    "artifactZipDigestVerified": true,
+    "provenanceEqual": true,
+    "rawBytesEqual": true,
+    "packageBytesEqual": true,
+    "rawFiles": 6,
+    "packageFiles": 8,
+    "packageDigest": "d4a82fe0319091ead6a65bfc20ad7c8c0ed6ab7edb4317bb03bcc3b49945a0ed",
+    "runtime": {
+      "schemaVersion": 1,
+      "status": "eligible",
+      "auditDigest": "905ffa3ead2590f7d390156e722204b63104a584286d446364f348893667c767",
+      "auditedAt": "2026-10-04T03:09:56.000Z",
+      "rulesets": [
+        {
+          "id": 24419675,
+          "updated_at": "2026-10-03T14:40:48.702Z"
+        },
+        {
+          "id": 24419712,
+          "updated_at": "2026-10-03T18:38:08.667Z"
+        },
+        {
+          "id": 24419981,
+          "updated_at": "2026-10-03T15:45:08.564Z"
+        }
+      ],
+      "bypassTrust": "owner-audited; live revision matched",
+      "access": "read-only Metadata"
+    }
+  },
+  "t005BlockerHistory": [
+    {
+      "id": "B007",
+      "reason": "Owner credential handoff is required for secret entry/submission; available tools have no approved secret-write transport. No token values generated or entered. Effective permission/isolation/named-preview operations untested.",
+      "permissionBroadeningNeeded": false,
+      "ownerReviewDraft": "Acceptance-only token review is open; production/preview/acceptance exact draft grants recorded without values.",
+      "requiredNextAction": "Owner completes approved individual-Worker credential creation and GitHub environment secret entry/storage, then supplies credentials to isolated trusted permission tests through a secure local mechanism, never chat/source/logs.",
+      "supersededAt": "2026-10-04T09:03:12.991Z",
+      "resolution": "Owner completed credential creation/storage; signed-in issued-policy/secret-name readbacks verified. Original historical observations above are retained."
+    },
+    {
+      "id": "B008",
+      "reason": "The trusted local runner has no identified secure source for any of the three scoped tokens. GitHub environment secrets cannot be read back, and the authorized T001\u2013T022 CI has no deployment job that consumes them. Owner dashboard authority is not scoped-token authorization proof.",
+      "requiredNextAction": "Identify existing secure local credential references, such as Keychain service/account or secret-manager item references, never values. Do not add a T023 deployment workflow, relax main-only environments, merge, or broaden access to obtain credentials.",
+      "supersededAt": "2026-10-04T10:07:07.508Z",
+      "resolution": "Owner identified and approved the three 1Password secret references. Masked op run was attempted; CLI account access, not source selection, is now blocking."
+    }
+  ],
+  "t005CredentialReadbackEvidence": "cloudflare-t005-credential-readback-2026-10-04.json",
+  "t005SecureSourceEvidence": "cloudflare-t005-1password-attempt-2026-10-04.json",
+  "t005OwnerRun": {
+    "executionBoundary": "Codex cannot access the working normal VS Code 1Password integration",
+    "procedure": "../t005-owner-run.md",
+    "status": "first attempt failed; unchanged base state verified; diagnostic/cause review pending",
+    "evidence": "cloudflare-t005-owner-attempt-1-2026-10-04.json",
+    "t005Complete": false,
+    "t023Started": false,
+    "analysis": "cloudflare-t005-owner-attempt-1-analysis-2026-10-04.json"
+  }
+}

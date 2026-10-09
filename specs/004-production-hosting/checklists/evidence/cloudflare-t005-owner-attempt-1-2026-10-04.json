@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "task": "T005",
+  "execution": "owner VS Code terminal",
+  "startedAt": "2026-10-04T14:51:44.469Z",
+  "finishedAt": "2026-10-04T14:52:50.917Z",
+  "accountId": "45dcbe7b47e04e1f41dc571ceb86b40e",
+  "providerCodeSha256": "da13ed5e2d270e8ab9fdbac88ef9715ee1865a53e15208a648ef855658846336",
+  "ownerRunnerSha256": "ec67a16122955ef16281d9f540fb19a55400ed04ed426e98c8b72861fb6802d6",
+  "baselineFileSha256": "02b778ab92e7f50bb7d7c9427a6c84359d2b019f73dcbc3a54806b18f4fd69c7",
+  "previewName": "local-katpb-8ec052174361c0e83e3c6cdb14fe588fe3e1bdb2",
+  "results": [
+    {
+      "operation": "baseline",
+      "credential": "production",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "0028456d-f204-4a33-a165-12203f2cc51c",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      }
+    },
+    {
+      "operation": "baseline",
+      "credential": "preview",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "3c6c5306-a585-4980-84aa-73dfe6ef0cce",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      }
+    },
+    {
+      "operation": "baseline",
+      "credential": "acceptance",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "2dbb8ee8-2bf8-4f82-828a-b042b2dadadd",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      }
+    },
+    {
+      "operation": "own",
+      "credential": "production",
+      "target": "production",
+      "pass": false,
+      "stage": "authorization"
+    },
+    {
+      "operation": "final",
+      "credential": "production",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "0028456d-f204-4a33-a165-12203f2cc51c",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      }
+    },
+    {
+      "operation": "final",
+      "credential": "preview",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "3c6c5306-a585-4980-84aa-73dfe6ef0cce",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      }
+    },
+    {
+      "operation": "final",
+      "credential": "acceptance",
+      "pass": true,
+      "stage": "complete",
+      "baseline": {
+        "versionId": "2dbb8ee8-2bf8-4f82-828a-b042b2dadadd",
+        "settingsDigest": "e904136a13c9e20da0c867ad30af0ff104aa9b1721010bd9d2af75e3f6413ca1",
+        "subdomainDigest": "c49aada11f8b7ae2265faf2ba257bd94d33cd2a864ef91b6654bb7974adfec57"
+      }
+    }
+  ],
+  "pass": false,
+  "baseWorkersExpected": true,
+  "previewRemoved": false,
+  "t023Started": false
+}
