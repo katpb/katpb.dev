@@ -117,6 +117,239 @@ const facts = () => ({
   pr: null,
 });
 
+const previewInput = {
+  mode: "preview",
+  sourceSha: sha,
+  runId: 10,
+  runAttempt: 1,
+  artifactId: 9,
+};
+const previewFacts = () => ({
+  ...facts(),
+  run: {
+    ...facts().run,
+    event: "pull_request",
+    head_branch: "review/preview",
+    pull_requests: [{ number: 12 }],
+  },
+  pr: {
+    number: 12,
+    state: "open",
+    user: { login: "katpb" },
+    head: {
+      sha,
+      ref: "review/preview",
+      repo: { full_name: "katpb/katpb.dev" },
+    },
+    base: {
+      sha: "d".repeat(40),
+      ref: "main",
+      repo: { full_name: "katpb/katpb.dev" },
+    },
+  },
+});
+
+test("preview authorization records the exact PR head and its separate main base", () => {
+  for (const permission of ["write", "maintain", "admin"]) {
+    const f = previewFacts();
+    f.permission = permission;
+    const source = authorizeSource(f, previewInput, fixturePolicy());
+    assert.equal(source.sourceSha, sha);
+    assert.equal(source.sourceRef, "review/preview");
+    assert.equal(source.pullRequest, 12);
+    assert.equal(source.baseSha, "d".repeat(40));
+    assert.equal(source.controlSha, sha);
+    assert.equal(source.event, "pull_request");
+    assert.equal(source.artifactId, 9);
+    assert.equal(source.validationRunId, 10);
+    assert.equal(source.runAttempt, 1);
+  }
+});
+
+test("preview authorization rejects untrusted, stale, closed and ambiguous source identities", async (t) => {
+  const cases = {
+    "fork PR": (f) => (f.pr.head.repo.full_name = "contributor/katpb.dev"),
+    "fork validation run": (f) =>
+      (f.run.head_repository.full_name = "contributor/katpb.dev"),
+    "foreign PR base": (f) => (f.pr.base.repo.full_name = "other/repo"),
+    "non-main target": (f) => (f.pr.base.ref = "another-branch"),
+    "closed PR": (f) => (f.pr.state = "closed"),
+    "updated PR head": (f) => (f.pr.head.sha = "e".repeat(40)),
+    "unvalidated head": (f) => (f.run.head_sha = "e".repeat(40)),
+    "read-only author": (f) => (f.permission = "read"),
+    "triage author": (f) => (f.permission = "triage"),
+    "missing writer permission": (f) => (f.permission = null),
+    "association is not permission": (f) => {
+      f.permission = "read";
+      f.pr.author_association = "OWNER";
+    },
+    "PR-authored trusted controls": (f) => (f.controlFilesMatch = false),
+    "public immutable asset impersonation": (f) =>
+      (f.publicAstroAbsent = false),
+    "push run masquerading as PR": (f) => (f.run.event = "push"),
+    "unbound PR number": (f) => (f.run.pull_requests = [{ number: 13 }]),
+    "ambiguous run PRs": (f) =>
+      (f.run.pull_requests = [{ number: 12 }, { number: 13 }]),
+    "duplicate run PRs": (f) =>
+      (f.run.pull_requests = [{ number: 12 }, { number: 12 }]),
+    "invalid PR number": (f) => {
+      f.pr.number = 0;
+      f.run.pull_requests = [{ number: 0 }];
+    },
+    "missing PR head ref": (f) => delete f.pr.head.ref,
+    "run and PR branch mismatch": (f) => (f.run.head_branch = "other"),
+  };
+  for (const [name, mutate] of Object.entries(cases))
+    await t.test(name, () => {
+      const f = previewFacts();
+      mutate(f);
+      assert.throws(() => authorizeSource(f, previewInput, fixturePolicy()));
+    });
+});
+
+test("preview artifacts must belong to the selected successful run and attempt", async (t) => {
+  const cases = {
+    "different artifact ID": (f) => (f.artifact.id = 11),
+    "different producing run": (f) => (f.artifact.workflow_run.id = 11),
+    "different producing source": (f) =>
+      (f.artifact.workflow_run.head_sha = "e".repeat(40)),
+    "global latest name": (f) => (f.artifact.name = "latest"),
+    "other attempt name": (f) => (f.artifact.name = `r4-raw-${sha}-10-2`),
+    "expired artifact": (f) => (f.artifact.expired = true),
+    "missing artifact digest": (f) => delete f.artifact.digest,
+    "failed CI": (f) => (f.run.conclusion = "failure"),
+    "unfinished CI": (f) => (f.run.status = "in_progress"),
+    "other run attempt": (f) => (f.run.run_attempt = 2),
+    "unapproved workflow": (f) => (f.run.workflow_id = 2),
+    "wrong check app": (f) => (f.checks[0].app.id = 1),
+    "wrong run check suite": (f) => (f.checks[0].check_suite.id = 8),
+    "ambiguous exact-run checks": (f) =>
+      f.checks.push(structuredClone(f.checks[0])),
+  };
+  for (const [name, mutate] of Object.entries(cases))
+    await t.test(name, () => {
+      const f = previewFacts();
+      mutate(f);
+      assert.throws(() => authorizeSource(f, previewInput, fixturePolicy()));
+    });
+});
+
+test("preview lookup resolves exact-run authority and rechecks live PR state on each invocation", async () => {
+  const p = fixturePolicy();
+  const f = previewFacts();
+  const root = "/repos/katpb/katpb.dev";
+  const seen = [];
+  const fetch = async (url) => {
+    const u = new URL(url);
+    assert.equal(u.origin, "https://api.github.com");
+    seen.push(u.pathname);
+    const values = {
+      [root]: f.repository,
+      [root + "/git/ref/heads/main"]: { object: { sha } },
+      [root + "/actions/workflows/ci.yml"]: f.workflow,
+      [root + "/actions/runs/10/attempts/1"]: f.run,
+      [root + "/actions/artifacts/9"]: f.artifact,
+      [root + "/rules/branches/main"]: rules,
+      [root + "/rulesets"]: fixtureRulesets(),
+      ...Object.fromEntries(
+        fixtureRulesets().map((s) => [root + `/rulesets/${s.id}`, s]),
+      ),
+      [root + "/check-suites/7/check-runs"]: { check_runs: f.checks },
+      [root + "/pulls/12"]: f.pr,
+      [root + "/collaborators/katpb/permission"]: {
+        permission: f.permission,
+      },
+      [root + "/contents/package-lock.json"]: {
+        encoding: "base64",
+        content: Buffer.from("locked bytes").toString("base64"),
+      },
+      [root + `/git/trees/${sha}`]: { truncated: false, tree: [] },
+    };
+    assert.ok(Object.hasOwn(values, u.pathname), u.pathname);
+    return new Response(JSON.stringify(values[u.pathname]), { status: 200 });
+  };
+
+  const source = await lookupSource(previewInput, p, { fetch });
+  assert.equal(source.pullRequest, 12);
+  assert.equal(source.sourceSha, sha);
+  assert.equal(source.sourceRef, f.pr.head.ref);
+  for (const endpoint of [
+    "/actions/runs/10/attempts/1",
+    "/actions/artifacts/9",
+    "/check-suites/7/check-runs",
+    "/pulls/12",
+    "/collaborators/katpb/permission",
+  ])
+    assert.ok(seen.includes(root + endpoint), endpoint);
+  assert.ok(!seen.some((s) => s.endsWith("/actions/artifacts")));
+
+  f.pr.head.sha = "e".repeat(40);
+  await assert.rejects(lookupSource(previewInput, p, { fetch }), /stale/);
+  f.pr.head.sha = sha;
+  f.pr.state = "closed";
+  await assert.rejects(lookupSource(previewInput, p, { fetch }), /closed/);
+  f.pr.state = "open";
+  f.permission = "read";
+  await assert.rejects(
+    lookupSource(previewInput, p, { fetch }),
+    /unauthorized/,
+  );
+  f.permission = "write";
+  f.run.pull_requests.push({ number: 13 });
+  await assert.rejects(lookupSource(previewInput, p, { fetch }), /ambiguous/);
+  assert.equal(seen.filter((s) => s === root + "/pulls/12").length, 4);
+});
+
+test("preview provider rejects PR-ref environment access and parent-Worker operations without spawning", async () => {
+  const policy = fixturePolicy();
+  const target = resolveTarget(policy, {
+    kind: "preview",
+    environment: "preview",
+    workflowRef: "refs/heads/main",
+    previewName: "pr-12",
+  });
+  let calls = 0;
+  const spawn = () => {
+    calls++;
+    throw Error("must not invoke provider");
+  };
+  for (const [change, message] of [
+    [
+      { target: { ...target, workflowRef: "refs/pull/12/merge" } },
+      /main authorization/,
+    ],
+    [{ target: { ...target, environment: "production" } }, /isolation/],
+    [
+      { target: { ...target, workerName: "katpb-dev-production" } },
+      /trusted policy/,
+    ],
+    [{ operation: "deploy" }, /cannot deploy parent/],
+    [{ target: { ...target, previewName: null } }, /preview name/],
+    [{ target: { ...target, previewName: "../pr-12" } }, /preview name/],
+  ])
+    await assert.rejects(
+      invokeProvider(
+        {
+          policy,
+          target,
+          operation: "preview",
+          sourceSha: sha,
+          attemptId: "10-1",
+          configPath: "/tmp/.deploy/wrangler.json",
+          credential: {
+            token: "non-secret-canary-1234567890",
+            workerId: target.workerId,
+          },
+          authorization: authorizeSource(previewFacts(), previewInput, policy),
+          ...change,
+        },
+        { spawn },
+      ),
+      message,
+    );
+  assert.equal(calls, 0);
+});
+
 test("owner-pinned live policy validates; unprovisioned targets fail closed and URL boundaries remain strict", async () => {
   const live = JSON.parse(await fs.readFile("hosting/policy.json"));
   validatePolicy(live);

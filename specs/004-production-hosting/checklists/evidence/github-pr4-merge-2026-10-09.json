@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "repository": "katpb/katpb.dev",
+  "observedAt": "2026-10-09 12:32:33 UTC",
+  "pullRequest": {
+    "number": 4,
+    "url": "https://github.com/katpb/katpb.dev/pull/4",
+    "readyForReview": true,
+    "merged": true,
+    "mergedAt": "2026-10-09T12:22:52Z",
+    "headSha": "81ca35c7711f4dde2e061276e61a247ef0619da6",
+    "mergeSha": "f5e384a2dea0f27018ba2698ac22f7ad1db83e2d",
+    "mergeMethod": "merge"
+  },
+  "main": {
+    "sha": "f5e384a2dea0f27018ba2698ac22f7ad1db83e2d",
+    "protected": true
+  },
+  "repositoryHealth": {
+    "runId": 37929644977,
+    "runAttempt": 1,
+    "workflowId": 374100170,
+    "event": "push",
+    "headBranch": "main",
+    "headSha": "f5e384a2dea0f27018ba2698ac22f7ad1db83e2d",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/katpb/katpb.dev/actions/runs/37929644977",
+    "jobId": 113816933338,
+    "jobConclusion": "success",
+    "artifact": [
+      {
+        "id": 11615323756,
+        "name": "r4-raw-f5e384a2dea0f27018ba2698ac22f7ad1db83e2d-37929644977-1",
+        "digest": "sha256:a430ba6af9dfe6a43a8fe680bac5365c9b3e6b90355746f58f44071d7aefb6d6",
+        "expired": false
+      }
+    ]
+  },
+  "mainProtection": {
+    "rulesetId": 24419712,
+    "enforcement": "active",
+    "bypassActors": [],
+    "updatedAt": "2026-10-04T00:08:08.667+05:30",
+    "requiredCheck": "repository-health",
+    "requiredCheckAppId": 15368
+  },
+  "nextSlice": {
+    "branch": "004-pr-preview-mvp",
+    "baseSha": "f5e384a2dea0f27018ba2698ac22f7ad1db83e2d",
+    "authorizedTasks": "T023–T030",
+    "status": "started; T023 in progress",
+    "laterTasks": "T031–T062 remain outside this window"
+  },
+  "authorizationRegression": {
+    "redLog": "/private/tmp/r4-preview-t023-red.log",
+    "redResult": {
+      "tests": 43,
+      "passed": 37,
+      "failed": 6,
+      "failedLeafScenarios": 5
+    },
+    "newlyRejected": [
+      "ambiguous run PRs",
+      "duplicate run PRs",
+      "invalid PR number",
+      "missing PR head ref",
+      "run and PR branch mismatch"
+    ],
+    "greenLog": "/private/tmp/r4-preview-t023-green.log",
+    "greenResult": {
+      "tests": 45,
+      "passed": 45,
+      "failed": 0
+    },
+    "fullLocalGate": {
+      "command": "npm run verify",
+      "status": "passed",
+      "exitCode": 0,
+      "nodeVersion": "24.21.0",
+      "npmVersion": "11.21.0",
+      "environment": "empty inherited environment; offline with only localhost allowed",
+      "formatting": "passed",
+      "astroDiagnostics": { "errors": 0, "warnings": 0, "hints": 5 },
+      "browserTests": 368,
+      "integrationTests": 106,
+      "reproducibleFiles": 6,
+      "log": "/private/tmp/r4-preview-start-verify-2026-10-09.log",
+      "earlierToolchainFailure": "broken temporary npm symlink fell back to npm 10.9.2; EBADDEVENGINES before any gate stage; restored npm 11.21.0 outside repository",
+      "qualification": "worktree verification; existing owner ROADMAP edit retained; no clean-source release preparation or hosted preview acceptance claimed"
+    }
+  },
+  "boundaries": {
+    "existingRoadmapEditPreserved": true,
+    "providerMutations": 0,
+    "credentialBearingT005Reruns": 0,
+    "domainChanges": 0
+  }
+}

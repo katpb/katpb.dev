@@ -33,7 +33,9 @@ Missing Worker IDs/subdomain/URLs must block normal provider invocation. Return 
 three-Worker bootstrap only after applicable local/CI foundation checks pass. Use the minimum
 owner creation capability once; never store product-level Admin/create-delete access in CI.
 Keep T004/T005 and setup/foundation checkpoints pending until actual readbacks and tests pass.
-T023 and preview user-story implementation remain outside this execution window.
+That bootstrap window stopped before T023. Following PR #4's merge and green main CI,
+the owner authorized starting T023–T030 on 2026-10-09. Preview commands/workflows in this
+runbook remain planned until their implementation and acceptance evidence are recorded.
 
 The owner then preprovisions production, preview-parent and isolated acceptance Workers at provider HTTPS addresses,
 with assets-only configuration. Create separate account-owned per-Worker Editor tokens. Put

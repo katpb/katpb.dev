@@ -1,6 +1,7 @@
 # R4 implementation and acceptance evidence
 
-**Window**: Owner-approved T001–T022 only, branch `004-production-hosting`, 2026-10-03.
+**Window**: T001–T022 foundation completed and merged through PR #4. Owner authorized starting
+T023–T030, PR preview MVP, on 2026-10-09; branch `004-pr-preview-mvp`.
 **Status**: T001–T022 are complete: **22/22**, including T005. Main PR/integrity, archive-tag protections,
 the single-repository archive App creation-only exception and main-only environments are verified.
 Owner-audited/read-only drift checks remain effective; no Administration-write credential is in CI.
@@ -10,8 +11,70 @@ HTTP checks and 192 credential-free hosted browser cases passed. Final local val
 368 browser cases, 34 operational tests and reproducible raw bytes at the bootstrap checkpoint.
 T005 is complete from the preserved third authorization matrix plus fourth owner-run Preview
 lifecycle. The approved Phase 1/foundation checkpoint is complete; full R4 story acceptance
-remains pending. Final closeout validation/CI is recorded below. T023+ has not started.
+remains pending. PR #4 merge and green post-merge main CI are recorded below.
+T023's first policy regression wave has started; T024–T030 remain pending.
+T031 onward is outside the current window.
 Earlier dated observations below are historical evidence, not current completion claims.
+
+## PR #4 merge and preview MVP start — 2026-10-09
+
+- The owner explicitly requested Ready for Review, merge through protected main, waiting for
+  post-merge `repository-health`, recording the merge SHA, and starting T023–T030.
+- The GitHub connector's Ready for Review mutation returned `Resource not accessible by
+integration`. The already signed-in Brave session exposed normal authorized GitHub controls.
+  Ready for Review and Confirm merge succeeded there without a bypass or protection change.
+- PR #4 is closed/merged, no longer draft, with original head
+  `81ca35c7711f4dde2e061276e61a247ef0619da6` and merge SHA
+  **`f5e384a2dea0f27018ba2698ac22f7ad1db83e2d`**, merged at `2026-10-09T12:22:52Z`.
+- Post-merge [CI 37929644977](https://github.com/katpb/katpb.dev/actions/runs/37929644977),
+  attempt 1, workflow `374100170`, event `push`, branch `main`, passed on that exact merge SHA.
+  Job `repository-health` / `113816933338` and every step passed, including full clean-source
+  verification, raw archival, read-only protection drift and artifact upload. Artifact
+  `11615323756` is present/unexpired with digest
+  `sha256:a430ba6af9dfe6a43a8fe680bac5365c9b3e6b90355746f58f44071d7aefb6d6`.
+- A fresh main readback matched the merge SHA and `protected: true`. Ruleset `24419712`
+  remains active with an empty bypass list, mandatory PRs, strict `repository-health` from
+  Actions App `15368`, force-push and deletion protections, and unchanged audited revision.
+- Created `004-pr-preview-mvp` from that exact green main commit. Removed automatic upstream
+  tracking of `origin/main` from this new branch. The owner's pre-existing R2 completion edit
+  in `ROADMAP.md` is preserved and excluded from this slice's work.
+- Spec-kit prerequisites still resolve `specs/004-production-hosting`; requirements checklist
+  has 16 checked and zero unchecked items. No implementation extension hooks are registered.
+- T023 first regression wave added preview writer/fork/stale/closed/control isolation,
+  exact-run/attempt/artifact/check identity, independent live PR lookups, and zero-provider-spawn
+  rejection of PR-ref environments, parent-Worker operations and forged targets.
+  The initial run failed five leaf scenarios (six failures counting the parent test): ambiguous
+  PR bindings, duplicate PR bindings, invalid PR number, absent head ref and mismatched branch.
+  The shared authorizer now rejects those identities. Focused rerun: **45 tests passed, zero
+  failed**, including 39 added cases. Red/green logs are at
+  `/private/tmp/r4-preview-t023-red.log` and `/private/tmp/r4-preview-t023-green.log`.
+- Full credential-free/offline `npm run verify` passed on Node `24.21.0`/npm `11.21.0`:
+  formatting, Astro diagnostics (zero errors/warnings; five unused-parameter hints in unchanged
+  T005 test fixtures), build, **368 browser tests**, **106 integration tests**, and exact
+  reproducibility for **six generated files**. Log:
+  `/private/tmp/r4-preview-start-verify-2026-10-09.log`. The initial invocation stopped before
+  any gate stage with `EBADDEVENGINES`: an old temporary npm symlink had lost its target and
+  fell back to system npm `10.9.2`. Restored only pinned npm `11.21.0` in
+  `/private/tmp/katpb-r4-npm-runtime` and a separate temporary toolchain path, then reran the
+  full gate with an empty inherited environment, offline npm and blocked external proxies.
+  This is worktree verification with the owner's ROADMAP edit preserved, not clean-source
+  release-preparation evidence or hosted preview acceptance.
+- **T023 remains in progress**, with post-upload stale/closed handling, failed-update prior
+  unique-URL reporting, skipped-success prevention and executable cleanup/workflow cases still
+  required. T024–T030 are not completed; no automatic preview workflow is claimed operational.
+  Hosted timing, two-PR isolation and actual environment canary evidence remain pending.
+- T024 must reconcile the planned full-SHA local name with the already observed DNS label
+  limit: `local-katpb-<40 hex>-katpb-dev-preview` is 70 characters; the existing 32-hex form
+  fits. Keep the full source SHA in provenance/receipts and establish an explicit source-bound
+  short name before enabling the local wrapper. Do not silently deploy with the overlong form.
+- For T026, current [GitHub concurrency documentation](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency)
+  documents `queue: max` with non-cancelling concurrency. Actual workflow validation is still
+  required when that task is implemented; source freshness checks remain mandatory.
+- This start made zero provider mutations, used no Cloudflare/1Password credential, and made
+  no changes to source UI, brand, historical R1/T005 evidence or domain configuration.
+  The prior owner-only T005 credential execution boundary continues to apply.
+
+[Structured merge and slice checkpoint](evidence/github-pr4-merge-2026-10-09.json).
 
 ## Prerequisites
 

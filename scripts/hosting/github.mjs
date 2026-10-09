@@ -336,17 +336,24 @@ export function authorizeSource(f, input, policy) {
   } else {
     requireThat(
       f.run.event === "pull_request" &&
+        Number.isSafeInteger(f.pr?.number) &&
+        f.pr.number > 0 &&
         f.pr?.state === "open" &&
         f.pr.head?.repo?.full_name === policy.repository &&
         f.pr.base?.repo?.full_name === policy.repository &&
         f.pr.base.ref === "main" &&
         f.pr.head.sha === sourceSha &&
+        typeof f.pr.head.ref === "string" &&
+        f.pr.head.ref.length > 0 &&
+        f.run.head_branch === f.pr.head.ref &&
         SHA.test(f.pr.base.sha) &&
         ["admin", "maintain", "write"].includes(f.permission),
       "preview is closed, stale, forked or unauthorized",
     );
     requireThat(
-      f.run.pull_requests?.some((p) => p.number === f.pr.number),
+      Array.isArray(f.run.pull_requests) &&
+        f.run.pull_requests.length === 1 &&
+        f.run.pull_requests[0]?.number === f.pr.number,
       "PR is not bound to authoritative run",
     );
   }

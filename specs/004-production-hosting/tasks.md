@@ -2,7 +2,7 @@
 
 **Input**: Design documents from `/specs/004-production-hosting/`.
 **Prerequisites**: `spec.md`, `plan.md`, `research.md`, `data-model.md`, `quickstart.md`, all three `contracts/` documents, and `.specify/memory/constitution.md`.
-**Status**: Owner approved on 2026-10-03 for T001–T022 only. Implementation/evidence status is recorded below and in `checklists/acceptance.md`; T023 onward remains outside this execution window.
+**Status**: T001–T022 are complete and merged through PR #4. On 2026-10-09 the owner authorized starting the next slice, **T023–T030, PR preview MVP**, after green post-merge main CI. T023 is in progress; T024–T030 remain pending. T031 onward remains outside this execution window. Evidence is recorded below and in `checklists/acceptance.md`.
 
 **Resume checkpoint**: T001–T022 are complete: **22/22**. T005 completion combines
 preserved third-run authorization/isolation evidence with the successful fourth owner-run
@@ -17,8 +17,17 @@ expiration is **No expiration** on all three existing token forms, corroborated 
 Codex consumes sanitized owner evidence only; no credential-bearing T005 rerun is authorized.
 Main-only environments, recovery owner review and owner-audited/read-only drift controls
 remain effective. The approved setup/foundation checkpoint is complete; full R4 story
-acceptance remains pending. PR #4 remains draft for the owner's Ready for Review/merge
-step after final credential-free validation and exact-head CI. **T023+ is unstarted.**
+acceptance remains pending. PR #4 was marked Ready for Review and merged on 2026-10-09
+at `f5e384a2dea0f27018ba2698ac22f7ad1db83e2d`. Post-merge main CI
+[37929644977](https://github.com/katpb/katpb.dev/actions/runs/37929644977), attempt 1,
+passed `repository-health`, protection drift checks and raw artifact upload on that exact SHA.
+The next slice starts from that commit on `004-pr-preview-mvp`. T023's initial regression
+wave hardens PR identity binding and tests exact-run metadata, writer permissions, live
+stale/closed PR reads and provider rejection without mutation. T023 stays unchecked until
+its remaining lifecycle/workflow/cleanup assertions exist; T024–T030 are unstarted.
+Historical T022 stopping instructions below describe the earlier bootstrap window and are
+superseded only for T023–T030 by the owner's 2026-10-09 instruction. Existing credential,
+main-ref environment, source-isolation and domain boundaries continue to apply.
 
 **Tests**: Included for the specification's validation, failure, isolation, smoke, cache-transition, and recovery scenarios. Use the existing Node test runner and Playwright/axe; no new test runner. Write the relevant automated assertions and observe their failure before implementing changed behavior.
 **Organization**: Story IDs and priorities remain those in `spec.md`. Per the owner's requested delivery sequence, implement preview US2 before production US1, perform hosted-delivery verification US4 before recovery US3, then operational documentation US5 and final evidence/domain readiness. This ordering does not change story priorities or requirements.
@@ -50,7 +59,7 @@ individual-Worker permissions and isolation tests. Any product-level creation ca
 bootstrap-only and never stored in GitHub CI or normal deployment credentials. Verify resources,
 URLs, scopes and main-only environments before completing T004/T005. Neither Phase 1 nor the
 foundation checkpoint is complete while either remains pending. No T023 or story upload is
-authorized in this execution window.
+authorized by that bootstrap correction. The later 2026-10-09 authorization above opens T023–T030.
 
 ## Phase 1: Setup — Repository Protection, Then Cloudflare Provisioning
 
@@ -91,7 +100,7 @@ authorized in this execution window.
 - [x] T021 Create SHA-pinned `.github/workflows/ci.yml` named `CI` exposing stable `repository-health` on every PR to main and main push without path bypasses; checkout exact PR head/push SHA with persistence off, use Node 24.21.0/npm 11.x, locked dependencies and pinned Chromium/WebKit Ubuntu dependencies, run full verification and credential-free raw preparation, and upload static output/manifests bound to source/run/attempt only after success; use read-only build permissions and no deployment environments, provider secrets or shared privileged caches.
 - [x] T022 Activate and verify the exact CI required-check binding and remaining T002 main/archive/environment protections; compare local and exact-run CI raw manifests and two packages made from identical explicit retained/policy inputs, preserving tracked source and exact raw bytes; record tool versions, raw/package manifests and capability results in `specs/004-production-hosting/checklists/acceptance.md`, verify the complete owner-side bypass audit and actual read-only runtime revision drift gate; keep T004/T005 and full hosted acceptance deferred rather than claiming SC-001 or the foundation checkpoint. Store no Administration-write credential in CI.
 
-**Checkpoint**: The approved T001–T022 foundation is complete (22/22), including actual T004/T005 setup evidence. Final credential-free validation and PR-head CI are recorded in `checklists/acceptance.md`. T023 onward remains outside this execution window; no full R4 story acceptance is claimed.
+**Checkpoint**: The approved T001–T022 foundation is complete (22/22), including actual T004/T005 setup evidence, PR #4 merge and green post-merge main CI. T023–T030 is now authorized and started; no full R4 story acceptance is claimed.
 
 ## Phase 3: User Story 2 — Isolated PR Previews (Priority: P1; First Reviewable Increment)
 
@@ -190,7 +199,8 @@ Task-list review and owner approval
   -> T018 HTTPS gate -> T019 credential-free browser -> T020 commands -> T021 CI -> T022 protection/manifests
   -> applicable local/CI foundation validation -> T004 one-time owner bootstrap/readback
   -> T005 per-Worker credentials/isolation/readbacks -> setup/foundation checkpoint
-  -> STOP at the approved T022 boundary (no T023 in this execution window)
+  -> T022 boundary completed through PR #4 merge and green main CI
+  -> owner-authorized T023–T030 start, 2026-10-09
   -> US2 preview T023-T030
   -> US1 production T031-T037
   -> US4 hosted delivery/readiness T038-T042
