@@ -1,0 +1,275 @@
+name: PR previews
+run-name: Preview PR ${{ github.event.workflow_run.pull_requests[0].number || 'unresolved' }} head ${{ github.event.workflow_run.head_sha }} CI ${{ github.event.workflow_run.id }}/${{ github.event.workflow_run.run_attempt }}
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+
+permissions: {}
+
+concurrency:
+  group: r4-hosting
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  prepare:
+    if: ${{ github.repository == 'katpb/katpb.dev' && github.ref == 'refs/heads/main' && github.event.workflow_run.workflow_id == 374100170 && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+      deployments: read
+    outputs:
+      control_sha: ${{ steps.resolve.outputs.control_sha }}
+      eligible: ${{ steps.resolve.outputs.eligible }}
+      artifact_id: ${{ steps.archive.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: refs/heads/main
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24.21.0"
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - name: resolve
+        id: resolve
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/release-orchestrator.mjs --stage resolve
+      - name: Download immutable prior verified receipt
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: ${{ steps.resolve.outputs.prior_artifact_id != '' }}
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ steps.resolve.outputs.prior_artifact_id }}
+          run-id: ${{ steps.resolve.outputs.prior_run_id }}
+          github-token: ${{ github.token }}
+          path: .deploy/prior
+      - name: Download exact validated CI artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: ${{ steps.resolve.outputs.eligible == 'true' }}
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ steps.resolve.outputs.artifact_id }}
+          path: .deploy/candidate
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+      - name: prepare
+        if: ${{ steps.resolve.outputs.eligible == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/release-orchestrator.mjs --stage prepare
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: archive
+        if: ${{ always() }}
+        with:
+          name: r4-preview-prepared-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/preview/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+  announce:
+    needs: [prepare]
+    if: ${{ needs.prepare.outputs.eligible == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+      deployments: write
+    outputs:
+      deployment_id: ${{ steps.announce.outputs.deployment_id }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.prepare.outputs.control_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24.21.0"
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.prepare.outputs.artifact_id }}
+          path: .deploy/preview
+      - name: announce
+        id: announce
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/release-orchestrator.mjs --stage announce
+  provider:
+    needs: [prepare, announce]
+    if: ${{ needs.prepare.outputs.eligible == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+    environment:
+      name: preview
+      deployment: false
+    outputs:
+      uploaded: ${{ steps.provider.outputs.uploaded }}
+      artifact_id: ${{ steps.archive.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.prepare.outputs.control_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24.21.0"
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.prepare.outputs.artifact_id }}
+          path: .deploy/preview
+      - name: provider
+        id: provider
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: node scripts/release-orchestrator.mjs --stage provider
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: archive
+        if: ${{ always() }}
+        with:
+          name: r4-preview-provider-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/provider/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+  verify:
+    needs: [prepare, provider]
+    if: ${{ needs.provider.outputs.uploaded == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      artifact_id: ${{ steps.archive.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.prepare.outputs.control_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24.21.0"
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.prepare.outputs.artifact_id }}
+          path: .deploy/preview
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.provider.outputs.artifact_id }}
+          path: .deploy/provider
+      - name: Install pinned hosted-test browsers without provider credentials
+        run: node node_modules/@playwright/test/cli.js install --with-deps chromium webkit
+      - name: verify
+        run: node scripts/release-orchestrator.mjs --stage verify
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: archive
+        if: ${{ always() }}
+        with:
+          name: r4-preview-verification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/verification/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+  report:
+    needs: [prepare, announce, provider, verify]
+    if: ${{ always() && needs.prepare.outputs.control_sha != '' && needs.prepare.outputs.artifact_id != '' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.prepare.outputs.control_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24.21.0"
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.prepare.outputs.artifact_id }}
+          path: .deploy/preview
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: ${{ needs.provider.outputs.artifact_id != '' }}
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.provider.outputs.artifact_id }}
+          path: .deploy/provider
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: ${{ needs.verify.outputs.artifact_id != '' }}
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.verify.outputs.artifact_id }}
+          path: .deploy/verification
+      - name: report
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOYMENT_ID: ${{ needs.announce.outputs.deployment_id }}
+          PROVIDER_JOB_RESULT: ${{ needs.provider.result }}
+          VERIFY_JOB_RESULT: ${{ needs.verify.result }}
+          VERIFICATION_ARTIFACT_ID: ${{ needs.verify.outputs.artifact_id }}
+        run: node scripts/release-orchestrator.mjs --stage report
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: archive
+        if: ${{ always() }}
+        with:
+          name: r4-preview-final-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/final/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30

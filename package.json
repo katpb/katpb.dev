@@ -33,7 +33,9 @@
     "test:reproducible": "node scripts/check-reproducible-build.mjs",
     "release:prepare": "node scripts/prepare-release.mjs",
     "deploy:verify": "node scripts/verify-hosted.mjs",
-    "verify": "npm run format:check && npm run check && npm run build && npm run test:e2e && npm run test:workflow && npm run test:reproducible"
+    "verify": "npm run format:check && npm run check && npm run build && npm run test:e2e && npm run test:workflow && npm run test:reproducible",
+    "deploy:preview": "node scripts/deploy-preview.mjs",
+    "deploy:cleanup": "node scripts/cleanup-preview.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "8.0.2",

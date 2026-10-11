@@ -1,0 +1,194 @@
+name: Preview cleanup
+run-name: Cleanup PR ${{ github.event.pull_request.number || inputs.pr_number }} head ${{ github.event.pull_request.head.sha || 'live-closed-state' }}
+
+on:
+  pull_request_target:
+    types: [closed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Closed same-repository PR whose named preview deletion should be retried
+        type: string
+        required: true
+
+permissions: {}
+
+concurrency:
+  group: r4-hosting
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  prepare:
+    if: ${{ github.repository == 'katpb/katpb.dev' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+    outputs:
+      control_sha: ${{ steps.resolve.outputs.control_sha }}
+      eligible: ${{ steps.resolve.outputs.eligible }}
+      artifact_id: ${{ steps.archive.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: refs/heads/main
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24.21.0"
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - name: resolve
+        id: resolve
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/cleanup-preview.mjs --stage resolve
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: archive
+        if: ${{ always() }}
+        with:
+          name: r4-preview-cleanup-prepared-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/cleanup/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+  inactive:
+    needs: [prepare]
+    if: ${{ needs.prepare.outputs.eligible == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.prepare.outputs.control_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24.21.0"
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.prepare.outputs.artifact_id }}
+          path: .deploy/cleanup
+      - name: inactive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/cleanup-preview.mjs --stage inactive
+  provider:
+    needs: [prepare, inactive]
+    if: ${{ needs.prepare.outputs.eligible == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+    environment:
+      name: preview
+      deployment: false
+    outputs:
+      artifact_id: ${{ steps.archive.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.prepare.outputs.control_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24.21.0"
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.prepare.outputs.artifact_id }}
+          path: .deploy/cleanup
+      - name: provider
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: node scripts/cleanup-preview.mjs --stage provider
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: archive
+        if: ${{ always() }}
+        with:
+          name: r4-preview-cleanup-provider-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/cleanup-provider/result.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+  report:
+    needs: [prepare, inactive, provider]
+    if: ${{ always() && needs.prepare.outputs.control_sha != '' && needs.prepare.outputs.artifact_id != '' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.prepare.outputs.control_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24.21.0"
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.prepare.outputs.artifact_id }}
+          path: .deploy/cleanup
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: ${{ needs.provider.outputs.artifact_id != '' }}
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.provider.outputs.artifact_id }}
+          path: .deploy/cleanup-provider
+      - name: report
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/cleanup-preview.mjs --stage report
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: archive
+        if: ${{ always() }}
+        with:
+          name: r4-preview-cleanup-final-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/cleanup-final/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30

@@ -117,6 +117,239 @@ const facts = () => ({
   pr: null,
 });
 
+const previewInput = {
+  mode: "preview",
+  sourceSha: sha,
+  runId: 10,
+  runAttempt: 1,
+  artifactId: 9,
+};
+const previewFacts = () => ({
+  ...facts(),
+  run: {
+    ...facts().run,
+    event: "pull_request",
+    head_branch: "review/preview",
+    pull_requests: [{ number: 12 }],
+  },
+  pr: {
+    number: 12,
+    state: "open",
+    user: { login: "katpb" },
+    head: {
+      sha,
+      ref: "review/preview",
+      repo: { full_name: "katpb/katpb.dev" },
+    },
+    base: {
+      sha: "d".repeat(40),
+      ref: "main",
+      repo: { full_name: "katpb/katpb.dev" },
+    },
+  },
+});
+
+test("preview authorization records the exact PR head and its separate main base", () => {
+  for (const permission of ["write", "maintain", "admin"]) {
+    const f = previewFacts();
+    f.permission = permission;
+    const source = authorizeSource(f, previewInput, fixturePolicy());
+    assert.equal(source.sourceSha, sha);
+    assert.equal(source.sourceRef, "review/preview");
+    assert.equal(source.pullRequest, 12);
+    assert.equal(source.baseSha, "d".repeat(40));
+    assert.equal(source.controlSha, sha);
+    assert.equal(source.event, "pull_request");
+    assert.equal(source.artifactId, 9);
+    assert.equal(source.validationRunId, 10);
+    assert.equal(source.runAttempt, 1);
+  }
+});
+
+test("preview authorization rejects untrusted, stale, closed and ambiguous source identities", async (t) => {
+  const cases = {
+    "fork PR": (f) => (f.pr.head.repo.full_name = "contributor/katpb.dev"),
+    "fork validation run": (f) =>
+      (f.run.head_repository.full_name = "contributor/katpb.dev"),
+    "foreign PR base": (f) => (f.pr.base.repo.full_name = "other/repo"),
+    "non-main target": (f) => (f.pr.base.ref = "another-branch"),
+    "closed PR": (f) => (f.pr.state = "closed"),
+    "updated PR head": (f) => (f.pr.head.sha = "e".repeat(40)),
+    "unvalidated head": (f) => (f.run.head_sha = "e".repeat(40)),
+    "read-only author": (f) => (f.permission = "read"),
+    "triage author": (f) => (f.permission = "triage"),
+    "missing writer permission": (f) => (f.permission = null),
+    "association is not permission": (f) => {
+      f.permission = "read";
+      f.pr.author_association = "OWNER";
+    },
+    "PR-authored trusted controls": (f) => (f.controlFilesMatch = false),
+    "public immutable asset impersonation": (f) =>
+      (f.publicAstroAbsent = false),
+    "push run masquerading as PR": (f) => (f.run.event = "push"),
+    "unbound PR number": (f) => (f.run.pull_requests = [{ number: 13 }]),
+    "ambiguous run PRs": (f) =>
+      (f.run.pull_requests = [{ number: 12 }, { number: 13 }]),
+    "duplicate run PRs": (f) =>
+      (f.run.pull_requests = [{ number: 12 }, { number: 12 }]),
+    "invalid PR number": (f) => {
+      f.pr.number = 0;
+      f.run.pull_requests = [{ number: 0 }];
+    },
+    "missing PR head ref": (f) => delete f.pr.head.ref,
+    "run and PR branch mismatch": (f) => (f.run.head_branch = "other"),
+  };
+  for (const [name, mutate] of Object.entries(cases))
+    await t.test(name, () => {
+      const f = previewFacts();
+      mutate(f);
+      assert.throws(() => authorizeSource(f, previewInput, fixturePolicy()));
+    });
+});
+
+test("preview artifacts must belong to the selected successful run and attempt", async (t) => {
+  const cases = {
+    "different artifact ID": (f) => (f.artifact.id = 11),
+    "different producing run": (f) => (f.artifact.workflow_run.id = 11),
+    "different producing source": (f) =>
+      (f.artifact.workflow_run.head_sha = "e".repeat(40)),
+    "global latest name": (f) => (f.artifact.name = "latest"),
+    "other attempt name": (f) => (f.artifact.name = `r4-raw-${sha}-10-2`),
+    "expired artifact": (f) => (f.artifact.expired = true),
+    "missing artifact digest": (f) => delete f.artifact.digest,
+    "failed CI": (f) => (f.run.conclusion = "failure"),
+    "unfinished CI": (f) => (f.run.status = "in_progress"),
+    "other run attempt": (f) => (f.run.run_attempt = 2),
+    "unapproved workflow": (f) => (f.run.workflow_id = 2),
+    "wrong check app": (f) => (f.checks[0].app.id = 1),
+    "wrong run check suite": (f) => (f.checks[0].check_suite.id = 8),
+    "ambiguous exact-run checks": (f) =>
+      f.checks.push(structuredClone(f.checks[0])),
+  };
+  for (const [name, mutate] of Object.entries(cases))
+    await t.test(name, () => {
+      const f = previewFacts();
+      mutate(f);
+      assert.throws(() => authorizeSource(f, previewInput, fixturePolicy()));
+    });
+});
+
+test("preview lookup resolves exact-run authority and rechecks live PR state on each invocation", async () => {
+  const p = fixturePolicy();
+  const f = previewFacts();
+  const root = "/repos/katpb/katpb.dev";
+  const seen = [];
+  const fetch = async (url) => {
+    const u = new URL(url);
+    assert.equal(u.origin, "https://api.github.com");
+    seen.push(u.pathname);
+    const values = {
+      [root]: f.repository,
+      [root + "/git/ref/heads/main"]: { object: { sha } },
+      [root + "/actions/workflows/ci.yml"]: f.workflow,
+      [root + "/actions/runs/10/attempts/1"]: f.run,
+      [root + "/actions/artifacts/9"]: f.artifact,
+      [root + "/rules/branches/main"]: rules,
+      [root + "/rulesets"]: fixtureRulesets(),
+      ...Object.fromEntries(
+        fixtureRulesets().map((s) => [root + `/rulesets/${s.id}`, s]),
+      ),
+      [root + "/check-suites/7/check-runs"]: { check_runs: f.checks },
+      [root + "/pulls/12"]: f.pr,
+      [root + "/collaborators/katpb/permission"]: {
+        permission: f.permission,
+      },
+      [root + "/contents/package-lock.json"]: {
+        encoding: "base64",
+        content: Buffer.from("locked bytes").toString("base64"),
+      },
+      [root + `/git/trees/${sha}`]: { truncated: false, tree: [] },
+    };
+    assert.ok(Object.hasOwn(values, u.pathname), u.pathname);
+    return new Response(JSON.stringify(values[u.pathname]), { status: 200 });
+  };
+
+  const source = await lookupSource(previewInput, p, { fetch });
+  assert.equal(source.pullRequest, 12);
+  assert.equal(source.sourceSha, sha);
+  assert.equal(source.sourceRef, f.pr.head.ref);
+  for (const endpoint of [
+    "/actions/runs/10/attempts/1",
+    "/actions/artifacts/9",
+    "/check-suites/7/check-runs",
+    "/pulls/12",
+    "/collaborators/katpb/permission",
+  ])
+    assert.ok(seen.includes(root + endpoint), endpoint);
+  assert.ok(!seen.some((s) => s.endsWith("/actions/artifacts")));
+
+  f.pr.head.sha = "e".repeat(40);
+  await assert.rejects(lookupSource(previewInput, p, { fetch }), /stale/);
+  f.pr.head.sha = sha;
+  f.pr.state = "closed";
+  await assert.rejects(lookupSource(previewInput, p, { fetch }), /closed/);
+  f.pr.state = "open";
+  f.permission = "read";
+  await assert.rejects(
+    lookupSource(previewInput, p, { fetch }),
+    /unauthorized/,
+  );
+  f.permission = "write";
+  f.run.pull_requests.push({ number: 13 });
+  await assert.rejects(lookupSource(previewInput, p, { fetch }), /ambiguous/);
+  assert.equal(seen.filter((s) => s === root + "/pulls/12").length, 4);
+});
+
+test("preview provider rejects PR-ref environment access and parent-Worker operations without spawning", async () => {
+  const policy = fixturePolicy();
+  const target = resolveTarget(policy, {
+    kind: "preview",
+    environment: "preview",
+    workflowRef: "refs/heads/main",
+    previewName: "pr-12",
+  });
+  let calls = 0;
+  const spawn = () => {
+    calls++;
+    throw Error("must not invoke provider");
+  };
+  for (const [change, message] of [
+    [
+      { target: { ...target, workflowRef: "refs/pull/12/merge" } },
+      /main authorization/,
+    ],
+    [{ target: { ...target, environment: "production" } }, /isolation/],
+    [
+      { target: { ...target, workerName: "katpb-dev-production" } },
+      /trusted policy/,
+    ],
+    [{ operation: "deploy" }, /cannot deploy parent/],
+    [{ target: { ...target, previewName: null } }, /preview name/],
+    [{ target: { ...target, previewName: "../pr-12" } }, /preview name/],
+  ])
+    await assert.rejects(
+      invokeProvider(
+        {
+          policy,
+          target,
+          operation: "preview",
+          sourceSha: sha,
+          attemptId: "10-1",
+          configPath: "/tmp/.deploy/wrangler.json",
+          credential: {
+            token: "non-secret-canary-1234567890",
+            workerId: target.workerId,
+          },
+          authorization: authorizeSource(previewFacts(), previewInput, policy),
+          ...change,
+        },
+        { spawn },
+      ),
+      message,
+    );
+  assert.equal(calls, 0);
+});
+
 test("owner-pinned live policy validates; unprovisioned targets fail closed and URL boundaries remain strict", async () => {
   const live = JSON.parse(await fs.readFile("hosting/policy.json"));
   validatePolicy(live);
@@ -530,4 +763,330 @@ test("rejected provider requests invoke no process and redact credential diagnos
     );
   }
   assert.equal(calls, 0);
+});
+
+// Lifecycle callbacks stand in for separate trusted workflow jobs; no provider/network access.
+const lifecycle = () => import("../../scripts/hosting/preview-lifecycle.mjs");
+const oldSha = "b".repeat(40);
+const oldUnique = "https://bbbbbbbb-katpb-dev-preview.test.workers.dev/";
+const stable = "https://pr-12-katpb-dev-preview.test.workers.dev/";
+function lifecycleFixture(overrides = {}) {
+  const calls = [];
+  let reads = 0;
+  const input = {
+    policy: fixturePolicy(),
+    source: authorizeSource(previewFacts(), previewInput, fixturePolicy()),
+    prior: { sourceSha: oldSha, uniqueUrl: oldUnique },
+  };
+  const dependencies = {
+    readCurrent: async () => {
+      calls.push("read");
+      reads++;
+      return { pr: previewFacts().pr, permission: "write" };
+    },
+    prepare: async () => {
+      calls.push("prepare");
+    },
+    upload: async () => {
+      calls.push("upload");
+      return {
+        providerDeploymentId: "aaaaaaaa",
+        stableUrl: stable,
+        uniqueUrl: "https://aaaaaaaa-katpb-dev-preview.test.workers.dev/",
+      };
+    },
+    verifyHttps: async (url) => {
+      calls.push("https:" + url);
+    },
+    verifyBrowser: async (url) => {
+      calls.push("browser:" + url);
+    },
+    persist: async (record) => {
+      calls.push("persist:" + record.state);
+    },
+    report: async (record) => {
+      calls.push("report:" + record.state);
+    },
+    ...overrides,
+  };
+  return {
+    input,
+    dependencies,
+    calls,
+    get reads() {
+      return reads;
+    },
+  };
+}
+
+test("preview lifecycle verifies both URLs and persists evidence before success reporting", async () => {
+  const { executePreview } = await lifecycle();
+  const f = lifecycleFixture();
+  const result = await executePreview(f.input, f.dependencies);
+  assert.equal(result.state, "verified");
+  assert.equal(result.sourceSha, sha);
+  assert.equal(result.previousVerified.uniqueUrl, oldUnique);
+  assert.equal(result.stableVerified, true);
+  assert.equal(
+    f.reads,
+    4,
+    "initial, immediately before upload, after upload and before success",
+  );
+  for (const url of [result.stableUrl, result.uniqueUrl]) {
+    assert.ok(f.calls.includes("https:" + url));
+    assert.ok(f.calls.includes("browser:" + url));
+  }
+  assert.ok(f.calls.indexOf("persist:uploading") < f.calls.indexOf("upload"));
+  assert.ok(
+    f.calls.indexOf("persist:verified") < f.calls.indexOf("report:verified"),
+  );
+});
+
+test("stale, closed and unauthorized PRs skip before upload without a success status", async (t) => {
+  const { executePreview } = await lifecycle();
+  for (const when of [1, 2])
+    for (const disposition of ["stale", "closed", "authorization"])
+      await t.test(`${disposition} at read ${when}`, async () => {
+        let reads = 0;
+        const f = lifecycleFixture({
+          readCurrent: async () => {
+            const pr = previewFacts().pr;
+            reads++;
+            if (reads === when) {
+              if (disposition === "stale") pr.head.sha = oldSha;
+              if (disposition === "closed") pr.state = "closed";
+            }
+            return {
+              pr,
+              permission:
+                disposition === "authorization" && reads === when
+                  ? "read"
+                  : "write",
+            };
+          },
+        });
+        const result = await executePreview(f.input, f.dependencies);
+        assert.equal(result.state, "skipped-" + disposition);
+        assert.equal(result.stableVerified, false);
+        assert.equal(result.previousVerified.uniqueUrl, oldUnique);
+        assert.ok(!f.calls.includes("upload"));
+        assert.ok(!f.calls.includes("report:verified"));
+      });
+});
+
+test("PR changes during upload or verification never publish verified success", async (t) => {
+  const { executePreview } = await lifecycle();
+  for (const when of [3, 4])
+    for (const disposition of ["stale", "closed"])
+      await t.test(`${disposition} at read ${when}`, async () => {
+        let reads = 0;
+        const f = lifecycleFixture({
+          readCurrent: async () => {
+            const pr = previewFacts().pr;
+            if (++reads >= when) {
+              if (disposition === "stale") pr.head.sha = oldSha;
+              else pr.state = "closed";
+            }
+            return { pr, permission: "write" };
+          },
+        });
+        const result = await executePreview(f.input, f.dependencies);
+        assert.equal(result.state, "skipped-" + disposition);
+        assert.equal(result.inactive, disposition === "closed");
+        assert.equal(result.cleanupRequired, disposition === "closed");
+        assert.equal(result.stableVerified, false);
+        assert.equal(result.previousVerified.uniqueUrl, oldUnique);
+        assert.ok(f.calls.includes("upload"));
+        assert.ok(!f.calls.includes("report:verified"));
+      });
+});
+
+test("failed updates retain only prior verified unique identity; provider errors are redacted", async (t) => {
+  const { executePreview } = await lifecycle();
+  for (const stage of [
+    "prepare",
+    "upload",
+    "verifyHttps",
+    "verifyBrowser",
+    "persist",
+  ])
+    await t.test(stage, async () => {
+      const f = lifecycleFixture({
+        [stage]: async () => {
+          throw Error("secret-canary-do-not-copy");
+        },
+      });
+      const result = await executePreview(f.input, f.dependencies);
+      assert.notEqual(result.state, "verified");
+      assert.equal(result.stableVerified, false);
+      assert.equal(result.previousVerified.sourceSha, oldSha);
+      assert.equal(result.previousVerified.uniqueUrl, oldUnique);
+      assert.doesNotMatch(JSON.stringify(result), /secret-canary/);
+      assert.ok(!f.calls.includes("report:verified"));
+    });
+});
+
+test("preview reporting rejects forged or stable previous verified URLs before callbacks", async () => {
+  const { executePreview } = await lifecycle();
+  for (const prior of [
+    { sourceSha: oldSha, uniqueUrl: stable },
+    { sourceSha: oldSha, uniqueUrl: "https://evil.test/" },
+    { sourceSha: "bad", uniqueUrl: oldUnique },
+  ]) {
+    const f = lifecycleFixture();
+    f.input.prior = prior;
+    await assert.rejects(executePreview(f.input, f.dependencies));
+    assert.deepEqual(f.calls, []);
+  }
+});
+
+test("cleanup rechecks closed authority, marks inactive on failed deletion and permits retry", async () => {
+  const { cleanupPreview } = await lifecycle();
+  const policy = fixturePolicy();
+  const calls = [];
+  const input = { policy, name: "pr-12", sourceSha: sha };
+  const dependencies = {
+    readCurrent: async () => ({
+      pr: { ...previewFacts().pr, state: "closed" },
+    }),
+    remove: async () => {
+      calls.push("remove");
+      throw Error("secret-canary");
+    },
+    persist: async (record) => {
+      calls.push("persist:" + record.state);
+    },
+    report: async (record) => {
+      calls.push("report:" + record.inactive);
+    },
+  };
+  const failed = await cleanupPreview(input, dependencies);
+  assert.equal(failed.inactive, true);
+  assert.equal(failed.state, "failed-deletion");
+  assert.equal(failed.retryRequired, true);
+  assert.doesNotMatch(JSON.stringify(failed), /secret-canary/);
+  assert.ok(calls.includes("report:true"));
+  const retried = await cleanupPreview(input, {
+    ...dependencies,
+    remove: async () => {},
+  });
+  assert.equal(retried.state, "deleted");
+  assert.equal(retried.retryRequired, false);
+});
+
+test("cleanup rejects open/foreign PRs, parent Workers and unbound local names without removal", async () => {
+  const { cleanupPreview, localPreviewName } = await lifecycle();
+  let removals = 0;
+  const dependencies = {
+    readCurrent: async () => ({ pr: previewFacts().pr }),
+    remove: async () => {
+      removals++;
+    },
+    persist: async () => {},
+    report: async () => {},
+  };
+  for (const name of [
+    "pr-12",
+    "pr-13",
+    "katpb-dev-preview",
+    "katpb-dev-production",
+    "../pr-12",
+    "local-other-" + sha.slice(0, 32),
+    "local-katpb-" + oldSha.slice(0, 32),
+  ])
+    await assert.rejects(
+      cleanupPreview(
+        { policy: fixturePolicy(), name, sourceSha: sha },
+        dependencies,
+      ),
+    );
+  assert.equal(removals, 0);
+  assert.equal(
+    localPreviewName("katpb", sha),
+    "local-katpb-" + sha.slice(0, 32),
+  );
+  await assert.rejects(
+    cleanupPreview(
+      { policy: fixturePolicy(), name: "pr-12", sourceSha: sha },
+      {
+        ...dependencies,
+        readCurrent: async () => ({
+          pr: {
+            ...previewFacts().pr,
+            state: "closed",
+            head: {
+              ...previewFacts().pr.head,
+              repo: { full_name: "foreign/repo" },
+            },
+          },
+        }),
+      },
+    ),
+  );
+  assert.equal(removals, 0);
+  const local = await cleanupPreview(
+    {
+      policy: fixturePolicy(),
+      name: localPreviewName("katpb", sha),
+      sourceSha: sha,
+    },
+    {
+      ...dependencies,
+      readCurrent: async () => {
+        throw Error("local cleanup must not look up a PR");
+      },
+    },
+  );
+  assert.equal(local.state, "deleted");
+  assert.equal(removals, 1);
+});
+
+test("post-upload recording failures and metadata outages cannot become verified success", async (t) => {
+  const { executePreview } = await lifecycle();
+  for (const state of ["uploaded", "verified"])
+    await t.test("persist " + state, async () => {
+      const f = lifecycleFixture({
+        persist: async (record) => {
+          if (record.state === state) throw Error("storage unavailable");
+        },
+      });
+      const result = await executePreview(f.input, f.dependencies);
+      assert.equal(result.state, "unresolved");
+      assert.equal(result.stableVerified, false);
+      assert.equal(result.previousVerified.uniqueUrl, oldUnique);
+      assert.ok(!f.calls.includes("report:verified"));
+    });
+  let reads = 0;
+  const f = lifecycleFixture({
+    readCurrent: async () => {
+      if (++reads === 3) throw Error("metadata unavailable");
+      return { pr: previewFacts().pr, permission: "write" };
+    },
+  });
+  const result = await executePreview(f.input, f.dependencies);
+  assert.equal(result.state, "unresolved");
+  assert.equal(result.stableVerified, false);
+  assert.ok(!f.calls.includes("report:verified"));
+});
+
+test("cleanup rechecks closure immediately before deletion after reporting", async () => {
+  const { cleanupPreview } = await lifecycle();
+  let reads = 0,
+    removals = 0;
+  const result = await cleanupPreview(
+    { policy: fixturePolicy(), name: "pr-12", sourceSha: sha },
+    {
+      readCurrent: async () => ({
+        pr: { ...previewFacts().pr, state: ++reads === 1 ? "closed" : "open" },
+      }),
+      remove: async () => {
+        removals++;
+      },
+      persist: async () => {},
+      report: async () => {},
+    },
+  );
+  assert.equal(removals, 0);
+  assert.equal(result.state, "failed-deletion");
+  assert.equal(result.retryRequired, true);
 });

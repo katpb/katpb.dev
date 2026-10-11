@@ -30,7 +30,11 @@ using workers.dev only. Use minimum owner creation capability; never retain a pr
 Admin/create-delete credential in GitHub CI. Complete T005 only with individually scoped
 deployment permissions and actual resource/URL/scope/environment/isolation readbacks. T004/T005
 remain unchecked until their original acceptance passes, and neither setup/foundation checkpoint
-is complete while they remain pending. T023 and preview story implementation are not authorized.
+is complete while they remain pending. That bootstrap window did not authorize T023.
+T001–T022 subsequently completed and merged through PR #4 at
+`f5e384a2dea0f27018ba2698ac22f7ad1db83e2d`, with green post-merge main CI.
+On 2026-10-09 the owner authorized starting T023–T030 on `004-pr-preview-mvp`;
+see `tasks.md` and `checklists/acceptance.md` for current progress. Later slices remain pending.
 
 ## Technical Context
 

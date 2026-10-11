@@ -2,7 +2,7 @@
 
 **Input**: Design documents from `/specs/004-production-hosting/`.
 **Prerequisites**: `spec.md`, `plan.md`, `research.md`, `data-model.md`, `quickstart.md`, all three `contracts/` documents, and `.specify/memory/constitution.md`.
-**Status**: Owner approved on 2026-10-03 for T001–T022 only. Implementation/evidence status is recorded below and in `checklists/acceptance.md`; T023 onward remains outside this execution window.
+**Status**: T001–T022 are complete and merged through PR #4. On 2026-10-09 the owner authorized starting the next slice, **T023–T030, PR preview MVP**, after green post-merge main CI. T023–T028 are implemented and locally verified; T029–T030 remain pending owner review and a later live-exercise window. T031 onward remains outside this execution window. Evidence is recorded below and in `checklists/acceptance.md`.
 
 **Resume checkpoint**: T001–T022 are complete: **22/22**. T005 completion combines
 preserved third-run authorization/isolation evidence with the successful fourth owner-run
@@ -17,8 +17,21 @@ expiration is **No expiration** on all three existing token forms, corroborated 
 Codex consumes sanitized owner evidence only; no credential-bearing T005 rerun is authorized.
 Main-only environments, recovery owner review and owner-audited/read-only drift controls
 remain effective. The approved setup/foundation checkpoint is complete; full R4 story
-acceptance remains pending. PR #4 remains draft for the owner's Ready for Review/merge
-step after final credential-free validation and exact-head CI. **T023+ is unstarted.**
+acceptance remains pending. PR #4 was marked Ready for Review and merged on 2026-10-09
+at `f5e384a2dea0f27018ba2698ac22f7ad1db83e2d`. Post-merge main CI
+[37929644977](https://github.com/katpb/katpb.dev/actions/runs/37929644977), attempt 1,
+passed `repository-health`, protection drift checks and raw artifact upload on that exact SHA.
+The next slice starts from that commit on `004-pr-preview-mvp`. T023 now covers exact-run/writer identity, stale/closed reads before and after upload,
+failed-update prior unique-URL reporting, recording failure, main-ref denial and cleanup
+restrictions/retries. T024 adds the owner-only local wrapper, trusted raw repackaging and
+credential-separated HTTPS/browser checks. Local names use the first 32 source-SHA hex
+characters to fit the DNS label; full SHA remains in provenance and receipts.
+T025–T028 now wire the trusted preview and cleanup workflows with exact-run artifacts,
+preview-only provider jobs, credential-free verification and explicit deployment reporting.
+T029–T030 remain pending; no live automated preview acceptance is claimed.
+Historical T022 stopping instructions below describe the earlier bootstrap window and are
+superseded only for T023–T030 by the owner's 2026-10-09 instruction. Existing credential,
+main-ref environment, source-isolation and domain boundaries continue to apply.
 
 **Tests**: Included for the specification's validation, failure, isolation, smoke, cache-transition, and recovery scenarios. Use the existing Node test runner and Playwright/axe; no new test runner. Write the relevant automated assertions and observe their failure before implementing changed behavior.
 **Organization**: Story IDs and priorities remain those in `spec.md`. Per the owner's requested delivery sequence, implement preview US2 before production US1, perform hosted-delivery verification US4 before recovery US3, then operational documentation US5 and final evidence/domain readiness. This ordering does not change story priorities or requirements.
@@ -50,7 +63,7 @@ individual-Worker permissions and isolation tests. Any product-level creation ca
 bootstrap-only and never stored in GitHub CI or normal deployment credentials. Verify resources,
 URLs, scopes and main-only environments before completing T004/T005. Neither Phase 1 nor the
 foundation checkpoint is complete while either remains pending. No T023 or story upload is
-authorized in this execution window.
+authorized by that bootstrap correction. The later 2026-10-09 authorization above opens T023–T030.
 
 ## Phase 1: Setup — Repository Protection, Then Cloudflare Provisioning
 
@@ -91,19 +104,19 @@ authorized in this execution window.
 - [x] T021 Create SHA-pinned `.github/workflows/ci.yml` named `CI` exposing stable `repository-health` on every PR to main and main push without path bypasses; checkout exact PR head/push SHA with persistence off, use Node 24.21.0/npm 11.x, locked dependencies and pinned Chromium/WebKit Ubuntu dependencies, run full verification and credential-free raw preparation, and upload static output/manifests bound to source/run/attempt only after success; use read-only build permissions and no deployment environments, provider secrets or shared privileged caches.
 - [x] T022 Activate and verify the exact CI required-check binding and remaining T002 main/archive/environment protections; compare local and exact-run CI raw manifests and two packages made from identical explicit retained/policy inputs, preserving tracked source and exact raw bytes; record tool versions, raw/package manifests and capability results in `specs/004-production-hosting/checklists/acceptance.md`, verify the complete owner-side bypass audit and actual read-only runtime revision drift gate; keep T004/T005 and full hosted acceptance deferred rather than claiming SC-001 or the foundation checkpoint. Store no Administration-write credential in CI.
 
-**Checkpoint**: The approved T001–T022 foundation is complete (22/22), including actual T004/T005 setup evidence. Final credential-free validation and PR-head CI are recorded in `checklists/acceptance.md`. T023 onward remains outside this execution window; no full R4 story acceptance is claimed.
+**Checkpoint**: The approved T001–T022 foundation is complete (22/22), including actual T004/T005 setup evidence, PR #4 merge and green post-merge main CI. T023–T030 is now authorized and started; no full R4 story acceptance is claimed.
 
 ## Phase 3: User Story 2 — Isolated PR Previews (Priority: P1; First Reviewable Increment)
 
 **Goal**: Create attributable local and automated PR previews without production mutation.
 **Independent Test**: Open/update two eligible PRs, verify independent stable/unique URLs and head SHAs, reject stale/fork/closed candidates, and prove production bytes are unchanged. An R1-only acceptance exercise follows T001's resolved procedure.
 
-- [ ] T023 [US2] Extend `tests/integration/deployment-policy.test.mjs` with preview eligibility/permission scenarios, exact-run artifact selection, stale or closed PRs before/after upload, failed updates, prior verified unique URL versus changed stable URL, main-ref environment denial for PR-authored YAML, and preview/local naming and cleanup restrictions; verify failed/skipped authorization never displays success.
-- [ ] T024 [P] [US2] Implement local preview wrapper `scripts/deploy-preview.mjs` validating supplied prepared package/clean source evidence and explicit `local-<owner>-<source-sha>` name; run trusted tooling from the documented separate protected-main control checkout, never rebuild/install candidate code with credentials, upload via preview-only scope, verify stable and unique URLs, and persist a local non-secret attempt/result.
-- [ ] T025 [US2] Implement trusted preview orchestration in `scripts/release-orchestrator.mjs` using T013–T018 helpers: independently resolve current open same-repository main-target PR and writer authorization, pin control SHA, select exact run/attempt/artifact, recheck head under the lock before upload, record authorization/stale/closed skips, and preserve prior verified preview identity after failed updates.
-- [ ] T026 [US2] Create preview entry and credential-separated jobs in `.github/workflows/deploy.yml` for allowlisted CI `workflow_run` completion from protected main; hold workflow-level non-cancelling `r4-hosting` concurrency with `queue: max` only if supported, include candidate identity in run name, separate read-only preparation/provider environment/credential-free browser/reporting jobs, use `deployment: false` on environment jobs, and create explicit source-SHA GitHub Deployments/Actions summaries without unsolicited PR comments.
-- [ ] T027 [P] [US2] Implement `scripts/cleanup-preview.mjs` using trusted metadata, explicit local name or authoritative closed PR, scoped `wrangler preview delete`, and inactive/failed-deletion/retry reporting; delete only the named preview and never the preview parent Worker or production; preserve the preview lifecycle and quota accounting from `data-model.md`.
-- [ ] T028 [US2] Create `.github/workflows/preview-cleanup.yml` from default-main control code with the same `r4-hosting` lock, no PR checkout, live closed-state recheck and explicit inactive deployment status even if provider deletion fails; wire `deploy:preview` and `deploy:cleanup` in `package.json` with executable help and nonzero failures.
+- [x] T023 [US2] Extend `tests/integration/deployment-policy.test.mjs` with preview eligibility/permission scenarios, exact-run artifact selection, stale or closed PRs before/after upload, failed updates, prior verified unique URL versus changed stable URL, main-ref environment denial for PR-authored YAML, and preview/local naming and cleanup restrictions; verify failed/skipped authorization never displays success.
+- [x] T024 [P] [US2] Implement local preview wrapper `scripts/deploy-preview.mjs` validating supplied prepared package/clean source evidence and explicit source-bound `local-katpb-<first-32-source-sha-hex>` name (full SHA retained in provenance/receipts); run trusted tooling from the documented separate protected-main control checkout, never rebuild/install candidate code with credentials, upload via preview-only scope, verify stable and unique URLs, and persist a local non-secret attempt/result.
+- [x] T025 [US2] Implement trusted preview orchestration in `scripts/release-orchestrator.mjs` using T013–T018 helpers: independently resolve current open same-repository main-target PR and writer authorization, pin control SHA, select exact run/attempt/artifact, recheck head under the lock before upload, record authorization/stale/closed skips, and preserve prior verified preview identity after failed updates.
+- [x] T026 [US2] Create preview entry and credential-separated jobs in `.github/workflows/deploy.yml` for allowlisted CI `workflow_run` completion from protected main; hold workflow-level non-cancelling `r4-hosting` concurrency with `queue: max` only if supported, include candidate identity in run name, separate read-only preparation/provider environment/credential-free browser/reporting jobs, use `deployment: false` on environment jobs, and create explicit source-SHA GitHub Deployments/Actions summaries without unsolicited PR comments.
+- [x] T027 [P] [US2] Implement `scripts/cleanup-preview.mjs` using trusted metadata, explicit local name or authoritative closed PR, scoped `wrangler preview delete`, and inactive/failed-deletion/retry reporting; delete only the named preview and never the preview parent Worker or production; preserve the preview lifecycle and quota accounting from `data-model.md`.
+- [x] T028 [US2] Create `.github/workflows/preview-cleanup.yml` from default-main control code with the same `r4-hosting` lock, no PR checkout, live closed-state recheck and explicit inactive deployment status even if provider deletion fails; wire `deploy:preview` and `deploy:cleanup` in `package.json` with executable help and nonzero failures.
 - [ ] T029 [US2] Run full local gate and controlled/real preview open-update/two-PR/stale/closure/cleanup exercises with credential-free HTTPS/browser checks on both URLs; capture source/control/run/provider IDs, addresses, production before/after hashes and raw elapsed times including outage exclusions in `specs/004-production-hosting/checklists/acceptance.md`; verify each opening/update within 10 minutes after execution starts for SC-002 and keep unavailable results pending.
 - [ ] T030 [US2] Exercise fork/untrusted skip and same-repository PR YAML environment-secret denial using a non-secret canary and controlled provider mutation assertions; inspect generated files and logs for credential exposure, record explicit authorization disposition and zero production changes in `specs/004-production-hosting/checklists/acceptance.md`, and never print real credentials as proof.
 
@@ -190,7 +203,8 @@ Task-list review and owner approval
   -> T018 HTTPS gate -> T019 credential-free browser -> T020 commands -> T021 CI -> T022 protection/manifests
   -> applicable local/CI foundation validation -> T004 one-time owner bootstrap/readback
   -> T005 per-Worker credentials/isolation/readbacks -> setup/foundation checkpoint
-  -> STOP at the approved T022 boundary (no T023 in this execution window)
+  -> T022 boundary completed through PR #4 merge and green main CI
+  -> owner-authorized T023–T030 start, 2026-10-09
   -> US2 preview T023-T030
   -> US1 production T031-T037
   -> US4 hosted delivery/readiness T038-T042

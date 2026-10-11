@@ -1,7 +1,8 @@
 # Quickstart and Acceptance: R4 — Production Hosting
 
-**Status**: Design-stage runbook. New commands/workflows below become executable after R4
-implementation; no hosted results are asserted here. Record actual evidence in
+**Status**: T023–T028 preview commands/workflows are implemented locally; their GitHub-hosted
+validation and live acceptance remain pending T029–T030 after review. Production/recovery
+sections remain planned. No hosted results are asserted here. Record actual evidence in
 `checklists/acceptance.md` during implementation.
 
 ## 1. Establish prerequisites
@@ -33,7 +34,9 @@ Missing Worker IDs/subdomain/URLs must block normal provider invocation. Return 
 three-Worker bootstrap only after applicable local/CI foundation checks pass. Use the minimum
 owner creation capability once; never store product-level Admin/create-delete access in CI.
 Keep T004/T005 and setup/foundation checkpoints pending until actual readbacks and tests pass.
-T023 and preview user-story implementation remain outside this execution window.
+That bootstrap window stopped before T023. Following PR #4's merge and green main CI,
+the owner authorized starting T023–T030 on 2026-10-09. Preview commands/workflows in this
+runbook remain planned until their implementation and acceptance evidence are recorded.
 
 The owner then preprovisions production, preview-parent and isolated acceptance Workers at provider HTTPS addresses,
 with assets-only configuration. Create separate account-owned per-Worker Editor tokens. Put
@@ -72,21 +75,81 @@ temporary data directory. For arbitrary candidate code, use a separate clean con
 of protected main with locked dependencies; run deployment wrappers from that control checkout,
 without executing candidate scripts or reading candidate Wrangler configuration.
 
-Obtain a preview-only token from the secure local token source for the provider subprocess;
-do not put it in a shell command, history, or file in either checkout. Then, from control:
+The local wrapper and `deploy:preview` npm alias are implemented. Use them only after the
+reviewed implementation is available in protected main.
+Prepare the candidate credential-free using section 2, and copy its prepared package to a
+separate data directory. Create a **separate clean checkout of current protected main** with
+locked dependencies and browsers installed before deployment. Do not copy candidate code,
+node_modules or configuration into that control checkout.
+
+Coordinate explicitly with hosted deployment/cleanup runs before starting this local operation;
+no hosted mutation may overlap it. The wrapper acquires `.deploy/r4-hosting.lock`, shared with
+the owner-run T005 path. It refuses an existing lock and retains its lock on any uncertain
+post-upload result. Do not delete a retained lock to bypass reconciliation.
+
+From the normal owner terminal in the protected-main control checkout:
 
 ```sh
-npm run deploy:preview -- --name local-<owner>-<source-sha> --package <candidate-package-directory>
-npm run deploy:verify -- --url <returned-stable-https-url> --manifest <package-manifest-path>
-npm run deploy:verify -- --url <returned-unique-https-url> --manifest <package-manifest-path>
+npm run deploy:preview -- --help
+npm run deploy:preview -- --name local-katpb-<first-32-source-sha-hex> --package <candidate-package-directory>
 ```
 
-The implementation must validate candidate package evidence and reject a mutable/incorrect
-source identity; it must not rebuild candidate code with the token in scope. Record source,
-control SHA, provider ID, stable/unique URLs, verification results, and elapsed time. Confirm
-production marker/root/asset hashes remain unchanged. No local production token is required.
+Use the first 32 lowercase hex characters of the candidate's full SHA for the name. A full
+40-character suffix exceeds the observed DNS-label limit with the preview parent Worker name.
+The wrapper checks this binding and retains the **full 40-character SHA** in validation,
+package marker, provider tag and receipts. The earlier random 32-hex T005 names are historical
+setup probes; this wrapper accepts only source-bound names.
+
+Do not run this wrapper under `op run` or export a resolved token. It invokes masked `op run`
+itself with only the approved preview reference, resolving the credential exclusively inside
+`scripts/hosting/local-preview-provider.mjs`. The owner handles desktop authentication prompts.
+Codex must not execute this credential-bearing step; it can review sanitized receipts afterward.
+No build, install, candidate script or browser runs in that provider subprocess.
+
+The wrapper checks current protected-main control identity and audited protection state, checks
+clean-source validation, independently repackages raw bytes using trusted headers, rejects
+candidate policy changes and uploads only the named preview. It then runs HTTPS and browser
+checks at **both returned URLs** without credentials. Results and stage snapshots are stored in
+`.deploy/local-attempts/<attempt-id>/`; upload alone is never a verified result. On a nonzero
+exit, inspect the recorded stage and reconcile any uncertain upload before retrying. Provider
+output and credentials are not copied into diagnostics. Actual provider, quota, timing and
+production-preservation evidence still belongs to T029, not these offline fixtures.
 
 ## 4. Exercise automated PR previews
+
+The implemented `.github/workflows/deploy.yml` listens only to completed `CI` workflow runs;
+its job gate and server-side resolver require workflow ID `374100170`, a successful PR run,
+exact attempt and artifact identity. The first job checks out protected main and pins its full
+control SHA; subsequent jobs check out that SHA with credential persistence disabled. Candidate
+code is never checked out or installed. Downloaded artifacts fail on digest mismatch and raw
+archives are validated before trusted repackaging.
+
+The workflow holds non-cancelling `r4-hosting` concurrency with `queue: max` through preparation,
+explicit pending Deployment creation, upload, HTTPS/browser checks and final reporting. Only
+its provider job binds the `preview` environment (`deployment: false`) and receives that
+Worker-scoped environment's `CLOUDFLARE_API_TOKEN`. Metadata/reporting have narrow GitHub
+permissions; the verification process has no token or secret environment. Results bind PR,
+head/control SHA, CI run/attempt/artifact and provider ID. Skips never report success. The
+GitHub summary distinguishes a possibly changed stable URL from the previous verified unique URL.
+No PR comment is posted.
+
+Prior verified identity is checked against an immutable final receipt from the exact successful
+trusted-main preview workflow run, in addition to Deployment metadata and main ancestry. The
+Actions evidence retention is 30 days. An expired/missing prior receipt fails closed before
+upload; do not silently discard the previous verification record. Reconcile its evidence or
+perform owner-reviewed closed-PR cleanup before establishing a fresh lifecycle.
+
+`.github/workflows/preview-cleanup.yml` uses default-main `pull_request_target: closed` code
+and the same lock; it never checks out PR code. It confirms live same-repository/main-target
+closure, marks only that PR's preview Deployments inactive, then rechecks closure directly before
+named-preview deletion. Failure leaves retryable evidence and quota charged. Success requires
+an authoritative absence readback. A writer can retry a closed PR's cleanup via
+`workflow_dispatch` on main with `pr_number`; an open/reopened PR cannot be deleted by that path.
+Provider jobs use only the preview environment. Parent Workers, production and acceptance are
+outside both cleanup operations.
+
+**Review boundary**: Do not perform the following live exercises as part of T025–T028. They
+remain T029/T030 work after owner review and separate continuation.
 
 Open a trusted in-scope PR to main using the existing R1 page. Observe `repository-health`,
 then the trusted deployment workflow. GitHub's deployment view/summary must expose PR number,
@@ -210,8 +273,13 @@ Close test PRs; check inactive GitHub status and provider preview deletion, reco
 permission blocker/retry. Remove only local previews explicitly:
 
 ```sh
-npm run deploy:cleanup -- --name local-<owner>-<source-sha>
+npm run deploy:cleanup -- --name local-katpb-<first-32-source-sha-hex>
 ```
+
+Local cleanup uses the owner terminal, separate clean current protected-main control checkout,
+masked preview-only `op run` subprocess and shared local hosting lock. Do not pass a resolved
+token to the wrapper or execute this credential-bearing path from Codex. Failed deletion keeps
+its evidence and local lock for reconciliation; absence is required before quota is released.
 
 Exercise documented secure token replacement and revocation without logging values. Verify
 archives remain usable after Actions artifact expiration; do not require actual waiting—remove
