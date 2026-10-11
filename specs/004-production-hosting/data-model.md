@@ -44,15 +44,15 @@ not reproducible site files.
 
 ## Deployment Target
 
-| Field                     | Rule                                                                                  |
-| ------------------------- | ------------------------------------------------------------------------------------- |
-| `kind`                    | `production`, `preview`, or isolated `acceptance` target.                             |
-| `accountId`, `workerName` | Non-secret, allowlisted setup values; explicit, never inferred from a branch name.    |
-| `previewName`             | `pr-<positive integer>` or approved `local-<owner>-<source-sha>`, otherwise null.     |
-| `environment`             | `preview`, `production`, or `production-recovery`; workflow ref must be main.         |
-| `stableUrl`, `uniqueUrl`  | HTTPS provider-returned URLs validated against expected account/Worker host patterns. |
-| `credentialScope`         | Description of individually scoped Worker token; never token value.                   |
-| `quota`                   | Selected provider plan limits and current asset/preview counts.                       |
+| Field                     | Rule                                                                                                                              |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `kind`                    | `production`, `preview`, or isolated `acceptance` target.                                                                         |
+| `accountId`, `workerName` | Non-secret, allowlisted setup values; explicit, never inferred from a branch name.                                                |
+| `previewName`             | `pr-<positive integer>` or source-bound `local-katpb-<first-32-source-sha-hex>`, otherwise null; full SHA retained in provenance. |
+| `environment`             | `preview`, `production`, or `production-recovery`; workflow ref must be main.                                                     |
+| `stableUrl`, `uniqueUrl`  | HTTPS provider-returned URLs validated against expected account/Worker host patterns.                                             |
+| `credentialScope`         | Description of individually scoped Worker token; never token value.                                                               |
+| `quota`                   | Selected provider plan limits and current asset/preview counts.                                                                   |
 
 Production and preview are distinct Workers. Custom-domain routing is absent from deployable
 configuration. Provider URL host validation happens before any network smoke request or report.

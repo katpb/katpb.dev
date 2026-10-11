@@ -12,9 +12,162 @@ HTTP checks and 192 credential-free hosted browser cases passed. Final local val
 T005 is complete from the preserved third authorization matrix plus fourth owner-run Preview
 lifecycle. The approved Phase 1/foundation checkpoint is complete; full R4 story acceptance
 remains pending. PR #4 merge and green post-merge main CI are recorded below.
-T023's first policy regression wave has started; T024–T030 remain pending.
+T023–T028 are implemented with offline fixture coverage; T029–T030 remain pending review and live acceptance.
 T031 onward is outside the current window.
 Earlier dated observations below are historical evidence, not current completion claims.
+
+## Trusted preview and cleanup implementation — T025–T028, 2026-10-11
+
+**Scope**: Implemented only T025–T028 on the existing `004-pr-preview-mvp` worktree.
+T001–T024 implementation and foundation protections were not revisited. The owner's existing
+`ROADMAP.md` edit and all historical R1/T005 evidence remain unchanged. No provider credential,
+GitHub mutation, hosted workflow run, T029/T030 live exercise, T031+ work, or domain/DNS/
+nameserver/route/certificate operation was performed. Requirements checklist remains **16/16**;
+no implementation extension hooks are registered.
+
+- **T025**: `scripts/release-orchestrator.mjs` resolves the live exact successful allowlisted
+  CI run/attempt, authoritative same-repository main-target PR and writer permission, exact
+  run-scoped artifact ID/name/digest and separate pinned main control SHA. It records stale,
+  closed and unauthorized skips before artifact consumption/provider mutation. Raw archives,
+  successful clean-source evidence, source lockfile identity and trusted packaging are checked.
+  The provider stage rechecks live PR/author/source authority under the workflow lock immediately
+  before mutation and checks again after upload; reporting rechecks before verified success.
+  A failed update retains only the prior verified unique URL as earlier verified identity;
+  the stable URL is explicitly unverified. Prior identity also requires immutable final-receipt
+  proof from the exact earlier successful main workflow run and protected-main ancestry.
+- **T026**: `.github/workflows/deploy.yml` implements only the PR-preview path. It has a
+  `workflow_run: CI/completed` entry, job gates for successful PR CI workflow `374100170`,
+  `permissions: {}`, and workflow-wide `r4-hosting` concurrency with `cancel-in-progress: false`
+  and `queue: max`. Initial control comes from `refs/heads/main`; later checkouts use its pinned
+  SHA, disable checkout credential persistence, and install locked trusted dependencies without
+  lifecycle scripts or writable candidate caches. Every handoff uses an exact artifact ID;
+  `actions/download-artifact` is pinned to `3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c`
+  with explicit `digest-mismatch: error`. The additional announce job creates a source-SHA
+  Deployment with `auto_merge: false`, `production_environment: false` and pending/in-progress
+  status before upload. Final reporting persists checked evidence before success; missing/
+  failed verification jobs cannot produce success. Stable/unique URLs, IDs, outcomes and prior
+  verified identity appear in retained receipts and Actions summaries. No PR comments.
+- **T027**: `scripts/cleanup-preview.mjs` permits only an explicit validated 32-hex local name
+  or independently read closed same-repository PR targeting main. The provider helper generates
+  its own configuration, invokes only pinned `wrangler preview delete` for the exact named
+  preview, suppresses raw provider output and confirms resource absence (404/code 10025).
+  Reopened/foreign/open PRs and parent-Worker names cannot mutate. Existing absence makes retries
+  idempotent. Inactive status is distinct from deletion: failures preserve `retryRequired: true`
+  and `capacityReleased: false`; only confirmed absence releases quota. No automatic pruning.
+- **T028**: `.github/workflows/preview-cleanup.yml` uses trusted default-main
+  `pull_request_target: closed` code and explicit main-ref writer-authorized `workflow_dispatch`
+  retry. It shares the same workflow lock, pins later checkouts to the preparation control SHA,
+  marks Deployments inactive before deletion and repeats inactive reporting after provider
+  failure. Only the provider job binds the preview environment; PR code is never checked out.
+  `deploy:preview` and `deploy:cleanup` npm commands have executable help, strict arguments and
+  nonzero failures. Local cleanup resolves only the approved preview reference via the masked
+  owner-run provider subprocess and shares the existing local hosting lock.
+
+### Exact job permissions and environment bindings
+
+Both workflows default to **no permissions**. Only the following job permissions are granted:
+
+| Workflow/job                     | Exact GitHub permissions                                               | Environment/secret binding                                             |
+| -------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| deploy.prepare                   | contents: read; actions: read; pull-requests: read; deployments: read  | None                                                                   |
+| deploy.announce, deploy.report   | contents: read; actions: read; pull-requests: read; deployments: write | None                                                                   |
+| deploy.provider                  | contents: read; actions: read; pull-requests: read                     | preview; deployment: false; CLOUDFLARE_API_TOKEN in provider step only |
+| deploy.verify                    | contents: read; actions: read                                          | None; no token/secret passed to verifier or browser                    |
+| cleanup.prepare                  | contents: read; actions: read; pull-requests: read                     | None                                                                   |
+| cleanup.inactive, cleanup.report | contents: read; actions: read; pull-requests: read; deployments: write | None                                                                   |
+| cleanup.provider                 | contents: read; actions: read; pull-requests: read                     | preview; deployment: false; CLOUDFLARE_API_TOKEN in provider step only |
+
+No environment restriction, token scope, owner-audit record, protection rule or CI foundation
+workflow was changed. Official documentation confirms
+[queue: max with non-cancelling concurrency](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency),
+[environment deployment: false](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idenvironment),
+and the pinned download action's
+[digest-mismatch error option](https://github.com/actions/download-artifact/blob/3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c/action.yml).
+Local YAML/behavior assertions passed. GitHub-hosted workflow parsing, environment enforcement,
+provider-scoped execution, queue behavior and real timing remain **unobserved pending review
+and T029/T030**, not inferred passes.
+
+### Validation and remaining boundary
+
+Initial orchestration/workflow/cleanup tests were observed failing before implementation:
+`/private/tmp/r4-t025-t028-red.log`. An additional regression showed command completion without
+absence evidence incorrectly releasing capacity; `/private/tmp/r4-cleanup-absence-red.log`
+records that failure before correction. Focused final suite: **35/35 passed**, zero skipped/TODO,
+in `/private/tmp/r4-t025-t028-green.log`. Tests cover exact CI identity, artifact ambiguity/
+expiry/digest/size, stale/closed/fork/permission skips, both-URL verification, persist-before-
+success, prior immutable-proof checks, exact Deployment payloads, inactive scope, direct
+named-preview deletion arguments, idempotent absence, reopened PRs, quota retry evidence,
+credential-free subprocesses and workflow topology/permissions.
+
+The complete credential-free local `npm run verify` passed on Node **24.21.0** / npm
+**11.21.0**: formatting, Astro checks (**0 errors, 0 warnings**, five pre-existing T005 fixture
+hints), production build, **368/368 browser tests**, **175/175 integration tests**, and
+reproducibility for **six generated files**. Log:
+`/private/tmp/r4-t025-t028-verify-2026-10-11.log`. The inherited environment was empty except
+explicit local toolchain/browser settings; external requests were blocked with loopback
+proxies. The local gate had loopback permission for its test servers. Provider/GitHub calls
+in regressions were mocked; no credential-bearing owner command ran. This is dirty-worktree
+validation, not clean-source release preparation or hosted acceptance. `git diff --check`
+passed. Final documentation formatting was checked separately.
+
+**Blockers/limits**: No new observed local blocker. Evidence retention for preview receipts is
+30 days; missing/expired prior proof deliberately blocks an update before mutation until
+owner-reviewed evidence reconciliation or closed-PR cleanup. This condition was exercised only
+in fixtures, not observed on a hosted preview. Actual workflow/provider/permission/HTTPS/timing/
+quota/isolation acceptance remains pending T029/T030. **Stop here for owner review; T029 has
+not started and no later task is authorized by this checkpoint.**
+
+## PR preview lifecycle and local wrapper checkpoint — 2026-10-11
+
+Resumed on `004-pr-preview-mvp` at `b11a359`, preserving the owner's existing R2
+`ROADMAP.md` edit. Requirements review remains **16/16**; no extension hooks or
+applicable `AGENTS.md` were found. This entry supersedes only the earlier in-progress
+T023/T024 statements; historical provider reports and previous acceptance remain unchanged.
+
+- **T023**: Added trusted preview lifecycle stage boundaries and regression cases for stale,
+  closed and unauthorized PRs before upload, changes during upload/verification, both-URL
+  HTTPS/browser verification, persist-before-upload/success, metadata/recording failure,
+  preservation of the prior verified unique URL, and inactive cleanup with deletion retries.
+  A cleanup recheck directly before removal blocks a reopened PR. Previous verified stable
+  URLs and foreign URLs are rejected as previous verified identity. Exceptions are not copied
+  into receipts or reports. Existing exact-run/artifact and main-ref denial assertions remain.
+- **T024**: Added `scripts/deploy-preview.mjs` and the separate trusted
+  `scripts/hosting/local-preview-provider.mjs`. The wrapper requires a clean checkout matching
+  live protected main and owner-audited protections, source-bound short name and successful
+  clean-source evidence. It independently repackages raw bytes with trusted headers, ignores
+  candidate Wrangler configuration, acquires the shared local hosting lock and writes stage
+  records before mutation. Only the owner-run masked provider subprocess receives the approved
+  preview reference's resolved credential. HTTPS and both-URL browser checks run separately
+  without credentials; a post-upload failure retains the lock and records unresolved state.
+- **Naming reconciliation**: `local-katpb-<first-32-source-sha-hex>` binds the short name to
+  the full 40-character SHA retained in provenance, public marker, tag and receipts. This avoids
+  the observed 70-character full-SHA hostname label. The runbook, command contract and data
+  model now state this rule. T005's historical random names and reports are unchanged.
+- **Test evidence**: Initial lifecycle assertions failed for the absent implementation;
+  local wrapper tests then exposed missing control-SHA validation, and the cleanup race
+  regression exposed removal after reopening. Each was observed red before its correction.
+  Focused final suite: **79 tests passed, zero failed/skipped/TODO**. Logs:
+  `/private/tmp/r4-preview-lifecycle-red.log`, `/private/tmp/r4-local-preview-red.log`,
+  `/private/tmp/r4-preview-cleanup-race-red.log`, and
+  `/private/tmp/r4-preview-focused-final.log`. All provider/network operations in these tests
+  are fixtures or injected callbacks. No owner credential command was run.
+- **Full gate**: The sandbox attempt passed formatting/Astro/build and stopped at the known
+  loopback `listen EPERM 127.0.0.1:4322` restriction. The loopback-capable credential-free rerun
+  passed **368 browser tests**, **140 integration tests** and reproducibility for **six files**.
+  The inherited environment was empty except explicit local toolchain settings; external
+  network access was blocked by loopback proxies. This is worktree validation, not clean-source
+  release evidence or hosted acceptance. Final unchanged-code checkpoint gate also passed in
+  `/private/tmp/r4-preview-continue-final-2026-10-11.log`: formatting, Astro diagnostics
+  (**0 errors, 0 warnings**, five pre-existing unused-parameter hints in T005 fixtures),
+  build, **368/368 browser tests**, **140/140 integration tests** and reproducibility
+  for six files. `git diff --check` passed.
+- **Remaining**: T025 orchestration, T026 deployment workflow, T027 cleanup command and
+  T028 cleanup workflow/npm aliases remain pending. `preview-lifecycle.mjs` provides tested
+  stage logic for those tasks; no automated deployment is claimed. T029 actual provider/timing/
+  two-PR/production-preservation and T030 live environment-canary observations remain pending.
+  Local wrapper execution requires reviewed code in protected main and the owner's normal
+  terminal; Codex's existing credential boundary remains effective. No provider mutation,
+  GitHub workflow run, production change or domain/DNS/certificate operation was performed.
 
 ## PR #4 merge and preview MVP start — 2026-10-09
 

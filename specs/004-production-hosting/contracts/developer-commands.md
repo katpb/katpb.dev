@@ -6,22 +6,28 @@ return nonzero on failed stages, and print source, target, outcome, and next act
 
 ## Command surface
 
-| Command                                                                             | Required behavior                                                                                                                 |
-| ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `npm run verify`                                                                    | Existing complete offline-capable repository gate, including added operational tests; no deployment/network check.                |
-| `npm run release:prepare -- --source-sha <sha>`                                     | From successfully verified clean source, package `dist/` into `.deploy/`; no upload or source mutation.                           |
-| `npm run deploy:preview -- --name local-<owner>-<source-sha> --package <directory>` | Validate supplied prepared source/output and explicit preview-only target, deploy named preview, run hosted smoke, record result. |
-| `npm run deploy:verify -- --url <https-url> --manifest <path>`                      | Validate provider host and actual hosted bytes/headers/404/TLS against a hash-validated prepared manifest; no upload.             |
-| `npm run deploy:production -- --source-sha <current-main-sha>`                      | Dispatch trusted GitHub main workflow, follow/wait for result; never invoke local provider production upload.                     |
-| `npm run deploy:recover -- --archive-id <verified-id>`                              | Dispatch authorized recovery on main and follow result; no local production credential required.                                  |
-| `npm run deploy:reconcile -- --deployment-id <id>`                                  | Dispatch recorded examination of unresolved production attempt on main.                                                           |
-| `npm run deploy:cleanup -- --name local-<owner>-<source-sha>`                       | Delete only the explicit local preview name under preview parent; never a Worker or production target.                            |
+| Command                                                                                        | Required behavior                                                                                                                 |
+| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run verify`                                                                               | Existing complete offline-capable repository gate, including added operational tests; no deployment/network check.                |
+| `npm run release:prepare -- --source-sha <sha>`                                                | From successfully verified clean source, package `dist/` into `.deploy/`; no upload or source mutation.                           |
+| `npm run deploy:preview -- --name local-katpb-<first-32-source-sha-hex> --package <directory>` | Validate supplied prepared source/output and explicit preview-only target, deploy named preview, run hosted smoke, record result. |
+| `npm run deploy:verify -- --url <https-url> --manifest <path>`                                 | Validate provider host and actual hosted bytes/headers/404/TLS against a hash-validated prepared manifest; no upload.             |
+| `npm run deploy:production -- --source-sha <current-main-sha>`                                 | Dispatch trusted GitHub main workflow, follow/wait for result; never invoke local provider production upload.                     |
+| `npm run deploy:recover -- --archive-id <verified-id>`                                         | Dispatch authorized recovery on main and follow result; no local production credential required.                                  |
+| `npm run deploy:reconcile -- --deployment-id <id>`                                             | Dispatch recorded examination of unresolved production attempt on main.                                                           |
+| `npm run deploy:cleanup -- --name local-katpb-<first-32-source-sha-hex>`                       | Delete only the explicit local preview name under preview parent; never a Worker or production target.                            |
 
 `release:prepare` verifies successful validation evidence for the exact clean source and raw
 manifest; a user-supplied SHA or an old `dist/` is insufficient. If evidence is absent/stale it
 runs required validation or fails with the exact verification command. Preserve unrelated local
 changes; do not reset/delete them to establish eligibility. Dirty preview source fails with
 commit-or-separate-checkout guidance so its deployed identity remains attributable.
+
+Local names bind the first 32 lowercase hex characters of the full source SHA to stay within
+the provider DNS-label limit; full 40-character identity remains in provenance, markers and
+receipts. The owner invokes the wrapper without a resolved provider token. The wrapper resolves
+only the approved preview reference with masked `op run` into its trusted provider subprocess;
+Codex does not execute that credential-bearing step.
 
 Local preview deployment runs candidate build/checks before credentials enter the provider
 process. Use deployment scripts/tooling from a separate clean protected-main control checkout

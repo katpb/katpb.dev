@@ -764,3 +764,329 @@ test("rejected provider requests invoke no process and redact credential diagnos
   }
   assert.equal(calls, 0);
 });
+
+// Lifecycle callbacks stand in for separate trusted workflow jobs; no provider/network access.
+const lifecycle = () => import("../../scripts/hosting/preview-lifecycle.mjs");
+const oldSha = "b".repeat(40);
+const oldUnique = "https://bbbbbbbb-katpb-dev-preview.test.workers.dev/";
+const stable = "https://pr-12-katpb-dev-preview.test.workers.dev/";
+function lifecycleFixture(overrides = {}) {
+  const calls = [];
+  let reads = 0;
+  const input = {
+    policy: fixturePolicy(),
+    source: authorizeSource(previewFacts(), previewInput, fixturePolicy()),
+    prior: { sourceSha: oldSha, uniqueUrl: oldUnique },
+  };
+  const dependencies = {
+    readCurrent: async () => {
+      calls.push("read");
+      reads++;
+      return { pr: previewFacts().pr, permission: "write" };
+    },
+    prepare: async () => {
+      calls.push("prepare");
+    },
+    upload: async () => {
+      calls.push("upload");
+      return {
+        providerDeploymentId: "aaaaaaaa",
+        stableUrl: stable,
+        uniqueUrl: "https://aaaaaaaa-katpb-dev-preview.test.workers.dev/",
+      };
+    },
+    verifyHttps: async (url) => {
+      calls.push("https:" + url);
+    },
+    verifyBrowser: async (url) => {
+      calls.push("browser:" + url);
+    },
+    persist: async (record) => {
+      calls.push("persist:" + record.state);
+    },
+    report: async (record) => {
+      calls.push("report:" + record.state);
+    },
+    ...overrides,
+  };
+  return {
+    input,
+    dependencies,
+    calls,
+    get reads() {
+      return reads;
+    },
+  };
+}
+
+test("preview lifecycle verifies both URLs and persists evidence before success reporting", async () => {
+  const { executePreview } = await lifecycle();
+  const f = lifecycleFixture();
+  const result = await executePreview(f.input, f.dependencies);
+  assert.equal(result.state, "verified");
+  assert.equal(result.sourceSha, sha);
+  assert.equal(result.previousVerified.uniqueUrl, oldUnique);
+  assert.equal(result.stableVerified, true);
+  assert.equal(
+    f.reads,
+    4,
+    "initial, immediately before upload, after upload and before success",
+  );
+  for (const url of [result.stableUrl, result.uniqueUrl]) {
+    assert.ok(f.calls.includes("https:" + url));
+    assert.ok(f.calls.includes("browser:" + url));
+  }
+  assert.ok(f.calls.indexOf("persist:uploading") < f.calls.indexOf("upload"));
+  assert.ok(
+    f.calls.indexOf("persist:verified") < f.calls.indexOf("report:verified"),
+  );
+});
+
+test("stale, closed and unauthorized PRs skip before upload without a success status", async (t) => {
+  const { executePreview } = await lifecycle();
+  for (const when of [1, 2])
+    for (const disposition of ["stale", "closed", "authorization"])
+      await t.test(`${disposition} at read ${when}`, async () => {
+        let reads = 0;
+        const f = lifecycleFixture({
+          readCurrent: async () => {
+            const pr = previewFacts().pr;
+            reads++;
+            if (reads === when) {
+              if (disposition === "stale") pr.head.sha = oldSha;
+              if (disposition === "closed") pr.state = "closed";
+            }
+            return {
+              pr,
+              permission:
+                disposition === "authorization" && reads === when
+                  ? "read"
+                  : "write",
+            };
+          },
+        });
+        const result = await executePreview(f.input, f.dependencies);
+        assert.equal(result.state, "skipped-" + disposition);
+        assert.equal(result.stableVerified, false);
+        assert.equal(result.previousVerified.uniqueUrl, oldUnique);
+        assert.ok(!f.calls.includes("upload"));
+        assert.ok(!f.calls.includes("report:verified"));
+      });
+});
+
+test("PR changes during upload or verification never publish verified success", async (t) => {
+  const { executePreview } = await lifecycle();
+  for (const when of [3, 4])
+    for (const disposition of ["stale", "closed"])
+      await t.test(`${disposition} at read ${when}`, async () => {
+        let reads = 0;
+        const f = lifecycleFixture({
+          readCurrent: async () => {
+            const pr = previewFacts().pr;
+            if (++reads >= when) {
+              if (disposition === "stale") pr.head.sha = oldSha;
+              else pr.state = "closed";
+            }
+            return { pr, permission: "write" };
+          },
+        });
+        const result = await executePreview(f.input, f.dependencies);
+        assert.equal(result.state, "skipped-" + disposition);
+        assert.equal(result.inactive, disposition === "closed");
+        assert.equal(result.cleanupRequired, disposition === "closed");
+        assert.equal(result.stableVerified, false);
+        assert.equal(result.previousVerified.uniqueUrl, oldUnique);
+        assert.ok(f.calls.includes("upload"));
+        assert.ok(!f.calls.includes("report:verified"));
+      });
+});
+
+test("failed updates retain only prior verified unique identity; provider errors are redacted", async (t) => {
+  const { executePreview } = await lifecycle();
+  for (const stage of [
+    "prepare",
+    "upload",
+    "verifyHttps",
+    "verifyBrowser",
+    "persist",
+  ])
+    await t.test(stage, async () => {
+      const f = lifecycleFixture({
+        [stage]: async () => {
+          throw Error("secret-canary-do-not-copy");
+        },
+      });
+      const result = await executePreview(f.input, f.dependencies);
+      assert.notEqual(result.state, "verified");
+      assert.equal(result.stableVerified, false);
+      assert.equal(result.previousVerified.sourceSha, oldSha);
+      assert.equal(result.previousVerified.uniqueUrl, oldUnique);
+      assert.doesNotMatch(JSON.stringify(result), /secret-canary/);
+      assert.ok(!f.calls.includes("report:verified"));
+    });
+});
+
+test("preview reporting rejects forged or stable previous verified URLs before callbacks", async () => {
+  const { executePreview } = await lifecycle();
+  for (const prior of [
+    { sourceSha: oldSha, uniqueUrl: stable },
+    { sourceSha: oldSha, uniqueUrl: "https://evil.test/" },
+    { sourceSha: "bad", uniqueUrl: oldUnique },
+  ]) {
+    const f = lifecycleFixture();
+    f.input.prior = prior;
+    await assert.rejects(executePreview(f.input, f.dependencies));
+    assert.deepEqual(f.calls, []);
+  }
+});
+
+test("cleanup rechecks closed authority, marks inactive on failed deletion and permits retry", async () => {
+  const { cleanupPreview } = await lifecycle();
+  const policy = fixturePolicy();
+  const calls = [];
+  const input = { policy, name: "pr-12", sourceSha: sha };
+  const dependencies = {
+    readCurrent: async () => ({
+      pr: { ...previewFacts().pr, state: "closed" },
+    }),
+    remove: async () => {
+      calls.push("remove");
+      throw Error("secret-canary");
+    },
+    persist: async (record) => {
+      calls.push("persist:" + record.state);
+    },
+    report: async (record) => {
+      calls.push("report:" + record.inactive);
+    },
+  };
+  const failed = await cleanupPreview(input, dependencies);
+  assert.equal(failed.inactive, true);
+  assert.equal(failed.state, "failed-deletion");
+  assert.equal(failed.retryRequired, true);
+  assert.doesNotMatch(JSON.stringify(failed), /secret-canary/);
+  assert.ok(calls.includes("report:true"));
+  const retried = await cleanupPreview(input, {
+    ...dependencies,
+    remove: async () => {},
+  });
+  assert.equal(retried.state, "deleted");
+  assert.equal(retried.retryRequired, false);
+});
+
+test("cleanup rejects open/foreign PRs, parent Workers and unbound local names without removal", async () => {
+  const { cleanupPreview, localPreviewName } = await lifecycle();
+  let removals = 0;
+  const dependencies = {
+    readCurrent: async () => ({ pr: previewFacts().pr }),
+    remove: async () => {
+      removals++;
+    },
+    persist: async () => {},
+    report: async () => {},
+  };
+  for (const name of [
+    "pr-12",
+    "pr-13",
+    "katpb-dev-preview",
+    "katpb-dev-production",
+    "../pr-12",
+    "local-other-" + sha.slice(0, 32),
+    "local-katpb-" + oldSha.slice(0, 32),
+  ])
+    await assert.rejects(
+      cleanupPreview(
+        { policy: fixturePolicy(), name, sourceSha: sha },
+        dependencies,
+      ),
+    );
+  assert.equal(removals, 0);
+  assert.equal(
+    localPreviewName("katpb", sha),
+    "local-katpb-" + sha.slice(0, 32),
+  );
+  await assert.rejects(
+    cleanupPreview(
+      { policy: fixturePolicy(), name: "pr-12", sourceSha: sha },
+      {
+        ...dependencies,
+        readCurrent: async () => ({
+          pr: {
+            ...previewFacts().pr,
+            state: "closed",
+            head: {
+              ...previewFacts().pr.head,
+              repo: { full_name: "foreign/repo" },
+            },
+          },
+        }),
+      },
+    ),
+  );
+  assert.equal(removals, 0);
+  const local = await cleanupPreview(
+    {
+      policy: fixturePolicy(),
+      name: localPreviewName("katpb", sha),
+      sourceSha: sha,
+    },
+    {
+      ...dependencies,
+      readCurrent: async () => {
+        throw Error("local cleanup must not look up a PR");
+      },
+    },
+  );
+  assert.equal(local.state, "deleted");
+  assert.equal(removals, 1);
+});
+
+test("post-upload recording failures and metadata outages cannot become verified success", async (t) => {
+  const { executePreview } = await lifecycle();
+  for (const state of ["uploaded", "verified"])
+    await t.test("persist " + state, async () => {
+      const f = lifecycleFixture({
+        persist: async (record) => {
+          if (record.state === state) throw Error("storage unavailable");
+        },
+      });
+      const result = await executePreview(f.input, f.dependencies);
+      assert.equal(result.state, "unresolved");
+      assert.equal(result.stableVerified, false);
+      assert.equal(result.previousVerified.uniqueUrl, oldUnique);
+      assert.ok(!f.calls.includes("report:verified"));
+    });
+  let reads = 0;
+  const f = lifecycleFixture({
+    readCurrent: async () => {
+      if (++reads === 3) throw Error("metadata unavailable");
+      return { pr: previewFacts().pr, permission: "write" };
+    },
+  });
+  const result = await executePreview(f.input, f.dependencies);
+  assert.equal(result.state, "unresolved");
+  assert.equal(result.stableVerified, false);
+  assert.ok(!f.calls.includes("report:verified"));
+});
+
+test("cleanup rechecks closure immediately before deletion after reporting", async () => {
+  const { cleanupPreview } = await lifecycle();
+  let reads = 0,
+    removals = 0;
+  const result = await cleanupPreview(
+    { policy: fixturePolicy(), name: "pr-12", sourceSha: sha },
+    {
+      readCurrent: async () => ({
+        pr: { ...previewFacts().pr, state: ++reads === 1 ? "closed" : "open" },
+      }),
+      remove: async () => {
+        removals++;
+      },
+      persist: async () => {},
+      report: async () => {},
+    },
+  );
+  assert.equal(removals, 0);
+  assert.equal(result.state, "failed-deletion");
+  assert.equal(result.retryRequired, true);
+});
