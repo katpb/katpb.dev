@@ -248,6 +248,12 @@ test("raw handoff must match independently authorized source and lockfile; candi
   await fs.writeFile(path.join(input, "raw.tar"), encodeArchive(files));
   await fs.writeFile(path.join(input, "raw-manifest.json"), canonical(entries));
   await fs.writeFile(path.join(input, "provenance.json"), canonical(evidence));
+  // The real CI artifact includes this diagnostic alongside its raw byte handoff.
+  // Its fields must never override independently resolved source authority.
+  await fs.writeFile(
+    path.join(input, "runtime-protection.json"),
+    canonical({ sourceSha: "f".repeat(40), status: "untrusted-diagnostic" }),
+  );
   const manifest = await packagePreview(
     c,
     input,
@@ -256,6 +262,9 @@ test("raw handoff must match independently authorized source and lockfile; candi
   );
   assert.equal(manifest.sourceSha, sha);
   assert.ok(manifest.packageManifest.some((e) => e.path === "_headers"));
+  assert.ok(
+    !manifest.packageManifest.some((e) => e.path === "runtime-protection.json"),
+  );
   await fs.writeFile(
     path.join(input, "provenance.json"),
     canonical({ ...evidence, lockfileSha256: "f".repeat(64) }),
@@ -263,12 +272,14 @@ test("raw handoff must match independently authorized source and lockfile; candi
   await assert.rejects(
     packagePreview(c, input, path.join(root, ".deploy/bad"), policy),
   );
+  await fs.writeFile(path.join(input, "provenance.json"), canonical(evidence));
   await fs.writeFile(
     path.join(input, "wrangler.json"),
     '{"name":"katpb-dev-production"}',
   );
   await assert.rejects(
     packagePreview(c, input, path.join(root, ".deploy/controls"), policy),
+    /unexpected CI handoff files/,
   );
 });
 
