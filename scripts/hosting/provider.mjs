@@ -488,14 +488,32 @@ export async function invokeProvider(input, { spawn = nodeSpawn } = {}) {
         stableUrl: null,
         uniqueUrl: null,
       };
-    if (operation === "preview") {
-      const record = JSON.parse(result.stdout);
-      return parsePreviewResult(record, target);
-    }
     const records = (await fs.readFile(output, "utf8"))
       .trim()
       .split("\n")
       .map((x) => JSON.parse(x));
+    if (operation === "preview") {
+      // Asset upload progress precedes preview --json on stdout. Consume the
+      // pinned CLI's typed output file, as for deploy, without exposing output.
+      const previews = records.filter((r) => r.type === "preview");
+      requireThat(
+        previews.length === 1 &&
+          previews[0].version === 1 &&
+          previews[0].worker_name === target.workerName,
+        "missing or mismatched typed preview record; served state unresolved",
+      );
+      const record = previews[0];
+      return parsePreviewResult(
+        {
+          preview: { name: record.preview_name, urls: record.preview_urls },
+          deployment: {
+            id: record.deployment_id,
+            urls: record.deployment_urls,
+          },
+        },
+        target,
+      );
+    }
     const deploys = records.filter((r) => r.type === "deploy");
     requireThat(
       deploys.length === 1,
