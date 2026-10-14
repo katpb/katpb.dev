@@ -7,6 +7,7 @@ import { aboutSections } from "../data/site";
 <BaseLayout pageId="about">
   <PageIntro pageId="about" />
   <div class="prose">
+    <p>T029 disposable PR-A preview revision 1.</p>
     {aboutSections.map(({ heading, paragraphs }, index) => (
       <section aria-labelledby={`perspective-${index}`}>
         <h2 id={`perspective-${index}`}>{heading}</h2>
