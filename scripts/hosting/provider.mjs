@@ -524,7 +524,12 @@ export function parsePreviewResult(record, target) {
     unique: true,
   });
   requireThat(
-    new URL(uniqueUrl).hostname.startsWith(record.deployment.id + "-"),
+    new URL(uniqueUrl).hostname.startsWith(record.deployment.id + "-") ||
+      (/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(
+        record.deployment.id,
+      ) &&
+        new URL(uniqueUrl).hostname ===
+          `${record.deployment.id.slice(0, 8)}-${target.workerName}.${target.subdomain}.workers.dev`),
     "preview deployment ID/URL mismatch",
   );
   return {

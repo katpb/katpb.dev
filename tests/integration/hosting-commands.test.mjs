@@ -9,6 +9,43 @@ import {
   parsePreviewResult,
 } from "../../scripts/hosting/provider.mjs";
 
+test("preview result matches the observed short URL to its full deployment UUID", () => {
+  const target = {
+    kind: "preview",
+    workerName: "katpb-dev-preview",
+    subdomain: "katpb",
+    previewName: "pr-8",
+  };
+  const record = {
+    preview: {
+      name: "pr-8",
+      urls: ["https://pr-8-katpb-dev-preview.katpb.workers.dev/"],
+    },
+    deployment: {
+      id: "43d61f0f-a9cb-4fff-b079-f44e4aec7c54",
+      urls: ["https://43d61f0f-katpb-dev-preview.katpb.workers.dev/"],
+    },
+  };
+  assert.equal(
+    parsePreviewResult(record, target).providerDeploymentId,
+    record.deployment.id,
+  );
+  assert.throws(
+    () =>
+      parsePreviewResult(
+        {
+          ...record,
+          deployment: {
+            ...record.deployment,
+            urls: ["https://43d61f0e-katpb-dev-preview.katpb.workers.dev/"],
+          },
+        },
+        target,
+      ),
+    /preview deployment ID\/URL mismatch/,
+  );
+});
+
 test("commands support help and reject unknown/duplicate/missing inputs without mutation", () => {
   for (const script of [
     "scripts/prepare-release.mjs",
