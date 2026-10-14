@@ -17,7 +17,7 @@ import {
   invokeProvider,
 } from "../../scripts/hosting/provider.mjs";
 
-async function fixture(t) {
+async function fixture(t, kind = "acceptance") {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "r4-provider-"));
   t.after(() => fs.rm(root, { recursive: true, force: true }));
   const raw = path.join(root, "dist");
@@ -61,9 +61,10 @@ async function fixture(t) {
   const { target, configPath } = await writeConfig(
     policy,
     {
-      kind: "acceptance",
-      environment: "production",
+      kind,
+      environment: kind === "preview" ? "preview" : "production",
       workflowRef: "refs/heads/main",
+      ...(kind === "preview" ? { previewName: "pr-10" } : {}),
     },
     output,
   );
@@ -118,6 +119,71 @@ test("trusted upload process uses array args, minimal env and typed result; capt
   assert.ok(!JSON.stringify(result).includes(token));
   assert.ok(!captured.args.includes(token));
   await assert.rejects(fs.stat(captured.options.cwd), /ENOENT/);
+});
+test("preview upload consumes typed output despite Wrangler asset progress on stdout", async (t) => {
+  const f = await fixture(t, "preview");
+  const id = "eee34f0a-2b4a-49c4-b85b-fd360578516c";
+  const token = "fixture-credential-123456789012";
+  let workerName = f.target.workerName;
+  const spawn = (_binary, _args, options) => {
+    const child = new EventEmitter();
+    child.stdout = new PassThrough();
+    child.stderr = new PassThrough();
+    child.kill = () => true;
+    queueMicrotask(async () => {
+      await fs.writeFile(
+        options.env.WRANGLER_OUTPUT_FILE_PATH,
+        JSON.stringify({
+          type: "preview",
+          version: 1,
+          worker_name: workerName,
+          preview_name: "pr-10",
+          preview_urls: [
+            "https://pr-10-katpb-dev-preview.fixture.workers.dev/",
+          ],
+          deployment_id: id,
+          deployment_urls: [
+            "https://eee34f0a-katpb-dev-preview.fixture.workers.dev/",
+          ],
+        }) + "\n",
+      );
+      // Pinned Wrangler syncAssets emits progress even with preview --json.
+      child.stdout.end(
+        "🌀 Building list of assets...\n🌀 Starting asset upload...\n" +
+          token +
+          "\n" +
+          JSON.stringify({
+            preview: {
+              name: "pr-10",
+              urls: ["https://pr-10-katpb-dev-preview.fixture.workers.dev/"],
+            },
+            deployment: {
+              id,
+              urls: ["https://eee34f0a-katpb-dev-preview.fixture.workers.dev/"],
+            },
+          }),
+      );
+      child.emit("close", 0);
+    });
+    return child;
+  };
+  const input = {
+    ...f,
+    operation: "preview",
+    attemptId: "10-1",
+    credential: { token, workerId: f.target.workerId },
+    authorization: {
+      sourceSha: f.sourceSha,
+      controlSha: f.sourceSha,
+      validationResult: "success",
+    },
+  };
+  const result = await invokeProvider(input, { spawn });
+  assert.equal(result.providerDeploymentId, id);
+  assert.equal(result.state, "uploaded");
+  assert.ok(!JSON.stringify(result).includes(token));
+  workerName = "katpb-dev-production";
+  await assert.rejects(invokeProvider(input, { spawn }), /validated result/);
 });
 test("pinned Wrangler accepts trusted assets-only config in credential-free offline dry-run", async (t) => {
   const f = await fixture(t);
