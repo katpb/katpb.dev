@@ -236,9 +236,17 @@ export async function packagePreview(c, inputDir, outputDir, policy) {
     "authorized metadata required before consuming artifact",
   );
   const names = (await fs.readdir(inputDir)).sort();
+  // CI also archives its protection diagnostic. It is not source authority or
+  // served content: authorization is resolved independently and only raw.tar
+  // supplies package bytes below.
   requireThat(
     canonical(names) ===
-      canonical(["provenance.json", "raw-manifest.json", "raw.tar"]),
+      canonical([
+        "provenance.json",
+        "raw-manifest.json",
+        "raw.tar",
+        "runtime-protection.json",
+      ]),
     "unexpected CI handoff files",
   );
   const evidence = validateEvidence(
