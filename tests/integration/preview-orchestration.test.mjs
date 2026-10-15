@@ -329,6 +329,24 @@ test("verification checks both URLs without provider credentials and result pers
   );
 });
 
+test("same-repository CI completed after closure without a PR binding records a denial without artifact authority", async () => {
+  const { resolvePreview } = await module();
+  const f = dependencies();
+  f.run.pull_requests = [];
+  const c = await resolvePreview(event(), policy, f);
+  assert.equal(c.state, "skipped-authorization");
+  assert.equal(c.pullRequest, null);
+  assert.equal(c.source, null);
+  assert.equal(c.ci.artifactId, null);
+  assert.equal(c.ci.artifactDigest, null);
+  assert.equal(c.stableVerified, false);
+  assert.match(c.guidance, /no authoritative PR binding/i);
+  assert.equal(f.authorizations, 0);
+  assert.deepEqual(f.seen, [
+    "/repos/katpb/katpb.dev/actions/runs/10/attempts/2",
+  ]);
+});
+
 test("fork runs without PR bindings explicitly skip without resolving or downloading an artifact", async () => {
   const { resolvePreview } = await module();
   const f = dependencies();
