@@ -12,9 +12,67 @@ HTTP checks and 192 credential-free hosted browser cases passed. Final local val
 T005 is complete from the preserved third authorization matrix plus fourth owner-run Preview
 lifecycle. The approved Phase 1/foundation checkpoint is complete; full R4 story acceptance
 remains pending. PR #4 merge and green post-merge main CI are recorded below.
-T023–T028 are implemented with offline fixture coverage; T029–T030 remain pending review and live acceptance.
+T023–T028 are merged through PR #5. **T029 is complete**; T030 remains unstarted.
 T031 onward is outside the current window.
 Earlier dated observations below are historical evidence, not current completion claims.
+
+## T029 final reconciliation — 2026-10-15
+
+The owner confirmed T029 completion and authorized this documentation/evidence-only
+reconciliation before starting T030 in a separate change. This entry supersedes earlier
+pending T029 status; it changes no implementation behavior or roadmap state.
+
+- Opening/update, both-URL credential-free HTTPS/browser verification, two-PR isolation,
+  old unique URL preservation, and stale rejection passed. The eligible PR-B opening/update
+  pair completed in **569 / 543 seconds (9m29s / 9m03s)** with zero outage exclusions.
+  [Raw timing evidence](evidence/t029-sc002-timing-2026-10-15.json) retains earlier late
+  PR-A attempts; no acceptance criterion was relaxed.
+- PR-A [#12](https://github.com/katpb/katpb.dev/pull/12) closed without merge at
+  `17:22:04Z`. PR-B [#13](https://github.com/katpb/katpb.dev/pull/13) closed without merge
+  at `17:16:47Z`, while revision 4 CI `38775963511` was in progress. Its source is
+  `fc5d1781b6f555c2f2ed4faf79a0541bc232e97b`; CI passed at `17:21:26Z`.
+- PR-B cleanup [38776003367](https://github.com/katpb/katpb.dev/actions/runs/38776003367)
+  passed. Its [receipt](evidence/t029-pr13-cleanup-final-result.json) verifies named preview
+  `pr-13` absent at `17:18:21.529Z`, inactive and capacity released, without a retry.
+  Final artifact `11993113721` was digest-verified:
+  `5084a1b10b8ad27f97133cbbbb64a5c8e662305055229a21b1e69e962b749d62`.
+  Cloudflare then listed only `pr-12`; all seven PR-A resources still matched its verified
+  revision 2 package before PR-A closure.
+- PR-A cleanup [38776739057](https://github.com/katpb/katpb.dev/actions/runs/38776739057)
+  passed. Its [receipt](evidence/t029-pr12-cleanup-final-result.json) verifies `pr-12` absent
+  at `17:23:56.582Z`, inactive and capacity released, without a retry. Final artifact
+  `11993358198` was digest-verified:
+  `18e0e809ad73e8f2acc8ebf1b9e6d41d2aa7fb0fed9476b964b0dda738720417`.
+- Closed-before-CI-completion exposed a denial-reporting defect: GitHub omitted the PR
+  association, and the resolver failed eligibility before consuming an artifact or uploading.
+  The regression failed before the two-file correction and 31 focused cases passed afterward.
+  Corrective [PR #14](https://github.com/katpb/katpb.dev/pull/14), head
+  `5c1a1b581c7871710e30b98b2b85a39b6f3ea176`, passed required CI `38777957953` and
+  merged at `17:35:42Z` to `d8313062a604473e7ac5c1332bd297055bdf75be`.
+  [Post-merge CI 38778647499](https://github.com/katpb/katpb.dev/actions/runs/38778647499)
+  passed at `17:40:22Z`: 368 browser cases, 178 operational cases, formatting, Astro/build,
+  reproducibility, protection drift and raw artifact upload. Its required job is `116572760931`.
+  The main-push preview correctly skipped; PR #14 cleanup verified absence.
+- The exact closed event [38776648881, attempt 2](https://github.com/katpb/katpb.dev/actions/runs/38776648881/attempts/2)
+  passed prepare/report using corrected trusted control. Its digest-verified
+  [receipt](evidence/t029-closed-replay-final-result.json) records `skipped-authorization`
+  at `17:41:44.301Z`, null source authority and candidate artifact ID/digest, and
+  `stableVerified: false`. Announce/provider/verify skipped. Final artifact `11995710304`
+  digest is `a372b0ca7b27b5ad58af90028d19572beee851d3eacedafd8c804150167b2ac2`.
+  The original failure remains historical. Missing metadata grants no upload authority.
+- Chrome readback confirms both fixture PRs closed, their deployments Destroyed, and zero
+  named previews. The preview parent remains Ready at base version prefix `3c6c5306`,
+  assets-only, without bindings, custom domains or routes. [Final hashes](evidence/t029-final-preservation-2026-10-15.json)
+  at `17:42:57.062572Z` match every production/parent baseline resource. No provider state
+  is unresolved. No environment-policy, credential-scope, DNS, domain, route or certificate
+  change was made. Ten inspected cleanup/failed-denial logs contained no unmasked credential
+  patterns; pattern screening is limited to observed logs and cannot detect arbitrary secrets.
+
+[Final reconciliation](evidence/t029-final-reconciliation-2026-10-15.json) records current
+source/control/run/attempt/artifact identities and provider readback. The reporting correction
+only affects unbound denials; bound-preview functional/timing evidence remains applicable.
+T029's full local gate and live open/update/isolation/stale/closure/cleanup exercise are complete.
+**T030 remains unstarted in this change; T031+ remains outside the authorized window.**
 
 ## Trusted preview and cleanup implementation — T025–T028, 2026-10-11
 
