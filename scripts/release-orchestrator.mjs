@@ -73,8 +73,7 @@ export async function resolvePreview(event, policy, dependencies) {
       Array.isArray(run.pull_requests) &&
       ((run.pull_requests.length === 1 &&
         positive(run.pull_requests[0].number)) ||
-        (run.head_repository?.full_name !== policy.repository &&
-          run.pull_requests.length === 0)),
+        run.pull_requests.length === 0),
     "allowlisted successful exact PR CI run required",
   );
   if (run.pull_requests.length === 0)
@@ -96,7 +95,7 @@ export async function resolvePreview(event, policy, dependencies) {
       inactive: false,
       stableVerified: false,
       guidance:
-        "Fork CI has no authoritative same-repository PR binding; no provider mutation authorized.",
+        "CI has no authoritative PR binding (including after closure); no artifact consumption or provider mutation authorized.",
     };
   const number = run.pull_requests[0].number;
   const pr = await api.get(`${repo}/pulls/${number}`);
