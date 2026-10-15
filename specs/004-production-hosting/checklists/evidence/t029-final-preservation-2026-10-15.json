@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-15T17:42:56.009493+00:00",
+  "controlSha": "34dcecb859f3e7ddb491aea7eb40263f7fbb2b6e",
+  "credentialFree": true,
+  "workers": {
+    "production": [
+      {
+        "path": "/__release.json",
+        "url": "https://katpb-dev-production.katpb.workers.dev/__release.json",
+        "sha256": "57d8a6a2d75aa8d23fc216c1cb25d8a7c3bf5eef09cf5bc046bd14bd950266cc",
+        "size": 154,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:56.234062+00:00"
+      },
+      {
+        "path": "/_astro/PageIntro.cyrCZwD0.css",
+        "url": "https://katpb-dev-production.katpb.workers.dev/_astro/PageIntro.cyrCZwD0.css",
+        "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492",
+        "size": 6084,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:56.299904+00:00"
+      },
+      {
+        "path": "/_astro/brand-mark.D9O_vNL9.svg",
+        "url": "https://katpb-dev-production.katpb.workers.dev/_astro/brand-mark.D9O_vNL9.svg",
+        "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e",
+        "size": 1495,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:56.322027+00:00"
+      },
+      {
+        "path": "/about/",
+        "url": "https://katpb-dev-production.katpb.workers.dev/about/",
+        "sha256": "2ba5e289e96d84170a5f98add56c731985493e4fdb23edc4f58c5b38fd2fa90f",
+        "size": 7152,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:56.337594+00:00"
+      },
+      {
+        "path": "/",
+        "url": "https://katpb-dev-production.katpb.workers.dev/",
+        "sha256": "b980eb5eb4e682b43d48e5c645bcddaa4f89b7c1b7d54f35319a40a7a075b20d",
+        "size": 9204,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:56.307504+00:00"
+      },
+      {
+        "path": "/projects/",
+        "url": "https://katpb-dev-production.katpb.workers.dev/projects/",
+        "sha256": "b2ea45d2f2051ae2676b9a8c0450dba230a047c64b36e083ae341b4e87597fe3",
+        "size": 7562,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:56.273082+00:00"
+      },
+      {
+        "path": "/writing/",
+        "url": "https://katpb-dev-production.katpb.workers.dev/writing/",
+        "sha256": "5a57335844c698f7048fa795a902a4fd73da994c0e3e907771a31e82ef713fb8",
+        "size": 6949,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:56.500812+00:00"
+      }
+    ],
+    "previewParent": [
+      {
+        "path": "/__release.json",
+        "url": "https://katpb-dev-preview.katpb.workers.dev/__release.json",
+        "sha256": "57d8a6a2d75aa8d23fc216c1cb25d8a7c3bf5eef09cf5bc046bd14bd950266cc",
+        "size": 154,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:56.800359+00:00"
+      },
+      {
+        "path": "/_astro/PageIntro.cyrCZwD0.css",
+        "url": "https://katpb-dev-preview.katpb.workers.dev/_astro/PageIntro.cyrCZwD0.css",
+        "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492",
+        "size": 6084,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:56.794493+00:00"
+      },
+      {
+        "path": "/_astro/brand-mark.D9O_vNL9.svg",
+        "url": "https://katpb-dev-preview.katpb.workers.dev/_astro/brand-mark.D9O_vNL9.svg",
+        "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e",
+        "size": 1495,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:56.762077+00:00"
+      },
+      {
+        "path": "/about/",
+        "url": "https://katpb-dev-preview.katpb.workers.dev/about/",
+        "sha256": "2ba5e289e96d84170a5f98add56c731985493e4fdb23edc4f58c5b38fd2fa90f",
+        "size": 7152,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:56.745598+00:00"
+      },
+      {
+        "path": "/",
+        "url": "https://katpb-dev-preview.katpb.workers.dev/",
+        "sha256": "b980eb5eb4e682b43d48e5c645bcddaa4f89b7c1b7d54f35319a40a7a075b20d",
+        "size": 9204,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:56.811833+00:00"
+      },
+      {
+        "path": "/projects/",
+        "url": "https://katpb-dev-preview.katpb.workers.dev/projects/",
+        "sha256": "b2ea45d2f2051ae2676b9a8c0450dba230a047c64b36e083ae341b4e87597fe3",
+        "size": 7562,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:56.742534+00:00"
+      },
+      {
+        "path": "/writing/",
+        "url": "https://katpb-dev-preview.katpb.workers.dev/writing/",
+        "sha256": "5a57335844c698f7048fa795a902a4fd73da994c0e3e907771a31e82ef713fb8",
+        "size": 6949,
+        "matchesBefore": true,
+        "observedAt": "2026-10-15T17:42:57.062188+00:00"
+      }
+    ]
+  },
+  "finishedAt": "2026-10-15T17:42:57.062572+00:00"
+}
