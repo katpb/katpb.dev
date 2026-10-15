@@ -111,10 +111,7 @@
     "providerSkipped": true
   },
   "cleanup": {
-    "closedWithoutMerge": [
-      12,
-      13
-    ],
+    "closedWithoutMerge": [12, 13],
     "correctivePrMerged": 14,
     "namedPreviewsRemaining": [],
     "receiptDigestsVerified": true,

@@ -1,1 +1,17 @@
-{"capacityReleased":true,"controlSha":"33987c793c8551da42cb7423f727a0b3c2754c3b","finishedAt":"2026-10-15T17:18:21.529Z","guidance":"Named preview absence verified; parent Worker preserved. No production or acceptance operation occurred.","inactive":true,"logUrl":"https://github.com/katpb/katpb.dev/actions/runs/38776003367/attempts/1","orchestrationRunAttempt":1,"orchestrationRunId":38776003367,"previewName":"pr-13","pullRequest":13,"retryRequired":false,"schemaVersion":1,"sourceSha":"fc5d1781b6f555c2f2ed4faf79a0541bc232e97b","startedAt":"2026-10-15T17:17:22.195Z","state":"deleted"}
+{
+  "capacityReleased": true,
+  "controlSha": "33987c793c8551da42cb7423f727a0b3c2754c3b",
+  "finishedAt": "2026-10-15T17:18:21.529Z",
+  "guidance": "Named preview absence verified; parent Worker preserved. No production or acceptance operation occurred.",
+  "inactive": true,
+  "logUrl": "https://github.com/katpb/katpb.dev/actions/runs/38776003367/attempts/1",
+  "orchestrationRunAttempt": 1,
+  "orchestrationRunId": 38776003367,
+  "previewName": "pr-13",
+  "pullRequest": 13,
+  "retryRequired": false,
+  "schemaVersion": 1,
+  "sourceSha": "fc5d1781b6f555c2f2ed4faf79a0541bc232e97b",
+  "startedAt": "2026-10-15T17:17:22.195Z",
+  "state": "deleted"
+}
