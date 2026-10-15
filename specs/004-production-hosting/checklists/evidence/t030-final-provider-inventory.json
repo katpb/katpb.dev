@@ -1,0 +1,15 @@
+{
+  "observedAt": "2026-10-15T18:21:30.642279+00:00",
+  "browser": "Google Chrome",
+  "worker": "katpb-dev-preview",
+  "namedPreviews": [],
+  "selector": "Create your first Preview",
+  "baseVersionPrefix": "3c6c5306",
+  "status": "Ready",
+  "bindings": 0,
+  "customDomains": [],
+  "routes": [],
+  "providerConfigurationChanged": false,
+  "productionAndParentHashesPreserved": true,
+  "readbackAfterDeniedFixtureCleanup": true
+}

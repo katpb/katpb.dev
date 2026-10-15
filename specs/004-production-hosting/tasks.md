@@ -2,7 +2,7 @@
 
 **Input**: Design documents from `/specs/004-production-hosting/`.
 **Prerequisites**: `spec.md`, `plan.md`, `research.md`, `data-model.md`, `quickstart.md`, all three `contracts/` documents, and `.specify/memory/constitution.md`.
-**Status**: T001–T022 are complete and merged through PR #4. T023–T028 are merged through PR #5. T029 live acceptance is complete, including scoped closure/cleanup, unchanged production hashes, the 569/543-second eligible timing pair, and the denial-reporting correction in merged PR #14 with green required/post-merge CI. This change reconciles T029 documentation/evidence only; T030 remains unstarted. After this reconciliation merges, the owner has authorized T030 only. T031 onward remains outside this execution window. See `checklists/acceptance.md` for the final evidence.
+**Status**: T001–T022 are complete and merged through PR #4. T023–T028 are merged through PR #5. T029 reconciliation merged separately in PR #15 before T030 began. T030 passed eight controlled fork/untrusted authorization cases and the live same-repository YAML environment-denial exercise in closed, unmerged PR #16. The denied job had no runner/steps/artifacts and all downstream preview jobs skipped; scoped cleanup, unchanged production/parent hashes, and leakage inspection passed. **T023–T030 are complete; US2 PR Preview checkpoint complete. Stop before T031 for owner review.** See `checklists/acceptance.md` for evidence and the controlled/live distinction.
 
 **Resume checkpoint**: T001–T022 are complete: **22/22**. T005 completion combines
 preserved third-run authorization/isolation evidence with the successful fourth owner-run
@@ -28,7 +28,7 @@ credential-separated HTTPS/browser checks. Local names use the first 32 source-S
 characters to fit the DNS label; full SHA remains in provenance and receipts.
 T025–T028 now wire the trusted preview and cleanup workflows with exact-run artifacts,
 preview-only provider jobs, credential-free verification and explicit deployment reporting.
-That was the pre-acceptance checkpoint; T029 is now complete as recorded above. T030 remains unstarted.
+That was the pre-acceptance checkpoint; T029 and T030 are now complete as recorded above.
 Historical T022 stopping instructions below describe the earlier bootstrap window and are
 superseded only for T023–T030 by the owner's 2026-10-09 instruction. Existing credential,
 main-ref environment, source-isolation and domain boundaries continue to apply.
@@ -118,9 +118,9 @@ authorized by that bootstrap correction. The later 2026-10-09 authorization abov
 - [x] T027 [P] [US2] Implement `scripts/cleanup-preview.mjs` using trusted metadata, explicit local name or authoritative closed PR, scoped `wrangler preview delete`, and inactive/failed-deletion/retry reporting; delete only the named preview and never the preview parent Worker or production; preserve the preview lifecycle and quota accounting from `data-model.md`.
 - [x] T028 [US2] Create `.github/workflows/preview-cleanup.yml` from default-main control code with the same `r4-hosting` lock, no PR checkout, live closed-state recheck and explicit inactive deployment status even if provider deletion fails; wire `deploy:preview` and `deploy:cleanup` in `package.json` with executable help and nonzero failures.
 - [x] T029 [US2] Run full local gate and controlled/real preview open-update/two-PR/stale/closure/cleanup exercises with credential-free HTTPS/browser checks on both URLs; capture source/control/run/provider IDs, addresses, production before/after hashes and raw elapsed times including outage exclusions in `specs/004-production-hosting/checklists/acceptance.md`; verify each opening/update within 10 minutes after execution starts for SC-002 and keep unavailable results pending.
-- [ ] T030 [US2] Exercise fork/untrusted skip and same-repository PR YAML environment-secret denial using a non-secret canary and controlled provider mutation assertions; inspect generated files and logs for credential exposure, record explicit authorization disposition and zero production changes in `specs/004-production-hosting/checklists/acceptance.md`, and never print real credentials as proof.
+- [x] T030 [US2] Exercise fork/untrusted skip and same-repository PR YAML environment-secret denial using a non-secret canary and controlled provider mutation assertions; inspect generated files and logs for credential exposure, record explicit authorization disposition and zero production changes in `specs/004-production-hosting/checklists/acceptance.md`, and never print real credentials as proof.
 
-**Checkpoint**: US2 is independently reviewable at provider URLs. This preview increment is the suggested MVP for the owner's requested order; it does not constitute production or custom-domain launch readiness.
+**Checkpoint complete**: T023–T030 are complete. US2 PR Preview is accepted at provider URLs, including authorization/secret-boundary denials and scoped cleanup. Stop before T031 for owner review; production delivery and custom-domain launch remain pending.
 
 ## Phase 4: User Story 1 — Validated Production Release (Priority: P1)
 

@@ -1,0 +1,39 @@
+{
+  "observedAt": "2026-10-15 18:20:33 UTC",
+  "jobLogs": [
+    {
+      "jobId": 116592680512,
+      "characters": 19215,
+      "unmaskedCredentialPattern": false,
+      "unmaskedCredentialAssignment": false
+    },
+    {
+      "jobId": 116592952948,
+      "characters": 20637,
+      "unmaskedCredentialPattern": false,
+      "unmaskedCredentialAssignment": false
+    },
+    {
+      "jobId": 116593239534,
+      "characters": 22691,
+      "unmaskedCredentialPattern": false,
+      "unmaskedCredentialAssignment": false
+    },
+    {
+      "jobId": 116593497043,
+      "characters": 24578,
+      "unmaskedCredentialPattern": false,
+      "unmaskedCredentialAssignment": false
+    }
+  ],
+  "deniedJob": {
+    "id": 116591817941,
+    "runnerId": 0,
+    "steps": [],
+    "artifacts": [],
+    "logsExpected": false
+  },
+  "candidateWorkflowUsesOnlyPublicCanary": true,
+  "controlledHarnessUsesNoCredentialsOrNetwork": true,
+  "limitations": "Pattern screening covers inspected logs/files and known assignment forms; it cannot identify arbitrary unknown secrets."
+}

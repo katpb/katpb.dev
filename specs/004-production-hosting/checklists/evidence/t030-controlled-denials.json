@@ -1,0 +1,69 @@
+{
+  "observedAt": "2026-10-15T18:18:35.720054+00:00",
+  "kind": "controlled sanitized API-fixture execution of production resolver and final mutation guard",
+  "liveExternalForkPr": false,
+  "productionControlSha": "b4b72759d54de86b1ce8c95067988561dc6d3c8f",
+  "publicCanary": "T030_PUBLIC_CANARY_NOT_A_SECRET",
+  "networkOrCredentialsUsed": false,
+  "cases": [
+    {
+      "evidence": "T030 controlled denial",
+      "scenario": "fork-with-binding",
+      "artifactReads": 0,
+      "authorizations": 0,
+      "providerMutations": 0
+    },
+    {
+      "evidence": "T030 controlled denial",
+      "scenario": "fork-without-binding",
+      "artifactReads": 0,
+      "authorizations": 0,
+      "providerMutations": 0
+    },
+    {
+      "evidence": "T030 controlled denial",
+      "scenario": "foreign-run-same-repository-pr",
+      "artifactReads": 0,
+      "authorizations": 0,
+      "providerMutations": 0
+    },
+    {
+      "evidence": "T030 controlled denial",
+      "scenario": "same-repository-run-foreign-pr",
+      "artifactReads": 0,
+      "authorizations": 0,
+      "providerMutations": 0
+    },
+    {
+      "evidence": "T030 controlled denial",
+      "scenario": "read",
+      "artifactReads": 0,
+      "authorizations": 0,
+      "providerMutations": 0
+    },
+    {
+      "evidence": "T030 controlled denial",
+      "scenario": "triage",
+      "artifactReads": 0,
+      "authorizations": 0,
+      "providerMutations": 0
+    },
+    {
+      "evidence": "T030 controlled denial",
+      "scenario": "none",
+      "artifactReads": 0,
+      "authorizations": 0,
+      "providerMutations": 0
+    },
+    {
+      "evidence": "T030 controlled denial",
+      "scenario": "non-main-target",
+      "artifactReads": 0,
+      "authorizations": 0,
+      "providerMutations": 0
+    }
+  ],
+  "passed": 8,
+  "failed": 0,
+  "rawLocalLog": "/private/tmp/t030-controlled-denial.log"
+}

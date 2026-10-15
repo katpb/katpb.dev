@@ -1,0 +1,17 @@
+{
+  "capacityReleased": true,
+  "controlSha": "b4b72759d54de86b1ce8c95067988561dc6d3c8f",
+  "finishedAt": "2026-10-15T18:19:30.852Z",
+  "guidance": "Named preview absence verified; parent Worker preserved. No production or acceptance operation occurred.",
+  "inactive": true,
+  "logUrl": "https://github.com/katpb/katpb.dev/actions/runs/38784436624/attempts/1",
+  "orchestrationRunAttempt": 1,
+  "orchestrationRunId": 38784436624,
+  "previewName": "pr-16",
+  "pullRequest": 16,
+  "retryRequired": false,
+  "schemaVersion": 1,
+  "sourceSha": "08d84f9163d288261bf57cc3dbf13e724bb64928",
+  "startedAt": "2026-10-15T18:18:20.173Z",
+  "state": "deleted"
+}

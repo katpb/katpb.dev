@@ -1,0 +1,21 @@
+{
+  "observedAt": "2026-10-15T18:14:26.996541+00:00",
+  "t029DocumentationPr": 15,
+  "t029DocumentationMergeSha": "b4b72759d54de86b1ce8c95067988561dc6d3c8f",
+  "browser": "Google Chrome",
+  "environment": {
+    "name": "preview",
+    "id": 23375413588,
+    "allowedBranches": ["main"],
+    "allowedTags": [],
+    "administratorBypass": false,
+    "existingSecretNamesObserved": ["CLOUDFLARE_API_TOKEN"],
+    "secretValuesRead": false,
+    "policyChanged": false
+  },
+  "publicCanary": "T030_PUBLIC_CANARY_NOT_A_SECRET",
+  "canaryDoesNotReferenceAnySecret": true,
+  "fixtureWillNeverBeMerged": true,
+  "controlledForkEvidenceUsesSanitizedApiFixtures": true,
+  "productionAndParentBeforeHashesMatch": true
+}
