@@ -12,9 +12,72 @@ HTTP checks and 192 credential-free hosted browser cases passed. Final local val
 T005 is complete from the preserved third authorization matrix plus fourth owner-run Preview
 lifecycle. The approved Phase 1/foundation checkpoint is complete; full R4 story acceptance
 remains pending. PR #4 merge and green post-merge main CI are recorded below.
-T023–T028 are merged through PR #5. **T029 is complete**; T030 remains unstarted.
+T023–T028 are merged through PR #5. **T029 and T030 are complete; the US2 PR Preview checkpoint is complete.**
 T031 onward is outside the current window.
 Earlier dated observations below are historical evidence, not current completion claims.
+
+## T030 authorization and secret-boundary acceptance — 2026-10-15
+
+The owner required a T029-only reconciliation first. Documentation/evidence-only
+[PR #15](https://github.com/katpb/katpb.dev/pull/15) merged at `18:10:53Z` to
+`b4b72759d54de86b1ce8c95067988561dc6d3c8f`, after required CI `38782916915` passed.
+Post-merge main CI `38783480667` passed at `18:15:27Z`; the reconciliation PR's automatic
+preview rechecked closure before upload and recorded `skipped-closed`. Its cleanup verified
+absence. T030 was executed separately from that reconciliation change.
+
+**Controlled fork/untrusted authorization proof.** The new
+`tests/integration/preview-trust-boundary.test.mjs` runs the production resolver and final
+mutation guard against eight sanitized API fixtures: fork with/without a PR association,
+contradictory foreign-run/same-repository-PR identities, the converse mismatch, read/triage/no
+writer permission, and a non-main target. Every case records `skipped-authorization`, null
+source/artifact authority, zero artifact reads, zero authorizations and zero provider calls.
+The only canary is the public literal `T030_PUBLIC_CANARY_NOT_A_SECRET`. No network client,
+credential or provider subprocess is used. [Controlled results](evidence/t030-controlled-denials.json)
+record all eight passing cases; this is controlled fork-metadata proof, not a claim that a
+live external fork PR was created. The cases run in the normal required CI integration suite.
+
+**Live same-repository YAML environment denial.** Fresh Chrome [policy readback](evidence/t030-preflight.json)
+confirmed preview environment `23375413588`: only `main`, zero tags, administrator bypass
+disabled, and existing secret name `CLOUDFLARE_API_TOKEN` present. Its value was never read.
+Disposable [PR #16](https://github.com/katpb/katpb.dev/pull/16), head
+`08d84f9163d288261bf57cc3dbf13e724bb64928`, changed only `.github/workflows/ci.yml`:
+the candidate `repository-health` job requested `environment: preview` and added a first
+step echoing the public canary. It referenced/injected no real secret and was never merged.
+
+[CI 38784188665](https://github.com/katpb/katpb.dev/actions/runs/38784188665), attempt 1,
+was rejected by GitHub with the annotation: `refs/pull/16/merge` is not allowed to deploy
+to preview due to environment protection rules. Job `116591817941` had **runner ID 0,
+no runner name, zero steps and zero artifacts**. Thus the canary never executed and the
+job could not reach the protected environment containing `CLOUDFLARE_API_TOKEN`.
+The failed CI is the expected negative result, not a passing build or provider verification.
+[Trusted preview 38784203294](https://github.com/katpb/katpb.dev/actions/runs/38784203294)
+skipped all five jobs, including provider `116591872134`. No Cloudflare upload was authorized
+or attempted. [Live denial evidence](evidence/t030-live-yaml-denial.json).
+
+PR #16 closed without merge at `18:17:43Z`. [Cleanup 38784436624](https://github.com/katpb/katpb.dev/actions/runs/38784436624)
+passed all four jobs. Its digest-verified [receipt](evidence/t030-fixture-cleanup-final-result.json)
+verifies `pr-16` absent at `18:19:30.852Z`, inactive, capacity released, and no retry required.
+Final artifact `11998160354` digest is
+`17a242e8db41089130fa86f68840c05a43c7bbec6a7a60b180be4c4ba7e09c27`.
+Because no candidate upload ran, the existing cleanup helper's absence check needs no delete.
+
+**Preservation and leakage inspection.** Credential-free normal-TLS hashes matched all
+production/parent baseline resources [before testing](evidence/t030-before-2026-10-15.json),
+[after denial](evidence/t030-after-denial-2026-10-15.json), and
+[after cleanup](evidence/t030-after-cleanup-2026-10-15.json) at `18:20:51.941805Z`.
+[Refreshed Cloudflare inventory](evidence/t030-final-provider-inventory.json) shows zero named
+previews; the parent is Ready at `3c6c5306`, without bindings/custom domains/routes.
+[Log inspection](evidence/t030-log-inspection.json) covers the four cleanup job logs,
+the denied job's empty runner/step/artifact metadata, the public-canary fixture, the controlled
+test output and retained evidence. No unmasked credential patterns were found. Pattern
+screening covers observed material and known formats; it does not identify arbitrary secrets.
+The candidate canary job never ran, so no candidate log/artifact could contain an injected
+environment secret. No real secret was printed as proof.
+
+No implementation behavior, environment policy, Cloudflare token scope, DNS, custom domain,
+route, certificate or production behavior changed. The disposable YAML change remains only
+on its closed fixture branch. Existing ROADMAP/workspace changes were preserved.
+**T023–T030 are complete. US2 PR Preview checkpoint complete. Stop before T031 for review.**
 
 ## T029 final reconciliation — 2026-10-15
 
@@ -72,7 +135,8 @@ pending T029 status; it changes no implementation behavior or roadmap state.
 source/control/run/attempt/artifact identities and provider readback. The reporting correction
 only affects unbound denials; bound-preview functional/timing evidence remains applicable.
 T029's full local gate and live open/update/isolation/stale/closure/cleanup exercise are complete.
-**T030 remains unstarted in this change; T031+ remains outside the authorized window.**
+T030 was unstarted in the separate PR #15 reconciliation; its subsequent acceptance is
+recorded above. T031+ remains outside the authorized window.
 
 ## Trusted preview and cleanup implementation — T025–T028, 2026-10-11
 

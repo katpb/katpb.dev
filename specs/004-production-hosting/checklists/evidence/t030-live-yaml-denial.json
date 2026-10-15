@@ -1,0 +1,44 @@
+{
+  "observedAt": "2026-10-15 18:17:20 UTC",
+  "pr": 16,
+  "sourceSha": "08d84f9163d288261bf57cc3dbf13e724bb64928",
+  "changedFiles": [".github/workflows/ci.yml"],
+  "fixtureCreatedAt": "2026-10-15T18:15:54Z",
+  "workflowRunId": 38784188665,
+  "conclusion": "failure",
+  "denialReason": "Branch \"refs/pull/16/merge\" is not allowed to deploy to preview due to environment protection rules.",
+  "job": {
+    "id": 116591817941,
+    "runnerId": 0,
+    "runnerName": "",
+    "steps": [],
+    "conclusion": "failure"
+  },
+  "artifacts": [],
+  "canary": "T030_PUBLIC_CANARY_NOT_A_SECRET",
+  "canaryExecuted": false,
+  "realSecretReferencedInFixture": false,
+  "realSecretValueRead": false,
+  "environmentSecretNameProtected": "CLOUDFLARE_API_TOKEN",
+  "previewWorkflow": {
+    "id": 38784203294,
+    "allJobsSkipped": true,
+    "providerJobId": 116591872134,
+    "providerMutation": false
+  },
+  "liveForkPr": false,
+  "controlledForkMatrixCases": 8,
+  "environmentPolicyChanged": false,
+  "closedAt": "2026-10-15T18:17:43Z",
+  "closedWithoutMerge": true,
+  "cleanup": {
+    "runId": 38784436624,
+    "artifactId": 11998160354,
+    "artifactDigest": "17a242e8db41089130fa86f68840c05a43c7bbec6a7a60b180be4c4ba7e09c27",
+    "digestVerified": true,
+    "absenceVerified": true,
+    "capacityReleased": true,
+    "retryRequired": false,
+    "finishedAt": "2026-10-15T18:19:30.852Z"
+  }
+}
