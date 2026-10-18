@@ -296,7 +296,6 @@ jobs:
     permissions:
       contents: read
       actions: read
-      deployments: read
     if: ${{ github.repository == 'katpb/katpb.dev' && github.ref == 'refs/heads/main' && ((github.event_name == 'workflow_run' && github.event.workflow_run.workflow_id == 374100170 && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main') || (github.event_name == 'workflow_dispatch' && inputs.operation == 'release')) }}
     outputs:
       control_sha: ${{ steps.resolve.outputs.control_sha }}
@@ -325,7 +324,7 @@ jobs:
         with:
           digest-mismatch: error
           artifact-ids: ${{ steps.resolve.outputs.candidate_artifact_id }}
-          path: .deploy/production-candidate
+          path: .deploy/production/candidate
           run-id: ${{ steps.resolve.outputs.ci_run_id }}
           github-token: ${{ github.token }}
       - name: Production prepare
@@ -356,6 +355,7 @@ jobs:
       deployment: false
     outputs:
       release_id: ${{ steps.archive.outputs.release_id }}
+      artifact_id: ${{ steps.handoff.outputs.artifact-id }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
@@ -382,6 +382,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           R4_ARCHIVE_APP_PRIVATE_KEY: ${{ secrets.R4_ARCHIVE_APP_PRIVATE_KEY }}
         run: node scripts/release-orchestrator.mjs --production-stage archive
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: handoff
+        with:
+          name: r4-production-archived-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/production-archived
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
   production_announce:
     needs:
       - production_prepare
@@ -412,7 +420,7 @@ jobs:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           digest-mismatch: error
-          artifact-ids: ${{ needs.production_prepare.outputs.artifact_id }}
+          artifact-ids: ${{ needs.production_archive.outputs.artifact_id }}
           path: .deploy/production
       - name: Production announce
         id: announce
@@ -453,7 +461,7 @@ jobs:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           digest-mismatch: error
-          artifact-ids: ${{ needs.production_prepare.outputs.artifact_id }}
+          artifact-ids: ${{ needs.production_archive.outputs.artifact_id }}
           path: .deploy/production
       - name: Production provider
         id: provider
@@ -475,6 +483,7 @@ jobs:
     needs:
       - production_prepare
       - production_provider
+      - production_archive
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
@@ -501,7 +510,7 @@ jobs:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           digest-mismatch: error
-          artifact-ids: ${{ needs.production_prepare.outputs.artifact_id }}
+          artifact-ids: ${{ needs.production_archive.outputs.artifact_id }}
           path: .deploy/production
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
@@ -558,7 +567,7 @@ jobs:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           digest-mismatch: error
-          artifact-ids: ${{ needs.production_prepare.outputs.artifact_id }}
+          artifact-ids: ${{ needs.production_archive.outputs.artifact_id }}
           path: .deploy/production
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
@@ -621,7 +630,7 @@ jobs:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           digest-mismatch: error
-          artifact-ids: ${{ needs.production_prepare.outputs.artifact_id }}
+          artifact-ids: ${{ needs.production_archive.outputs.artifact_id }}
           path: .deploy/production
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:

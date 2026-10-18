@@ -451,13 +451,7 @@ export async function loadProductionHistory(api, reportApi = api) {
   return history;
 }
 
-export async function prepareProduction(
-  c,
-  inputDir,
-  outputDir,
-  history,
-  policy,
-) {
+export async function validateProductionCandidate(c, inputDir, policy) {
   requireThat(
     c.source?.sourceSha === c.sourceSha,
     "independent production source authority required",
@@ -493,6 +487,21 @@ export async function prepareProduction(
       canonical(manifestFor(raw, policy.quotas)) ===
         canonical(await readJson(path.join(inputDir, "raw-manifest.json"))),
     "raw handoff integrity failure",
+  );
+  return { raw, evidence };
+}
+
+export async function prepareProduction(
+  c,
+  inputDir,
+  outputDir,
+  history,
+  policy,
+) {
+  const { raw, evidence } = await validateProductionCandidate(
+    c,
+    inputDir,
+    policy,
   );
   const rawDir = path.join(path.dirname(outputDir), "production-raw");
   for (const [name, bytes] of raw) {
@@ -532,6 +541,107 @@ async function extractBundle(record, outputDir) {
     }
   await validatePackage(outputDir);
 }
+// Draft releases are visible only to archive writers. Downstream jobs consume exact,
+// digest-checked Actions artifacts emitted by these trusted jobs; no archive token crosses jobs.
+export async function writeArchivedHandoff(
+  api,
+  release,
+  c,
+  out,
+  { packageFiles = false } = {},
+) {
+  const assets = (
+    await api.pages(`${repo}/releases/${release.id}/assets`)
+  ).filter((a) =>
+    [
+      ...bundleNames,
+      "archive-index.json",
+      `intent-${c.attemptId}.json`,
+      `outcome-${c.attemptId}.json`,
+    ].includes(a.name),
+  );
+  const tag = await api.get(`${repo}/git/ref/tags/${c.archiveId}`);
+  await fs.mkdir(path.join(out, "archive"), { recursive: true });
+  for (const asset of assets) {
+    const bytes = await api.download(asset.id);
+    requireThat(
+      bytes.length === asset.size && asset.digest === `sha256:${digest(bytes)}`,
+      "durable handoff re-download integrity failure",
+    );
+    await fs.writeFile(path.join(out, "archive", asset.name), bytes, {
+      flag: "wx",
+    });
+  }
+  await writeJson(path.join(out, "context.json"), c);
+  await writeJson(path.join(out, "archive-proof.json"), {
+    schemaVersion: 1,
+    archiveId: c.archiveId,
+    release: {
+      id: release.id,
+      tag_name: release.tag_name,
+      draft: release.draft,
+    },
+    tag: { object: { type: tag.object?.type, sha: tag.object?.sha } },
+    assets: assets.map(({ id, name, state, size, digest }) => ({
+      id,
+      name,
+      state,
+      size,
+      digest,
+    })),
+  });
+  const verified = await readArchivedHandoff(out, c);
+  if (packageFiles) await extractBundle(verified, path.join(out, "package"));
+  return verified;
+}
+export async function readArchivedHandoff(dir, c) {
+  const proof = await readJson(path.join(dir, "archive-proof.json"));
+  requireThat(
+    proof.schemaVersion === 1 &&
+      proof.archiveId === c.archiveId &&
+      proof.release.tag_name === c.archiveId &&
+      proof.tag.object.sha === c.sourceSha &&
+      Array.isArray(proof.assets) &&
+      proof.assets.every((a) =>
+        [
+          ...bundleNames,
+          "archive-index.json",
+          `intent-${c.attemptId}.json`,
+          `outcome-${c.attemptId}.json`,
+        ].includes(a.name),
+      ),
+    "trusted archive-job handoff identity invalid",
+  );
+  const record = await readProductionArchive(
+    {
+      get: async () => proof.tag,
+      pages: async () => proof.assets,
+      download: async (id) => {
+        const asset = proof.assets.find((a) => a.id === id);
+        requireThat(asset, "handoff archive asset missing");
+        const file = path.join(dir, "archive", asset.name);
+        const stat = await fs.lstat(file);
+        requireThat(
+          stat.isFile() &&
+            stat.nlink === 1 &&
+            !stat.isSymbolicLink() &&
+            stat.size === asset.size &&
+            stat.size <= 128 * 1024 * 1024,
+          "bounded regular archive handoff required",
+        );
+        return fs.readFile(file);
+      },
+    },
+    proof.release,
+  );
+  requireThat(
+    record.sourceSha === c.sourceSha &&
+      record.packageDigest === c.packageDigest,
+    "archive handoff differs from selected source/package",
+  );
+  return record;
+}
+
 async function context(controlSha) {
   const c = await readJson(contextFile);
   requireThat(
@@ -594,7 +704,6 @@ export async function productionMain(args) {
   const policy = await policyFile();
   const controlSha = await workflowGuard("deploy.yml", policy);
   const api = apiClient();
-  const readArchiveApi = archiveClient({ token: process.env.GH_TOKEN });
   const packageDir = path.join(directory, "package");
   if (stage === "resolve") {
     const event = await readJson(process.env.GITHUB_EVENT_PATH);
@@ -676,10 +785,22 @@ export async function productionMain(args) {
   }
   const c = await context(controlSha);
   if (stage === "prepare") {
-    const h = await loadProductionHistory(readArchiveApi, api);
+    await validateProductionCandidate(
+      c,
+      path.join(directory, "candidate"),
+      policy,
+    );
+    c.state = "validated";
+    c.stages.validation = "success";
+    await writeJson(contextFile, c);
+  } else if (stage === "archive") {
+    await validateProductionEnvironments(api);
+    await recheck(c, policy);
+    const archive = await archiveApi();
+    const h = await loadProductionHistory(archive, api);
     const envelope = await prepareProduction(
       c,
-      path.join(root, ".deploy/production-candidate"),
+      path.join(directory, "candidate"),
       packageDir,
       h,
       policy,
@@ -702,17 +823,6 @@ export async function productionMain(args) {
           ? h.newestPrepared
           : null,
     });
-    await writeJson(contextFile, c);
-  } else if (stage === "archive") {
-    await validateProductionEnvironments(api);
-    await recheck(c, policy);
-    const archive = await archiveApi();
-    const h = await loadProductionHistory(archive, api);
-    requireThat(
-      h.newestPrepared === c.predecessorArchiveId &&
-        h.currentVerified === c.previousKnownGoodArchiveId,
-      "production history changed before archive",
-    );
     const release = await createProductionArchive(
       archive,
       c,
@@ -729,6 +839,13 @@ export async function productionMain(args) {
         state: "mutation-reserved",
         startedAt: c.startedAt,
       }),
+    );
+    await writeArchivedHandoff(
+      archive,
+      release,
+      c,
+      path.join(root, ".deploy/production-archived"),
+      { packageFiles: true },
     );
     await outputs({ release_id: release.id });
   } else if (stage === "announce") {
@@ -760,14 +877,7 @@ export async function productionMain(args) {
     const deployDir = path.join(root, ".deploy/production-upload");
     const r = await mutateProduction(c, {
       archivedPackage: async () => {
-        const release = await readArchiveApi.get(
-          `${repo}/releases/${Number(process.env.PRODUCTION_RELEASE_ID)}`,
-        );
-        requireThat(
-          release.tag_name === c.archiveId,
-          "production release identity differs from handoff",
-        );
-        record = await readProductionArchive(readArchiveApi, release);
+        record = await readArchivedHandoff(directory, c);
         requireThat(
           record.packageDigest === c.packageDigest && record.outcome === null,
           "provider requires exact unused archived attempt",
@@ -806,6 +916,12 @@ export async function productionMain(args) {
         /CLOUDFLARE|R4_ARCHIVE_APP_PRIVATE_KEY|GH_TOKEN/.test(k),
       ),
       "hosted production verification must be credential-free",
+    );
+    const archived = await readArchivedHandoff(directory, c);
+    requireThat(
+      archived.packageDigest ===
+        (await validatePackage(packageDir)).packageDigest,
+      "hosted package differs from verified durable handoff",
     );
     const provider = await readJson(
       path.join(root, ".deploy/production-provider/result.json"),
@@ -898,6 +1014,12 @@ export async function productionMain(args) {
         persist: (r) => writeResult("production-final", r),
       },
     );
+    await writeArchivedHandoff(
+      archive,
+      release,
+      c,
+      path.join(root, ".deploy/production-final"),
+    );
     await outputs({ verified: String(r.state === "verified") });
   } else if (stage === "report") {
     let r;
@@ -915,14 +1037,10 @@ export async function productionMain(args) {
     }
     let durable = null;
     try {
-      const release = await readArchiveApi.get(
-        `${repo}/releases/${Number(process.env.PRODUCTION_RELEASE_ID)}`,
+      durable = await readArchivedHandoff(
+        path.join(root, ".deploy/production-final"),
+        c,
       );
-      requireThat(
-        release.tag_name === c.archiveId,
-        "report release identity mismatch",
-      );
-      durable = await readProductionArchive(readArchiveApi, release);
     } catch {
       r = {
         ...c,

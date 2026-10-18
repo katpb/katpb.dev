@@ -272,3 +272,40 @@ test("verified retry requires a distinct archive attempt and cannot overwrite a 
     "r4-attempt-10-2",
   );
 });
+
+test("read-only provider handoff verifies actual archive re-downloads without draft access, and rejects corruption before upload", async (t) => {
+  const { writeArchivedHandoff, readArchivedHandoff } =
+    await import("../../scripts/hosting/production-runtime.mjs");
+  const { dir, outputDir, c } = await packageFixture(t);
+  const f = archiveFixture();
+  const release = await createProductionArchive(
+    f.api,
+    c,
+    await archiveBundle(outputDir, c),
+  );
+  const handoff = path.join(dir, ".deploy/archived");
+  await writeArchivedHandoff(f.api, release, c, handoff, {
+    packageFiles: true,
+  });
+  const callsBefore = f.calls.length;
+  const record = await readArchivedHandoff(handoff, c);
+  assert.equal(record.packageDigest, c.packageDigest);
+  assert.equal(
+    f.calls.length,
+    callsBefore,
+    "downstream read does not call draft-release API or receive archive token",
+  );
+  const file = path.join(handoff, "archive/prepared.tar");
+  const bytes = await fs.readFile(file);
+  bytes[512] ^= 1;
+  await fs.writeFile(file, bytes);
+  let upload = 0;
+  await assert.rejects(
+    (async () => {
+      await readArchivedHandoff(handoff, c);
+      upload++;
+    })(),
+    /integrity/,
+  );
+  assert.equal(upload, 0);
+});

@@ -20,8 +20,12 @@ unsuccessful candidates), checks collisions and quotas, and preserves raw/page b
 Every attempt uses a new source-bound `r4-attempt-<run-id>-<attempt>` tag and draft release.
 The archive contains raw/prepared tar bytes, raw/package/retained manifests, provenance,
 prepared receipt, and a digest/size index. Every asset is downloaded again and compared;
-the provider job independently re-downloads/validates the complete durable archive before
-building trusted provider configuration. A live-main authorization read directly precedes upload.
+the archive job re-downloads the complete durable archive and emits an exact-ID,
+digest-checked Actions handoff. The provider job independently validates those downloaded
+bytes before building trusted provider configuration. Draft reads stay in archive jobs:
+GitHub restricts draft visibility to writers, so read-only provider/report jobs use the
+archive jobs' authenticated readback handoffs without receiving an archive token. The
+Actions artifact is a transport copy; the draft release remains durable recovery authority. A live-main authorization read directly precedes upload.
 
 A durable mutation reservation precedes the provider job. Missing/incomplete/corrupt history,
 an orphan protected tag, missing deployment archive, a chain fork, retained-asset loss,
@@ -58,7 +62,7 @@ workflow-level `r4-hosting` lock, `cancel-in-progress: false`, `queue: max`.
 | `provider` (existing preview) | read     | read    | read          | none        | `preview`, deployment false            |
 | `verify` (existing preview)   | read     | read    | none          | none        | none                                   |
 | `report` (existing preview)   | read     | read    | read          | write       | none                                   |
-| `production_prepare`          | read     | read    | none          | read        | none                                   |
+| `production_prepare`          | read     | read    | none          | none        | none                                   |
 | `production_archive`          | write    | read    | none          | read        | `production-archive`, deployment false |
 | `production_announce`         | read     | read    | none          | write       | none                                   |
 | `production_provider`         | read     | read    | none          | none        | `production`, deployment false         |
@@ -103,7 +107,7 @@ No key value was requested, generated, read or stored by this implementation ses
 ## Validation and review status
 
 Local focused production/policy/archive tests and the complete operational integration suite
-pass: **224/224 operational cases**. Formatting, Astro diagnostics, production build and reproducibility pass. The site-wide
+pass: **226/226 operational cases**. Formatting, Astro diagnostics, production build and reproducibility pass. The site-wide
 368 browser tests were not rerun locally; GitHub `repository-health` is the authoritative full
 gate. Exact final counts and CI identities are recorded in the PR/checkpoint report.
 

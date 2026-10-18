@@ -98,3 +98,23 @@ test("production workflow isolates exact permissions, environments, credentials 
   assert.ok(w.jobs.production_report.needs.includes("production_record"));
   assert.match(w.jobs.production_record.if, /always\(\)/);
 });
+
+test("downstream jobs consume only the archive job's independently re-downloaded handoff", async () => {
+  const w = parse(await fs.readFile(".github/workflows/deploy.yml", "utf8"));
+  for (const name of [
+    "production_announce",
+    "production_provider",
+    "production_verify",
+    "production_record",
+    "production_report",
+  ]) {
+    const handoff = w.jobs[name].steps.find(
+      (s) => s.with?.path === ".deploy/production",
+    );
+    assert.equal(
+      handoff.with["artifact-ids"],
+      "${{ needs.production_archive.outputs.artifact_id }}",
+    );
+    assert.ok(w.jobs[name].needs.includes("production_archive"));
+  }
+});

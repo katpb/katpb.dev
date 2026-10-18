@@ -3,7 +3,7 @@
   "scope": "T031-T035 implementation only",
   "baseSha": "e7b5f8f3fe1cba064d56c8dcdd6b522cc17dd6a4",
   "operationalTests": {
-    "passed": 224,
+    "passed": 226,
     "failed": 0,
     "skipped": 0
   },
@@ -26,5 +26,6 @@
   "archiveEnvironmentReadback": "absent; live use fails closed until owner configuration",
   "T036": "unstarted",
   "T037": "unstarted",
-  "merge": "owner review required"
+  "merge": "owner review required",
+  "draftReadBoundary": "only archive jobs read draft releases; exact-ID digest-checked readback handoffs to read-only provider/report jobs"
 }
