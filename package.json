@@ -35,7 +35,8 @@
     "deploy:verify": "node scripts/verify-hosted.mjs",
     "verify": "npm run format:check && npm run check && npm run build && npm run test:e2e && npm run test:workflow && npm run test:reproducible",
     "deploy:preview": "node scripts/deploy-preview.mjs",
-    "deploy:cleanup": "node scripts/cleanup-preview.mjs"
+    "deploy:cleanup": "node scripts/cleanup-preview.mjs",
+    "deploy:production": "node scripts/request-production.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "8.0.2",

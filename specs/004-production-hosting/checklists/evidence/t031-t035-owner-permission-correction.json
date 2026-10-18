@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "scope": "PR #18 owner-review least-privilege correction only",
+  "runtimeChanges": false,
+  "normalActionsContentsWriteJobs": [],
+  "productionArchivePermissions": {
+    "contents": "read",
+    "actions": "read",
+    "deployments": "read"
+  },
+  "productionRecordPermissions": {
+    "contents": "read",
+    "actions": "read"
+  },
+  "archiveWriteAuthority": {
+    "appId": 5176510,
+    "installationId": 167561083,
+    "token": "short-lived installation token; never exported",
+    "operations": [
+      "exact-source protected attempt tag creation",
+      "draft release creation",
+      "release-asset writes",
+      "outcome append"
+    ]
+  },
+  "regressionReproduced": "workflow regression failed on the two original normal-token Contents write grants",
+  "validation": {
+    "focusedCasesPassed": 123,
+    "focusedCasesFailed": 0,
+    "fullGate": "required GitHub repository-health; final identity/result recorded on PR #18"
+  },
+  "syntheticCredentialTests": "in-memory test signing material and intercepted requests only; no real App key or network mutation",
+  "productionProviderMutations": 0,
+  "liveArchiveTagReleaseCreations": 0,
+  "liveEnvironmentSecretChanges": 0,
+  "productionArchiveEnvironment": "intentionally absent; do not configure before merge or during T036",
+  "T036": "unstarted",
+  "T037": "unstarted",
+  "postMerge": "future owner-approved sequence only; no merge in this correction"
+}

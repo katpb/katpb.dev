@@ -1,11 +1,28 @@
-name: PR previews
-run-name: Preview PR ${{ github.event.workflow_run.pull_requests[0].number || 'unresolved' }} head ${{ github.event.workflow_run.head_sha }} CI ${{ github.event.workflow_run.id }}/${{ github.event.workflow_run.run_attempt }}
-
+name: Hosting delivery
+run-name: ${{ github.event_name == 'workflow_dispatch' && format('Production {0} request {1}', inputs.source_sha, inputs.request_id) || format('Hosting {0} head {1} CI {2}/{3}', github.event.workflow_run.event, github.event.workflow_run.head_sha, github.event.workflow_run.id, github.event.workflow_run.run_attempt) }}
 on:
   workflow_run:
-    workflows: [CI]
-    types: [completed]
-
+    workflows:
+      - CI
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: Production operation (release only at this checkpoint)
+        required: true
+        type: choice
+        options:
+          - release
+      source_sha:
+        description: Exact current-main SHA with successful eligible CI
+        required: true
+        type: string
+      request_id:
+        description: Optional local request correlation UUID
+        required: false
+        type: string
+        default: ""
 permissions: {}
 
 concurrency:
@@ -273,3 +290,358 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
+  production_prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    if: ${{ github.repository == 'katpb/katpb.dev' && github.ref == 'refs/heads/main' && ((github.event_name == 'workflow_run' && github.event.workflow_run.workflow_id == 374100170 && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main') || (github.event_name == 'workflow_dispatch' && inputs.operation == 'release')) }}
+    outputs:
+      control_sha: ${{ steps.resolve.outputs.control_sha }}
+      artifact_id: ${{ steps.handoff.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: refs/heads/main
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: 24.21.0
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - name: Production resolve
+        id: resolve
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/release-orchestrator.mjs --production-stage resolve
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ steps.resolve.outputs.candidate_artifact_id }}
+          path: .deploy/production/candidate
+          run-id: ${{ steps.resolve.outputs.ci_run_id }}
+          github-token: ${{ github.token }}
+      - name: Production prepare
+        id: prepare
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/release-orchestrator.mjs --production-stage prepare
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: handoff
+        if: ${{ always() }}
+        with:
+          name: r4-production-prepared-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/production
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+  production_archive:
+    needs:
+      - production_prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      deployments: read
+    environment:
+      name: production-archive
+      deployment: false
+    outputs:
+      release_id: ${{ steps.archive.outputs.release_id }}
+      artifact_id: ${{ steps.handoff.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.production_prepare.outputs.control_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: 24.21.0
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.production_prepare.outputs.artifact_id }}
+          path: .deploy/production
+      - name: Production archive
+        id: archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+          R4_ARCHIVE_APP_PRIVATE_KEY: ${{ secrets.R4_ARCHIVE_APP_PRIVATE_KEY }}
+        run: node scripts/release-orchestrator.mjs --production-stage archive
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: handoff
+        with:
+          name: r4-production-archived-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/production-archived
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+  production_announce:
+    needs:
+      - production_prepare
+      - production_archive
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      deployments: write
+    outputs:
+      deployment_id: ${{ steps.announce.outputs.deployment_id }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.production_prepare.outputs.control_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: 24.21.0
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.production_archive.outputs.artifact_id }}
+          path: .deploy/production
+      - name: Production announce
+        id: announce
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/release-orchestrator.mjs --production-stage announce
+  production_provider:
+    needs:
+      - production_prepare
+      - production_archive
+      - production_announce
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    environment:
+      name: production
+      deployment: false
+    outputs:
+      uploaded: ${{ steps.provider.outputs.uploaded }}
+      artifact_id: ${{ steps.handoff.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.production_prepare.outputs.control_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: 24.21.0
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.production_archive.outputs.artifact_id }}
+          path: .deploy/production
+      - name: Production provider
+        id: provider
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCTION_RELEASE_ID: ${{ needs.production_archive.outputs.release_id }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: node scripts/release-orchestrator.mjs --production-stage provider
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: handoff
+        if: ${{ always() }}
+        with:
+          name: r4-production-provider-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/production-provider
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+  production_verify:
+    needs:
+      - production_prepare
+      - production_provider
+      - production_archive
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    if: ${{ needs.production_provider.outputs.uploaded == 'true' }}
+    outputs:
+      artifact_id: ${{ steps.handoff.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.production_prepare.outputs.control_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: 24.21.0
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.production_archive.outputs.artifact_id }}
+          path: .deploy/production
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.production_provider.outputs.artifact_id }}
+          path: .deploy/production-provider
+      - name: Install pinned hosted browsers without credentials
+        run: node node_modules/@playwright/test/cli.js install --with-deps chromium webkit
+      - name: Production verify
+        id: verify
+        run: node scripts/release-orchestrator.mjs --production-stage verify
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: handoff
+        if: ${{ always() }}
+        with:
+          name: r4-production-verification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/production-verification
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+  production_record:
+    needs:
+      - production_prepare
+      - production_archive
+      - production_announce
+      - production_provider
+      - production_verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    if: ${{ always() && needs.production_archive.result == 'success' }}
+    environment:
+      name: production-archive
+      deployment: false
+    outputs:
+      artifact_id: ${{ steps.handoff.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.production_prepare.outputs.control_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: 24.21.0
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.production_archive.outputs.artifact_id }}
+          path: .deploy/production
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.production_provider.outputs.artifact_id }}
+          path: .deploy/production-provider
+        if: ${{ needs.production_provider.outputs.artifact_id != '' }}
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.production_verify.outputs.artifact_id }}
+          path: .deploy/production-verification
+        if: ${{ needs.production_verify.outputs.artifact_id != '' }}
+      - name: Production record
+        id: record
+        env:
+          GH_TOKEN: ${{ github.token }}
+          R4_ARCHIVE_APP_PRIVATE_KEY: ${{ secrets.R4_ARCHIVE_APP_PRIVATE_KEY }}
+          PRODUCTION_PROVIDER_RESULT: ${{ needs.production_provider.result }}
+          PRODUCTION_VERIFY_RESULT: ${{ needs.production_verify.result }}
+          PRODUCTION_DEPLOYMENT_ID: ${{ needs.production_announce.outputs.deployment_id }}
+        run: node scripts/release-orchestrator.mjs --production-stage record
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: handoff
+        if: ${{ always() }}
+        with:
+          name: r4-production-final-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .deploy/production-final
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+  production_report:
+    needs:
+      - production_prepare
+      - production_archive
+      - production_announce
+      - production_record
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      deployments: write
+    if: ${{ always() && needs.production_archive.result == 'success' }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.production_prepare.outputs.control_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: 24.21.0
+          package-manager-cache: false
+      - name: Install pinned trusted control toolchain
+        run: |
+          test "$(node --version)" = "v24.21.0"
+          npm install --global --ignore-scripts npm@11.21.0
+          test "$(npm --version)" = "11.21.0"
+          npm ci --ignore-scripts
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.production_archive.outputs.artifact_id }}
+          path: .deploy/production
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          digest-mismatch: error
+          artifact-ids: ${{ needs.production_record.outputs.artifact_id }}
+          path: .deploy/production-final
+        if: ${{ needs.production_record.outputs.artifact_id != '' }}
+      - name: Production report
+        id: report
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCTION_RELEASE_ID: ${{ needs.production_archive.outputs.release_id }}
+          PRODUCTION_DEPLOYMENT_ID: ${{ needs.production_announce.outputs.deployment_id }}
+        run: node scripts/release-orchestrator.mjs --production-stage report

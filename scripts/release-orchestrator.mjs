@@ -41,6 +41,144 @@ import {
   runCredentialFree,
 } from "./hosting/preview-runtime.mjs";
 
+export async function mutateProduction(
+  c,
+  { archivedPackage, configure, recheck, upload, persist },
+) {
+  let started = false;
+  try {
+    await archivedPackage();
+    const configuration = await configure();
+    await recheck();
+    started = true;
+    const provider = await upload(configuration);
+    const result = {
+      ...c,
+      ...provider,
+      state: "uploaded",
+      stages: { ...c.stages, archive: "success", upload: "success" },
+      mutationStarted: true,
+    };
+    await persist(result);
+    return result;
+  } catch {
+    const result = {
+      ...c,
+      state: started ? "unresolved" : "not-uploaded",
+      mutationStarted: started,
+      servedState: started
+        ? "unknown"
+        : (c.previousKnownGoodSourceSha ?? "unknown"),
+      failedStage: started ? "upload" : "eligibility",
+      guidance: started
+        ? "Reconcile served identity before another mutation; previous known-good remains eligible."
+        : "No upload started. Correct prerequisites and request a new attempt.",
+    };
+    await persist(result);
+    return result;
+  }
+}
+export async function verifyProduction(provider, { https, browser, persist }) {
+  requireThat(
+    provider.state === "uploaded",
+    "exact uploaded production result required",
+  );
+  const result = {
+    ...provider,
+    checks: { https: false, browser: false },
+    state: "unresolved",
+    stages: {
+      ...provider.stages,
+      httpsSmoke: "pending",
+      browserChecks: "pending",
+    },
+    failedStage: "httpsSmoke",
+  };
+  try {
+    await https();
+    result.checks.https = true;
+    result.stages.httpsSmoke = "success";
+    result.failedStage = "browserChecks";
+    await browser();
+    result.checks.browser = true;
+    result.stages.browserChecks = "success";
+    result.failedStage = null;
+    result.state = "checks-passed";
+  } catch {
+    result.stages[result.failedStage] = "failure";
+  }
+  await persist(result);
+  return result;
+}
+export async function recordProduction(
+  c,
+  { provider, verification, providerJob, verifyJob, append, readback, persist },
+) {
+  for (const r of [provider, verification].filter(Boolean))
+    requireThat(
+      r.archiveId === c.archiveId &&
+        r.sourceSha === c.sourceSha &&
+        r.packageDigest === c.packageDigest,
+      "outcome handoff identity mismatch",
+    );
+  const verified =
+    providerJob === "success" &&
+    verifyJob === "success" &&
+    verification?.state === "checks-passed" &&
+    verification.checks.https === true &&
+    verification.checks.browser === true &&
+    provider?.state === "uploaded" &&
+    provider.providerDeploymentId === verification.providerDeploymentId;
+  const state = verified
+    ? "verified"
+    : provider?.state === "not-uploaded" && provider.mutationStarted === false
+      ? "not-uploaded"
+      : "unresolved";
+  const result = {
+    ...c,
+    ...(verification ?? provider ?? {}),
+    state,
+    failedStage: verified
+      ? null
+      : (verification?.failedStage ?? provider?.failedStage ?? "recording"),
+    servedState: verified
+      ? c.sourceSha
+      : state === "not-uploaded"
+        ? (c.previousKnownGoodSourceSha ?? "unknown")
+        : "unknown",
+    stages: verified
+      ? {
+          eligibility: "success",
+          validation: "success",
+          packaging: "success",
+          archive: "success",
+          upload: "success",
+          httpsSmoke: "success",
+          browserChecks: "success",
+          recording: "success",
+        }
+      : {
+          ...c.stages,
+          ...provider?.stages,
+          ...verification?.stages,
+          recording: "success",
+        },
+    finishedAt: new Date().toISOString(),
+    guidance: verified
+      ? "Verified evidence durably persisted."
+      : state === "not-uploaded"
+        ? "No upload started; retry with new validated attempt."
+        : "Reconcile served identity or recover before another ordinary production mutation; previous known-good remains eligible.",
+  };
+  await append(result);
+  requireThat(
+    (await readback()) === state,
+    "durable outcome readback failed; reconcile before further mutation",
+  );
+  await persist(result);
+  return result;
+}
+
 export async function resolvePreview(event, policy, dependencies) {
   const { api, controlSha, orchestrationRunId, orchestrationRunAttempt } =
     dependencies;
@@ -668,9 +806,14 @@ if (
   process.argv[1] &&
   path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 )
-  main(process.argv.slice(2)).catch(() => {
+  (process.argv.includes("--production-stage")
+    ? import("./hosting/production-runtime.mjs").then(({ productionMain }) =>
+        productionMain(process.argv.slice(2)),
+      )
+    : main(process.argv.slice(2))
+  ).catch(() => {
     console.error(
-      "Trusted preview stage failed; inspect the non-secret stage receipt. No verified success established.",
+      "Trusted deployment stage failed; inspect the non-secret stage receipt. No verified success established.",
     );
     process.exitCode = 1;
   });

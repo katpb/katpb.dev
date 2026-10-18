@@ -292,3 +292,80 @@ test("verification receipt is append-only and failed persistence never returns s
     /verification/,
   );
 });
+
+test("production distinguishes newest prepared retention from current and previous known-good", async () => {
+  const { productionHistory, manifestFor } =
+    await import("../../scripts/hosting/release-records.mjs");
+  const make = (n, predecessor, outcome, files) => ({
+    archiveId: `r4-attempt-${n}-1`,
+    predecessorArchiveId: predecessor,
+    sourceSha: sha,
+    packageDigest: "b".repeat(64),
+    files,
+    immutableManifest: manifestFor(files),
+    outcome,
+  });
+  assert.deepEqual(productionHistory([], []).currentVerified, null);
+  const files = new Map([["_astro/old.Abc12345.css", Buffer.from("old")]]);
+  const a = {
+    ...make(1, null, "verified", files),
+    previousKnownGoodArchiveId: null,
+    retainedInputDigest: digest([]),
+  };
+  const b = {
+    ...make(2, a.archiveId, "verified", files),
+    previousKnownGoodArchiveId: a.archiveId,
+    retainedInputDigest: digest(manifestFor(files)),
+  };
+  const retained = new Map([
+    ...files,
+    ["_astro/failed.Def12345.css", Buffer.from("failed")],
+  ]);
+  const c = {
+    ...make(3, b.archiveId, "not-uploaded", retained),
+    previousKnownGoodArchiveId: b.archiveId,
+    retainedInputDigest: digest(manifestFor(files)),
+  };
+  const h = productionHistory(
+    [c, a, b],
+    [a.archiveId, b.archiveId, c.archiveId],
+  );
+  assert.equal(h.newestPrepared, c.archiveId);
+  assert.equal(h.currentVerified, b.archiveId);
+  assert.equal(h.previousVerified, a.archiveId);
+  assert.equal(
+    h.retained.get("_astro/failed.Def12345.css").toString(),
+    "failed",
+  );
+  for (const [records, tags] of [
+    [[], [a.archiveId]],
+    [[b], [b.archiveId]],
+    [[a, b], [a.archiveId]],
+    [
+      [a, { ...b, outcome: null }],
+      [a.archiveId, b.archiveId],
+    ],
+    [
+      [a, { ...b, outcome: "unresolved" }],
+      [a.archiveId, b.archiveId],
+    ],
+    [
+      [a, { ...b, files: new Map() }],
+      [a.archiveId, b.archiveId],
+    ],
+    [
+      [a, { ...b, predecessorArchiveId: null }],
+      [a.archiveId, b.archiveId],
+    ],
+  ])
+    assert.throws(() => productionHistory(records, tags));
+  assert.throws(
+    () =>
+      productionHistory(
+        [],
+        [],
+        [{ payload: { r4Production: 1, archiveId: a.archiveId } }],
+      ),
+    /missing durable/,
+  );
+});

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "scope": "T031-T035 implementation only",
+  "baseSha": "e7b5f8f3fe1cba064d56c8dcdd6b522cc17dd6a4",
+  "operationalTests": {
+    "passed": 226,
+    "failed": 0,
+    "skipped": 0
+  },
+  "format": "pass",
+  "astroCheck": {
+    "errors": 0,
+    "warnings": 0,
+    "hints": 5
+  },
+  "productionBuild": "pass",
+  "reproducibility": {
+    "result": "pass",
+    "generatedFiles": 6
+  },
+  "localFullSiteBrowserSuite": "not rerun; authoritative GitHub repository-health required",
+  "providerMutations": 0,
+  "realAttemptArchivesOrTagsCreated": 0,
+  "liveEnvironmentOrSecretChanges": 0,
+  "proposedArchiveEnvironment": "production-archive",
+  "archiveEnvironmentReadback": "absent; live use fails closed until owner configuration",
+  "T036": "unstarted",
+  "T037": "unstarted",
+  "merge": "owner review required",
+  "draftReadBoundary": "only archive jobs read draft releases; exact-ID digest-checked readback handoffs to read-only provider/report jobs"
+}
