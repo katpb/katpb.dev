@@ -5,8 +5,13 @@
   "reviewedAndMergeTree": "bb880979ea5e11470042cc23d6fe6e447db1f64e",
   "node": "24.21.0",
   "npm": "11.21.0",
-  "focusedProductionAndT036": { "passed": 43, "failed": 0 },
-  "integration": { "passed": 237, "failed": 0 },
+  "focusedProductionAndT036": { "passed": 44, "failed": 0 },
+  "integration": { "passed": 238, "failed": 0 },
+  "rejectionObservationRegression": {
+    "reproducedBeforeFix": true,
+    "passedAfterFix": true,
+    "behavior": "unexpected provider probe errors stop acceptance rather than count as the controlled HTTP 400 rejection"
+  },
   "format": "passed",
   "astro": { "errors": 0, "warnings": 0, "existingHints": 5 },
   "build": "passed",

@@ -41,7 +41,7 @@ test("T036 controlled matrix exercises real archive bytes and shared transaction
         };
       },
       reject: async () => {
-        throw Error("controlled rejection (not a live provider observation)");
+        return { state: "rejected", status: 400 };
       },
       https: async (pkg) => {
         assert.equal(served, pkg.c.packageDigest);
@@ -104,6 +104,35 @@ test("overlapping acceptance requests finish newer first and serialize provider 
     "newer-lock-released",
     "older-lock-acquired",
   ]);
+});
+test("unexpected provider-probe failure cannot count as the observed controlled rejection", async (t) => {
+  const folder = await fs.mkdtemp(
+    path.join(os.tmpdir(), "r4-t036-failed-probe-"),
+  );
+  t.after(() => fs.rm(folder, { recursive: true, force: true }));
+  await fs.mkdir(path.join(folder, ".deploy"));
+  let served;
+  await assert.rejects(
+    runAcceptanceMatrix({
+      root: path.join(folder, ".deploy/run"),
+      sourceSha: "a".repeat(40),
+      driver: {
+        live: false,
+        upload: async (pkg) => {
+          served = pkg.c.packageDigest;
+          return {
+            providerDeploymentId: "12345678-1234-1234-1234-123456789abc",
+            stableUrl: "https://katpb-dev-acceptance.katpb.workers.dev/",
+          };
+        },
+        reject: async () => {
+          throw Error("unexpected authentication/network/process failure");
+        },
+        https: async (pkg) => assert.equal(served, pkg.c.packageDigest),
+        browser: async (pkg) => assert.equal(served, pkg.c.packageDigest),
+      },
+    }),
+  );
 });
 test("T036 owner subprocess accepts only the fixed masked acceptance reference and discards inherited credentials", () => {
   const call = acceptanceInvocation("upload", "/tmp/.deploy/package", {

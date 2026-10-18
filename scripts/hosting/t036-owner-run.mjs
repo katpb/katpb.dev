@@ -257,8 +257,6 @@ async function main(args) {
     );
     const productionAfter = await publicProductionSnapshot();
     check(canonical(productionAfter) === canonical(productionBefore));
-    if (mode === "reject")
-      throw Error("observed acceptance provider rejection");
     return safe;
   };
   const manifest = (pkg) => path.join(pkg.outputDir, "package-manifest.json");

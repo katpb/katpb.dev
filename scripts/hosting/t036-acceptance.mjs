@@ -282,13 +282,19 @@ export async function runAcceptanceMatrix({
     });
   const transact = async (store, pkg, fault, location, fresh = () => true) => {
     let providerCalls = 0;
+    let providerRejectionObserved = false;
     const provider = await mutateProduction(pkg.c, {
       archivedPackage: () => readProductionArchive(store.api, pkg.release),
       configure: async () => pkg.outputDir,
       recheck: async () => check(fresh() && fault !== "stale"),
       upload: async () => {
         providerCalls++;
-        if (fault === "provider-rejection") return upload(pkg, "reject");
+        if (fault === "provider-rejection") {
+          const rejection = await upload(pkg, "reject");
+          check(rejection.state === "rejected" && rejection.status === 400);
+          providerRejectionObserved = true;
+          throw Error("observed controlled acceptance provider rejection");
+        }
         const result = await upload(pkg);
         if (fault === "interrupted-acknowledgement")
           throw Error("controlled lost acknowledgement after real upload");
@@ -301,8 +307,11 @@ export async function runAcceptanceMatrix({
           { flag: "wx" },
         ),
     });
+    if (fault === "provider-rejection") check(providerRejectionObserved);
     const verification =
       provider.state === "uploaded" ? await verify(pkg, provider, fault) : null;
+    if (["receipt-append", "receipt-readback"].includes(fault))
+      check(verification?.state === "checks-passed");
     let final = null;
     const recordingRejected = await rejected(async () => {
       final = await finish(store, pkg, provider, verification, fault, location);
