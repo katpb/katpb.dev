@@ -309,3 +309,195 @@ test("read-only provider handoff verifies actual archive re-downloads without dr
   );
   assert.equal(upload, 0);
 });
+
+test("tag, draft, asset and outcome writes authenticate exclusively with the minted archive App token", async (t) => {
+  const { generateKeyPairSync, verify } = await import("node:crypto");
+  const { archiveClient, githubClient, mintArchiveToken } =
+    await import("../../scripts/hosting/github.mjs");
+  const {
+    validateProductionEnvironments,
+    loadProductionHistory,
+    writeArchivedHandoff,
+  } = await import("../../scripts/hosting/production-runtime.mjs");
+  const { recordProduction } =
+    await import("../../scripts/release-orchestrator.mjs");
+  // Synthetic in-memory signing material and canaries; all requests are intercepted.
+  const { privateKey, publicKey } = generateKeyPairSync("rsa", {
+    modulusLength: 1024,
+    privateKeyEncoding: { type: "pkcs8", format: "pem" },
+    publicKeyEncoding: { type: "spki", format: "pem" },
+  });
+  const appToken = "archive-app-public-test-canary",
+    ordinaryToken = "actions-read-public-test-canary";
+  const requests = [];
+  const { dir, outputDir, c } = await packageFixture(t);
+  const fixture = archiveFixture();
+  let release;
+  const respond = (data) => new Response(JSON.stringify(data));
+  const fetch = async (url, options = {}) => {
+    const u = new URL(url),
+      method = options.method ?? "GET";
+    const authorization = options.headers.Authorization;
+    requests.push({
+      path: u.pathname,
+      method,
+      authorization,
+      name: u.searchParams.get("name"),
+    });
+    if (
+      [
+        "/app",
+        "/repos/katpb/katpb.dev/installation",
+        "/app/installations/167561083/access_tokens",
+      ].includes(u.pathname)
+    ) {
+      const jwt = authorization.replace(/^Bearer /, "").split(".");
+      assert.equal(
+        verify(
+          "RSA-SHA256",
+          Buffer.from(jwt.slice(0, 2).join(".")),
+          publicKey,
+          Buffer.from(jwt[2], "base64url"),
+        ),
+        true,
+      );
+      assert.equal(JSON.parse(Buffer.from(jwt[1], "base64url")).iss, "5176510");
+      if (u.pathname === "/app") return respond({ id: 5176510 });
+      if (u.pathname.endsWith("/installation"))
+        return respond({
+          id: 167561083,
+          app_id: 5176510,
+          repository_selection: "selected",
+          permissions: { contents: "write", metadata: "read" },
+        });
+      assert.deepEqual(JSON.parse(options.body), {
+        repositories: ["katpb.dev"],
+        permissions: { contents: "write" },
+      });
+      return respond({
+        token: appToken,
+        permissions: { contents: "write", metadata: "read" },
+      });
+    }
+    if (authorization === `Bearer ${ordinaryToken}`) {
+      assert.equal(
+        method,
+        "GET",
+        "ordinary Actions token cannot mutate archive state",
+      );
+      if (u.pathname.endsWith("/deployment-branch-policies"))
+        return respond({ branch_policies: [{ name: "main", type: "branch" }] });
+      if (u.pathname.includes("/environments/"))
+        return respond({
+          name: u.pathname.split("/").at(-1),
+          can_admins_bypass: false,
+          deployment_branch_policy: {
+            protected_branches: false,
+            custom_branch_policies: true,
+          },
+          protection_rules: [],
+        });
+      assert.ok(u.pathname.endsWith("/deployments"));
+      return respond([]);
+    }
+    assert.equal(authorization, `Bearer ${appToken}`);
+    if (u.hostname === "uploads.github.com")
+      return respond(
+        await fixture.api.upload(5, u.searchParams.get("name"), options.body),
+      );
+    if (method === "POST")
+      return respond(
+        await fixture.api.post(u.pathname, JSON.parse(options.body)),
+      );
+    if (/\/releases\/assets\/\d+$/.test(u.pathname))
+      return new Response(
+        await fixture.api.download(Number(u.pathname.split("/").at(-1))),
+      );
+    if (/\/releases\/\d+\/assets$/.test(u.pathname))
+      return respond(fixture.assets);
+    if (u.pathname.endsWith("/releases")) return respond([release]);
+    if (u.pathname.endsWith("/git/matching-refs/tags/r4-attempt-"))
+      return respond([{ ref: `refs/tags/${c.archiveId}` }]);
+    if (u.pathname.includes("/compare/"))
+      return respond({
+        merge_base_commit: { sha: c.sourceSha },
+        status: "identical",
+      });
+    assert.ok(u.pathname.includes("/git/ref/"));
+    return respond({ object: { type: "commit", sha: c.sourceSha } });
+  };
+  const minted = await mintArchiveToken({ privateKey, fetch });
+  assert.equal(minted, appToken);
+  const archive = archiveClient({ token: minted, fetch });
+  const ordinary = githubClient({ token: ordinaryToken, fetch });
+  await validateProductionEnvironments(ordinary);
+  release = await createProductionArchive(
+    archive,
+    c,
+    await archiveBundle(outputDir, c),
+  );
+  const provider = {
+    ...c,
+    state: "uploaded",
+    providerDeploymentId: "12345678-1234-1234-1234-123456789abc",
+  };
+  await recordProduction(c, {
+    provider,
+    verification: {
+      ...provider,
+      state: "checks-passed",
+      checks: { https: true, browser: true },
+    },
+    providerJob: "success",
+    verifyJob: "success",
+    append: (r) =>
+      appendArchiveAsset(
+        archive,
+        release,
+        `outcome-${c.attemptId}.json`,
+        Buffer.from(canonical(r) + "\n"),
+      ),
+    readback: async () =>
+      (await readProductionArchive(archive, release)).outcome,
+    persist: async () => {},
+  });
+  const history = await loadProductionHistory(archive, ordinary);
+  assert.equal(history.currentVerified, c.archiveId);
+  await writeArchivedHandoff(
+    archive,
+    release,
+    c,
+    path.join(dir, ".deploy/app-handoff"),
+  );
+  const writes = requests.filter(
+    (r) => r.method === "POST" && !r.path.startsWith("/app/"),
+  );
+  assert.equal(writes.filter((r) => r.path.endsWith("/git/refs")).length, 1);
+  assert.equal(writes.filter((r) => r.path.endsWith("/releases")).length, 1);
+  assert.equal(
+    writes.filter((r) => r.name === `outcome-${c.attemptId}.json`).length,
+    1,
+  );
+  assert.equal(writes.filter((r) => r.name).length, 9);
+  assert.ok(writes.every((r) => r.authorization === `Bearer ${appToken}`));
+  for (const bytes of fixture.bytes.values())
+    for (const secret of [privateKey, appToken, ordinaryToken])
+      assert.equal(
+        bytes.includes(Buffer.from(secret)),
+        false,
+        "credentials must not enter durable assets or job handoffs",
+      );
+  const handoff = await fs.readFile(
+    path.join(dir, ".deploy/app-handoff/archive-proof.json"),
+    "utf8",
+  );
+  assert.ok(
+    ![privateKey, appToken, ordinaryToken].some((secret) =>
+      handoff.includes(secret),
+    ),
+  );
+  assert.equal(
+    requests.some((r) => /cloudflare|workers\.dev/.test(r.path)),
+    false,
+  );
+});

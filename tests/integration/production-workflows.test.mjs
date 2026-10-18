@@ -31,7 +31,7 @@ test("production workflow isolates exact permissions, environments, credentials 
     production
       .filter(([, j]) => j.permissions.contents === "write")
       .map(([n]) => n),
-    ["production_archive", "production_record"],
+    [],
   );
   assert.deepEqual(
     production
@@ -116,5 +116,57 @@ test("downstream jobs consume only the archive job's independently re-downloaded
       "${{ needs.production_archive.outputs.artifact_id }}",
     );
     assert.ok(w.jobs[name].needs.includes("production_archive"));
+  }
+});
+
+test("normal Actions tokens have no contents write and only reporting jobs have deployment write", async () => {
+  const w = parse(await fs.readFile(".github/workflows/deploy.yml", "utf8"));
+  for (const file of (await fs.readdir(".github/workflows")).filter((name) =>
+    /\.ya?ml$/.test(name),
+  )) {
+    const workflow = parse(
+      await fs.readFile(`.github/workflows/${file}`, "utf8"),
+    );
+    assert.notEqual(workflow.permissions?.contents, "write", file);
+    for (const job of Object.values(workflow.jobs))
+      assert.notEqual(job.permissions?.contents, "write", file);
+  }
+  assert.equal(w.env, undefined);
+  assert.deepEqual(w.jobs.production_archive.permissions, {
+    contents: "read",
+    actions: "read",
+    deployments: "read",
+  });
+  assert.deepEqual(w.jobs.production_record.permissions, {
+    contents: "read",
+    actions: "read",
+  });
+  for (const name of ["production_announce", "production_report"])
+    assert.deepEqual(w.jobs[name].permissions, {
+      contents: "read",
+      actions: "read",
+      deployments: "write",
+    });
+  for (const [name, job] of Object.entries(w.jobs)) {
+    assert.equal(job.env, undefined);
+    assert.equal(job.secrets, undefined);
+    assert.doesNotMatch(
+      JSON.stringify(job.outputs ?? {}),
+      /token|private.key|credential|secret/i,
+    );
+    const keySteps = job.steps.filter((s) => s.env?.R4_ARCHIVE_APP_PRIVATE_KEY);
+    if (["production_archive", "production_record"].includes(name)) {
+      assert.equal(keySteps.length, 1);
+      assert.equal(
+        keySteps[0].env.R4_ARCHIVE_APP_PRIVATE_KEY,
+        "${{ secrets.R4_ARCHIVE_APP_PRIVATE_KEY }}",
+      );
+      assert.match(
+        keySteps[0].run,
+        new RegExp(
+          `--production-stage ${name === "production_archive" ? "archive" : "record"}$`,
+        ),
+      );
+    } else assert.equal(keySteps.length, 0);
   }
 });

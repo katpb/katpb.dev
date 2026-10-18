@@ -63,11 +63,11 @@ workflow-level `r4-hosting` lock, `cancel-in-progress: false`, `queue: max`.
 | `verify` (existing preview)   | read     | read    | none          | none        | none                                   |
 | `report` (existing preview)   | read     | read    | read          | write       | none                                   |
 | `production_prepare`          | read     | read    | none          | none        | none                                   |
-| `production_archive`          | write    | read    | none          | read        | `production-archive`, deployment false |
+| `production_archive`          | read     | read    | none          | read        | `production-archive`, deployment false |
 | `production_announce`         | read     | read    | none          | write       | none                                   |
 | `production_provider`         | read     | read    | none          | none        | `production`, deployment false         |
 | `production_verify`           | read     | read    | none          | none        | none                                   |
-| `production_record`           | write    | read    | none          | none        | `production-archive`, deployment false |
+| `production_record`           | read     | read    | none          | none        | `production-archive`, deployment false |
 | `production_report`           | read     | read    | none          | write       | none                                   |
 
 Only `production_provider` binds the `production` environment. Only its `provider` step
@@ -75,8 +75,15 @@ receives the production environment's `CLOUDFLARE_API_TOKEN`. The existing previ
 job still receives its separate preview environment's same-named secret in its existing
 provider step. No new production job references a preview or acceptance credential.
 
-Only `production_archive` and `production_record` receive `contents: write`; two archive
-jobs are necessary to persist evidence before upload and append the outcome after hosted
+No normal Actions `GITHUB_TOKEN` receives `contents: write`. Both archive jobs have
+`contents: read` and `actions: read`; `production_archive` separately retains
+`deployments: read` for history lookup. The approved archive App installation token is the
+exclusive authority for protected tag creation, draft creation, release-asset writes and outcome
+append. The ordinary `GH_TOKEN` in archive jobs performs only required environment, source,
+protection and deployment-history reads. Ordinary token writes elsewhere are restricted to
+explicit deployment reporting jobs.
+
+Two archive jobs persist evidence before upload and append the outcome after hosted
 verification across isolated runners. Only their archive/record steps receive the proposed
 `R4_ARCHIVE_APP_PRIVATE_KEY`. Trusted code mints short-lived installation tokens for App
 `5176510`, installation `167561083`, selected repository `katpb/katpb.dev`, Contents write
@@ -102,7 +109,8 @@ use, the owner must review/configure this isolated environment with exactly bran
 no admin bypass, no per-release reviewer/wait timer, and securely provision the approved App
 key there. Preparation checks both `production` and `production-archive` exist and have that
 exact main-only policy before any archive job can start; absence or drift fails closed.
-No key value was requested, generated, read or stored by this implementation session.
+No real App key value was requested, generated, read or stored by this implementation session.
+Regression tests use synthetic in-memory signing material and intercepted network requests only.
 
 ## Validation and review status
 
@@ -126,3 +134,36 @@ of this checkpoint.
 Implementation references: GitHub's official [release API](https://docs.github.com/en/rest/releases/releases),
 [release asset API](https://docs.github.com/en/rest/releases/assets), and
 [environment API](https://docs.github.com/en/rest/deployments/environments).
+
+## Owner-review correction and activation sequence
+
+The normal archive-job Actions tokens were reduced from Contents write to Contents read;
+no runtime write path, App scope, environment binding, secret binding, dependency or lockfile
+changed. Static syntax-tree regression checks trace both archive stages to `archiveApi()` and
+all durable writes to that App client. Intercepted-request coverage verifies the actual signing,
+App/installation identity checks, exact-source tag/draft creation, bundle asset writes and the
+outcome callback, while the ordinary token only reads. Workflow regression checks prohibit
+Contents write in every job, pin reporting permissions, and keep the key step-scoped and
+credentials out of job outputs and handoffs. The excess-permission test failed before correction.
+
+This correction stops at a green PR #18 ready for owner-approved merge. Do not create
+`production-archive` or provision `R4_ARCHIVE_APP_PRIVATE_KEY` before merge; T036/T037 are
+unstarted at this checkpoint.
+
+After an owner-approved merge, keep the archive environment intentionally absent. Verify
+post-merge `repository-health`. If automatic Hosting delivery starts, verify its expected
+production/archive environment-preflight rejection before any archive job or provider job,
+and record zero archive/tag/release creation and zero production provider mutation as expected
+pre-activation behavior. These are future checks, not evidence claimed by this correction.
+
+Only then begin T036 against the isolated acceptance target. Keep `production-archive` absent
+throughout T036, including corrective main merges, so they cannot activate production. Routine
+T036 implementation/test fixes may use the existing fast-track policy only without trust-boundary
+changes and with the required regression/CI evidence.
+
+After T036 passes, stop for owner review. Only following that approval configure the exact
+main-only `production-archive` environment with administrator bypass disabled, securely provision
+the approved App key, and read back the environment policy and secret name without exposing
+its value. T037 requires that owner approval and separate authorization as the first real
+production release. No merge, environment/key provisioning, T036 exercise or T037 release is
+performed by this correction.

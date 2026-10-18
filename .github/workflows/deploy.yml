@@ -347,7 +347,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
-      contents: write
+      contents: read
       actions: read
       deployments: read
     environment:
@@ -541,7 +541,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
-      contents: write
+      contents: read
       actions: read
     if: ${{ always() && needs.production_archive.result == 'success' }}
     environment:
