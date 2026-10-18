@@ -677,3 +677,91 @@ export function readableReport(attempt) {
   validateAttempt(attempt);
   return `Source ${attempt.sourceSha}; outcome ${attempt.state}; failed stage ${attempt.failedStage ?? "none"}; served ${attempt.servedState}. ${attempt.guidance}`;
 }
+
+export const productionArchiveId = (value) =>
+  /^r4-attempt-[1-9]\d*-[1-9]\d*$/.test(value);
+export function productionHistory(records, tags, deployments = []) {
+  requireThat(
+    Array.isArray(records) && Array.isArray(tags),
+    "complete production history required",
+  );
+  const ids = new Set(records.map((r) => r.archiveId));
+  requireThat(
+    ids.size === records.length &&
+      tags.length === ids.size &&
+      tags.every((t) => ids.has(t)),
+    "missing/corrupt archive history; never assume first release",
+  );
+  for (const d of deployments)
+    requireThat(
+      d.payload?.r4Production === 1 && ids.has(d.payload.archiveId),
+      "production deployment missing durable archive history",
+    );
+  if (!records.length)
+    return {
+      newestPrepared: null,
+      currentVerified: null,
+      previousVerified: null,
+      retained: new Map(),
+      records: [],
+    };
+  const ordered = [];
+  let predecessor = null;
+  let knownGood = null;
+  while (ordered.length < records.length) {
+    const next = records.filter((r) => r.predecessorArchiveId === predecessor);
+    requireThat(
+      next.length === 1 && !ordered.includes(next[0]),
+      "missing, branched or cyclic prepared archive chain",
+    );
+    const r = next[0];
+    requireThat(
+      productionArchiveId(r.archiveId) &&
+        SHA.test(r.sourceSha) &&
+        r.files instanceof Map &&
+        r.immutableManifest &&
+        r.packageDigest,
+      "archive history identity invalid",
+    );
+    requireThat(
+      r.previousKnownGoodArchiveId === knownGood,
+      "known-good predecessor differs from verified history",
+    );
+    const priorManifest = ordered.at(-1)?.immutableManifest ?? [];
+    requireThat(
+      r.retainedInputDigest === digest(priorManifest),
+      "retained-input predecessor digest mismatch",
+    );
+    for (const e of r.immutableManifest) {
+      const b = r.files.get(e.path);
+      requireThat(
+        b && digest(b) === e.sha256 && b.length === e.size,
+        "retained archive integrity failure",
+      );
+    }
+    if (ordered.length)
+      for (const e of ordered.at(-1).immutableManifest)
+        requireThat(
+          r.files.has(e.path) && digest(r.files.get(e.path)) === e.sha256,
+          "retained prepared history lost immutable assets",
+        );
+    requireThat(
+      r.outcome === "verified" || r.outcome === "not-uploaded",
+      "unresolved production mutation; reconcile served identity or recover before ordinary deployment",
+    );
+    ordered.push(r);
+    predecessor = r.archiveId;
+    if (r.outcome === "verified") knownGood = r.archiveId;
+  }
+  const verified = ordered.filter((r) => r.outcome === "verified");
+  const latest = ordered.at(-1);
+  return {
+    newestPrepared: latest.archiveId,
+    currentVerified: verified.at(-1)?.archiveId ?? null,
+    previousVerified: verified.at(-2)?.archiveId ?? null,
+    retained: new Map(
+      latest.immutableManifest.map((e) => [e.path, latest.files.get(e.path)]),
+    ),
+    records: ordered,
+  };
+}

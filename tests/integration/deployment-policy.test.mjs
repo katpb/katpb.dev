@@ -1090,3 +1090,44 @@ test("cleanup rechecks closure immediately before deletion after reporting", asy
   assert.equal(result.state, "failed-deletion");
   assert.equal(result.retryRequired, true);
 });
+
+test("production current-main gate rejects non-main, stale, failed and spoofed CI before provider work", async (t) => {
+  const input = {
+    mode: "release",
+    sourceSha: sha,
+    runId: 10,
+    runAttempt: 1,
+    artifactId: 9,
+  };
+  for (const [name, mutate] of Object.entries({
+    stale: (f) => {
+      f.main.sha = "d".repeat(40);
+      f.controlSha = f.main.sha;
+    },
+    nonMain: (f) => {
+      f.run.head_branch = "feature";
+    },
+    dispatchAsValidation: (f) => {
+      f.run.event = "workflow_dispatch";
+    },
+    failed: (f) => {
+      f.checks[0].conclusion = "failure";
+    },
+    retryWrongAttempt: (f) => {
+      f.run.run_attempt = 2;
+    },
+    rulesDrift: (f) => {
+      f.rulesets[0].updated_at = "2026-10-18T00:00:00Z";
+    },
+  }))
+    await t.test(name, () => {
+      let mutations = 0;
+      const f = facts();
+      mutate(f);
+      assert.throws(() => {
+        authorizeSource(f, input, fixturePolicy());
+        mutations++;
+      });
+      assert.equal(mutations, 0);
+    });
+});

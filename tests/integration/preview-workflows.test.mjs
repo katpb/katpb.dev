@@ -6,9 +6,11 @@ const load = async (p) => parse(await fs.readFile(p, "utf8"));
 
 test("preview deployment jobs use pinned main control and serialize all credential boundaries", async () => {
   const w = await load(".github/workflows/deploy.yml");
-  assert.deepEqual(w.on, {
-    workflow_run: { workflows: ["CI"], types: ["completed"] },
+  assert.deepEqual(w.on.workflow_run, {
+    workflows: ["CI"],
+    types: ["completed"],
   });
+  assert.ok(w.on.workflow_dispatch.inputs.source_sha);
   assert.deepEqual(w.permissions, {});
   assert.deepEqual(w.concurrency, {
     group: "r4-hosting",
@@ -16,13 +18,10 @@ test("preview deployment jobs use pinned main control and serialize all credenti
     queue: "max",
   });
   assert.match(w["run-name"], /workflow_run.head_sha/);
-  assert.deepEqual(Object.keys(w.jobs), [
-    "prepare",
-    "announce",
-    "provider",
-    "verify",
-    "report",
-  ]);
+  assert.deepEqual(
+    Object.keys(w.jobs).filter((n) => !n.startsWith("production_")),
+    ["prepare", "announce", "provider", "verify", "report"],
+  );
   assert.match(w.jobs.prepare.if, /workflow_run.conclusion == 'success'/);
   assert.match(w.jobs.prepare.if, /workflow_run.workflow_id == 374100170/);
   assert.deepEqual(w.jobs.prepare.permissions, {
@@ -35,7 +34,9 @@ test("preview deployment jobs use pinned main control and serialize all credenti
     name: "preview",
     deployment: false,
   });
-  for (const [name, job] of Object.entries(w.jobs)) {
+  for (const [name, job] of Object.entries(w.jobs).filter(
+    ([n]) => !n.startsWith("production_"),
+  )) {
     if (name !== "provider") assert.equal(job.environment, undefined);
     const checkout = job.steps.find((s) =>
       s.uses?.startsWith("actions/checkout@"),

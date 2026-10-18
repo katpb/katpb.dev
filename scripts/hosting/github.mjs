@@ -625,3 +625,167 @@ export async function lookupProtections(
     },
   };
 }
+
+// Archive writes deliberately expose no PATCH, DELETE or ref-update operation.
+export function archiveClient({ token, fetch = globalThis.fetch } = {}) {
+  const base = "/repos/katpb/katpb.dev";
+  const metadata = githubClient({ token, fetch });
+  async function request(origin, endpoint, body, binary = false) {
+    requireThat(
+      endpoint.startsWith(base + "/") && !/[\r\n#]/.test(endpoint),
+      "archive endpoint outside repository",
+    );
+    const response = await fetch(origin + endpoint, {
+      method: body === undefined ? "GET" : "POST",
+      redirect: "manual",
+      signal: AbortSignal.timeout(60000),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: binary
+          ? "application/octet-stream"
+          : "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        ...(body === undefined
+          ? {}
+          : {
+              "Content-Type": Buffer.isBuffer(body)
+                ? "application/octet-stream"
+                : "application/json",
+            }),
+      },
+      body:
+        body === undefined
+          ? undefined
+          : Buffer.isBuffer(body)
+            ? body
+            : JSON.stringify(body),
+    });
+    let download = response;
+    if (binary && response.status === 302) {
+      const location = new URL(response.headers.get("location"));
+      requireThat(
+        location.protocol === "https:" &&
+          location.hostname === "release-assets.githubusercontent.com" &&
+          !location.username &&
+          !location.password,
+        "archive redirect outside GitHub storage",
+      );
+      // Never forward authorization to storage, including its signed URL.
+      download = await fetch(location, {
+        redirect: "error",
+        signal: AbortSignal.timeout(60000),
+      });
+    }
+    requireThat(
+      download.ok,
+      `GitHub archive operation rejected (${download.status}); reconcile archive availability`,
+    );
+    const chunks = [];
+    let size = 0;
+    for await (const chunk of download.body ?? []) {
+      size += chunk.length;
+      requireThat(size <= 128 * 1024 * 1024, "archive response bound exceeded");
+      chunks.push(chunk);
+    }
+    const bytes = Buffer.concat(chunks);
+    return binary
+      ? bytes
+      : bytes.length
+        ? JSON.parse(bytes.toString("utf8"))
+        : null;
+  }
+  return {
+    ...metadata,
+    post: (endpoint, body) => request("https://api.github.com", endpoint, body),
+    upload: (releaseId, name, bytes) => {
+      requireThat(
+        Number.isSafeInteger(releaseId) &&
+          releaseId > 0 &&
+          /^[a-z0-9.-]+$/.test(name),
+        "archive upload identity invalid",
+      );
+      return request(
+        "https://uploads.github.com",
+        `${base}/releases/${releaseId}/assets?name=${name}`,
+        bytes,
+      );
+    },
+    download: (id) => {
+      requireThat(
+        Number.isSafeInteger(id) && id > 0,
+        "archive asset identity invalid",
+      );
+      return request(
+        "https://api.github.com",
+        `${base}/releases/assets/${id}`,
+        undefined,
+        true,
+      );
+    },
+  };
+}
+
+export async function mintArchiveToken({
+  privateKey,
+  fetch = globalThis.fetch,
+  now = Date.now(),
+} = {}) {
+  const { createSign } = await import("node:crypto");
+  requireThat(
+    typeof privateKey === "string" && privateKey.includes("PRIVATE KEY"),
+    "archive App environment key unavailable",
+  );
+  const seconds = Math.floor(now / 1000);
+  const encode = (v) => Buffer.from(JSON.stringify(v)).toString("base64url");
+  const payload = `${encode({ alg: "RS256", typ: "JWT" })}.${encode({ iat: seconds - 60, exp: seconds + 300, iss: "5176510" })}`;
+  const signer = createSign("RSA-SHA256");
+  signer.update(payload);
+  const jwt = `${payload}.${signer.sign(privateKey, "base64url")}`;
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${jwt}`,
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+  async function call(endpoint, options = {}) {
+    const response = await fetch(`https://api.github.com${endpoint}`, {
+      ...options,
+      headers,
+      redirect: "error",
+      signal: AbortSignal.timeout(15000),
+    });
+    requireThat(
+      response.ok,
+      "archive App identity/installation authorization unavailable",
+    );
+    return response.json();
+  }
+  const app = await call("/app");
+  requireThat(
+    app.id === 5176510,
+    "archive App identity differs from audited creation exception",
+  );
+  const installation = await call("/repos/katpb/katpb.dev/installation");
+  requireThat(
+    installation.id === 167561083 &&
+      installation.app_id === 5176510 &&
+      installation.repository_selection === "selected" &&
+      installation.permissions?.contents === "write" &&
+      installation.permissions?.metadata === "read" &&
+      Object.keys(installation.permissions).length === 2,
+    "archive installation scope differs from owner audit",
+  );
+  const result = await call("/app/installations/167561083/access_tokens", {
+    method: "POST",
+    body: JSON.stringify({
+      repositories: ["katpb.dev"],
+      permissions: { contents: "write" },
+    }),
+  });
+  requireThat(
+    typeof result.token === "string" &&
+      result.permissions?.contents === "write",
+    "archive installation token unavailable",
+  );
+  return result.token;
+}
