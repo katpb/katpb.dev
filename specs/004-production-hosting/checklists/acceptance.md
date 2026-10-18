@@ -1426,3 +1426,54 @@ The closeout is being committed to PR #4's existing head branch for exact-head C
 The PR description will record the final head/run/check/artifact readback; earlier CI
 runs remain historical evidence for their own revisions. Ready for Review and merge
 remain the owner's final actions, and T023 must not start in this execution window.
+
+### PR #18 post-merge pre-activation / T036 preparation — 2026-10-18
+
+The owner approved and merged T031–T035 through PR #18. The merge SHA is
+`dcb4f44b10cadeaae5199cd0451ee7ce74a5df1f`, identical in tree to reviewed head
+`7f40a21867bd9b4ee95f8d361c4fcf24d30746c5`. Live main is protected and points
+to that SHA. [Merge-SHA repository-health](https://github.com/katpb/katpb.dev/actions/runs/39146816259)
+passed: formatting, zero Astro errors/warnings, build, 368 browser tests,
+230 integration tests, six-file reproducibility and protection-drift checks.
+
+[Automatic Hosting run 39147157464](https://github.com/katpb/katpb.dev/actions/runs/39147157464)
+failed during `production_prepare`'s resolve step, before context/candidate download
+or archive preparation. `production_archive`, `production_announce`,
+`production_provider`, `production_verify`, `production_record` and
+`production_report` all skipped with no steps. No provider invocation or archive
+write executed, no success/unresolved deployment status was posted, and no handoff
+artifact was created. This is the **expected pre-activation/preflight stop**, not
+an unresolved served-state failure or a defect to fix by creating an environment.
+The existing runner log emits only a generic resolve error; it does not provide a
+dedicated environment error or receipt. The classification uses the independently
+observed absent environment and the actual stage/job/artifact evidence.
+An additional credential-free GET-only execution of the unchanged merged
+`validateProductionEnvironments` accepted production and its branch policies
+(HTTP 200 each), then rejected `production-archive` (HTTP 404). This independently
+reproduces the expected preflight stop without running the delivery workflow.
+
+Read-only observations: the public environment endpoint returned 404; the signed-in
+settings inventory omitted `production-archive`; the signed-in Releases page said
+“There aren’t any releases here”; and `r4-attempt-*` tag inventory was empty.
+Thus no production draft/archive or release asset exists. All seven public
+production files, including marker, root, three page routes and both immutable
+assets, match the October 15 pre-merge baseline byte for byte. No immediate
+pre-merge snapshot is claimed. Exact hashes, job IDs/steps, URLs and observation
+times are in [the post-merge evidence](evidence/t036-postmerge-preactivation.json);
+the [resolve log](evidence/t036-postmerge-resolve.txt) preserves the actual runner
+message. No environment, key, permission, credential, DNS/domain or production
+provider state was changed.
+
+T036 is authorized and harness preparation has started. The acceptance-only
+runner uses the merged transaction functions with synthetic static fixtures and
+an append-only filesystem archive fault adapter. Archive transport simulation
+does not claim live GitHub App or production archive writes. Local controlled
+tests are regression evidence only, not completed live acceptance. The
+[owner-run procedure](../t036-owner-run.md) prepares twelve cases and preserves
+the existing masked 1Password execution boundary. No credential-bearing runner
+has run from Codex, and no acceptance/provider mutation has occurred in this
+preparation window. **T036 remains pending; T037 remains unstarted.**
+
+After actual owner-run evidence passes, reconcile this record and T036, then stop
+for owner review before creating `production-archive`, adding its App key or
+starting T037. Historical sections above retain their original scope and dates.
