@@ -5,7 +5,7 @@ export function isCredentialFreeEnvironment(env = process.env) {
     !Object.keys(env).some(
       (name) =>
         !harmlessVariables.has(name) &&
-        /TOKEN|SECRET|PRIVATE.?KEY|PASSWORD|AUTH|ACCESS_KEY|CREDENTIAL|^OP_/i.test(
+        /CLOUDFLARE|API.?KEY|TOKEN|SECRET|PRIVATE.?KEY|PASSWORD|AUTH|ACCESS_KEY|CREDENTIAL|^OP_/i.test(
           name,
         ),
     ) && env.NODE_TLS_REJECT_UNAUTHORIZED !== "0"

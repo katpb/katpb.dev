@@ -7,6 +7,10 @@ import { hostedMode } from "../../scripts/hosting/hosted-mode.mjs";
 
 for (const [name, value, allowed] of [
   ["SSH_AUTH_SOCK", "/tmp/agent.sock", true],
+  ["CLOUDFLARE_API_KEY", "fixture", false],
+  ["CF_API_KEY", "fixture", false],
+  ["SERVICE_APIKEY", "fixture", false],
+  ["CLOUDFLARE_EMAIL", "fixture", false],
   ["GH_TOKEN", "fixture", false],
   ["CLOUDFLARE_API_TOKEN", "fixture", false],
   ["SERVICE_SECRET", "fixture", false],
