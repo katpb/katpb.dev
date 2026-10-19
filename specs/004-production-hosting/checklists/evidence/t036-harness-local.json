@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "scope": "T036 harness preparation and credential-free regression validation; live owner acceptance pending",
+  "baseMergeSha": "dcb4f44b10cadeaae5199cd0451ee7ce74a5df1f",
+  "reviewedAndMergeTree": "bb880979ea5e11470042cc23d6fe6e447db1f64e",
+  "node": "24.21.0",
+  "npm": "11.21.0",
+  "focusedProductionAndT036": { "passed": 44, "failed": 0 },
+  "integration": { "passed": 238, "failed": 0 },
+  "rejectionObservationRegression": {
+    "reproducedBeforeFix": true,
+    "passedAfterFix": true,
+    "behavior": "unexpected provider probe errors stop acceptance rather than count as the controlled HTTP 400 rejection"
+  },
+  "format": "passed",
+  "astro": { "errors": 0, "warnings": 0, "existingHints": 5 },
+  "build": "passed",
+  "reproducibility": { "passed": true, "generatedFiles": 6 },
+  "diffCheck": "passed",
+  "localSite368BrowserRerun": false,
+  "archiveFaultTransport": "append-only filesystem substitute, with actual immutable archived byte readbacks; no live GitHub writes",
+  "providerRegressionTransport": "mocked; no live provider observations claimed",
+  "credentialBearingRunnerExecuted": false,
+  "acceptanceProviderMutation": false,
+  "productionProviderMutation": false,
+  "productionArchiveCreated": false,
+  "archiveAppKeyConfigured": false,
+  "workflowOrPermissionOrEnvironmentOrDependencyChanges": false,
+  "T036Complete": false,
+  "T037Started": false
+}

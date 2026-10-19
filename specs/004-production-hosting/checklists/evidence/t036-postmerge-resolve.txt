@@ -1,0 +1,8 @@
+2026-10-18T16:54:48.0702328Z Complete job name: production_prepare
+2026-10-18T16:55:05.9377369Z ##[group]Run node scripts/release-orchestrator.mjs --production-stage resolve
+2026-10-18T16:55:05.9378023Z [36;1mnode scripts/release-orchestrator.mjs --production-stage resolve[0m
+2026-10-18T16:55:08.2992065Z Trusted deployment stage failed; inspect the non-secret stage receipt. No verified success established.
+2026-10-18T16:55:08.3096897Z ##[error]Process completed with exit code 1.
+2026-10-18T16:55:08.3212103Z   name: r4-production-prepared-39147157464-1
+2026-10-18T16:55:08.3212419Z   path: .deploy/production
+2026-10-18T16:55:08.4670224Z ##[error]No files were found with the provided path: .deploy/production. No artifacts will be uploaded.

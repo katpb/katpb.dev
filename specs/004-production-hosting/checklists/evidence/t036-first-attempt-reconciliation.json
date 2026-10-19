@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-19T13:53:54.658Z",
+  "classification": "Provider mutation succeeded, but the provider-result acknowledgement/validation failed. Served state was subsequently reconciled to exact fixture A through independent credential-free HTTP and browser verification.",
+  "originalAttempt": {
+    "path": ".deploy/t036-1792345531095",
+    "controlSha": "7682202a08e4ad2dea1b3a4312b4a06fecff9569",
+    "state": "unresolved",
+    "failedStage": "upload",
+    "mutationStarted": true,
+    "servedState": "unknown",
+    "complete": false,
+    "matrixComplete": false,
+    "casesCompleted": 0,
+    "providerDeploymentId": null,
+    "unchanged": true,
+    "fileSha256": {
+      "baseline/archive/1/archive-index.json": "af2ea04618f2bdd9cc99d5d7cda8b91306a50ef2517f2eea638f80c76423871d",
+      "baseline/archive/1/archive-index.json.metadata.json": "097878cbac8293af0e90800206ae42661aaacad052e18334a0a8481f0c9575d2",
+      "baseline/archive/1/outcome-1-1.json": "253a7d09d06f04d75881f7cc05f1e425da3ee9ad4025c36afcf46913921473b3",
+      "baseline/archive/1/outcome-1-1.json.metadata.json": "15cddd53032f6e7166030a681fffa8914af6757516bdff51d72e4e559c376748",
+      "baseline/archive/1/package-manifest.json": "fb78a55615a9bec9d24adf55f6c9985f1382111189f8bdc8e4492173daba6081",
+      "baseline/archive/1/package-manifest.json.metadata.json": "9c73a32fb40244920e5a03f36ea826e26920587367ac5a971d458605cf0fc3ea",
+      "baseline/archive/1/prepared-receipt.json": "602cb0f597966f6d3ee24045c1b209761cf15c88eff1158a01f2db4888ecbd40",
+      "baseline/archive/1/prepared-receipt.json.metadata.json": "c3c1a073aed43ed91038bae3010a7c8e339525604898551a8109bb366d33e12b",
+      "baseline/archive/1/prepared.tar": "e6036bf36ab13d5ce68ef6a81b17dfdd1f066ec95126e3beb1fe5becba20df6f",
+      "baseline/archive/1/prepared.tar.metadata.json": "eaffa50491d1c4730e74ab2044d0fa561a9729b0491a004e62d2ccf724366540",
+      "baseline/archive/1/provenance.json": "1a77aa4bb63b12c53556da961d222fd1cb9a4e361e5ebd4136ddb8b89a614a6e",
+      "baseline/archive/1/provenance.json.metadata.json": "428b13cc4f31c046431114894fb4217bd2f3ae49c0ffa0516dd066f65e741f96",
+      "baseline/archive/1/raw-manifest.json": "04860559bfb6c356169e4cf6faf4779f9b2403d1f5f9d8a94a6026a9731263dc",
+      "baseline/archive/1/raw-manifest.json.metadata.json": "de4dbb0293e336d87039eaea7dc391a4bca99a30e171058f9089a1f157b5ed3a",
+      "baseline/archive/1/raw.tar": "e94a016442597accc7e48ed5b8bef86d46a3c5db9dec3995ce6935902624ca83",
+      "baseline/archive/1/raw.tar.metadata.json": "8a8fce235af4250b10f79ab7e312aef142ebf6db9eb5b75737c08bd77781c7e0",
+      "baseline/archive/1/release.json": "cd88d545cca7b51baae7fd07592e1672ea93a137981e9ef2a7910b7521cb8b5d",
+      "baseline/archive/1/retained-manifest.json": "0c2205fc23ca512c5ee726eba20a60b6b5050987dab3b586184f2161c4d0e13b",
+      "baseline/archive/1/retained-manifest.json.metadata.json": "268c35b49e31747e614702b8af1cccd5ab8d09779711449291a9f1bfa69d7828",
+      "baseline/archive/r4-attempt-1-1.tag": "4ef08fb16d9b29044107a49dbebab1203a39dfd0a4175604cbdb5439858913b6",
+      "baseline/final.json": "253a7d09d06f04d75881f7cc05f1e425da3ee9ad4025c36afcf46913921473b3",
+      "baseline/package-A-1/assets/__release.json": "e2bbbe9e51d160578c5819b5a8f04563003210a19a6358d0b280a8a08c1ba944",
+      "baseline/package-A-1/assets/_astro/acceptance.0770c58079f9.css": "0770c58079f967603ee1fad3795e1ee33c182efa59728d8d4968e82415b9106a",
+      "baseline/package-A-1/assets/_headers": "85806bbeac02b668fb7b4ce107dfab01bc95cd35519bec9c38e636d18c0ea52b",
+      "baseline/package-A-1/assets/index.html": "18c1a3ac106c8a2bdfee15918213584c4b49e3bf3827d8593f42bbd37ee66dfe",
+      "baseline/package-A-1/package-manifest.json": "fb78a55615a9bec9d24adf55f6c9985f1382111189f8bdc8e4492173daba6081",
+      "baseline/package-A-1/provenance.json": "1a77aa4bb63b12c53556da961d222fd1cb9a4e361e5ebd4136ddb8b89a614a6e",
+      "baseline/package-A-1/raw/_astro/acceptance.0770c58079f9.css": "0770c58079f967603ee1fad3795e1ee33c182efa59728d8d4968e82415b9106a",
+      "baseline/package-A-1/raw/index.html": "18c1a3ac106c8a2bdfee15918213584c4b49e3bf3827d8593f42bbd37ee66dfe",
+      "baseline/package-A-1/raw-manifest.json": "04860559bfb6c356169e4cf6faf4779f9b2403d1f5f9d8a94a6026a9731263dc",
+      "baseline/package-A-1/retained-manifest.json": "0c2205fc23ca512c5ee726eba20a60b6b5050987dab3b586184f2161c4d0e13b",
+      "baseline/package-A-1/wrangler.json": "90a8e03a30099f51fbc676f3d5226dd4dc2edc965c488fd82932bd9246a37186",
+      "baseline/provider.json": "1909cc11023ef831bbf8a94e76e52cee9954fe8b95c883f77be88d6e016fbe04",
+      "baseline/raw-A-1/_astro/acceptance.0770c58079f9.css": "0770c58079f967603ee1fad3795e1ee33c182efa59728d8d4968e82415b9106a",
+      "baseline/raw-A-1/index.html": "18c1a3ac106c8a2bdfee15918213584c4b49e3bf3827d8593f42bbd37ee66dfe",
+      "evidence.json": "764d24dbdf9da24fc3b741f5f2d49edd5abebc02afa3c9021ab48c9daa182734"
+    }
+  },
+  "reconciliation": {
+    "target": "katpb-dev-acceptance",
+    "url": "https://katpb-dev-acceptance.katpb.workers.dev/",
+    "fixture": "A",
+    "sourceSha": "7682202a08e4ad2dea1b3a4312b4a06fecff9569",
+    "rawDigest": "910297067e19630b319b8735098d3dbd53d900683a8ad007f3cec49b379a1264",
+    "packageDigest": "00b9443253af7ca84880c8a315cf3ddcc5f1683b0c195ae20a65ad9097a85bbc",
+    "http": {
+      "elapsedMs": 2771,
+      "freshness": [
+        {
+          "method": "full-download-no-cache",
+          "path": "index.html"
+        },
+        {
+          "method": "etag-304",
+          "path": "__release.json"
+        }
+      ],
+      "nextAction": "Run credential-free browser checks and persist the outcome before declaring deployment verified.",
+      "packageDigest": "00b9443253af7ca84880c8a315cf3ddcc5f1683b0c195ae20a65ad9097a85bbc",
+      "resources": 3,
+      "schemaVersion": 1,
+      "sourceSha": "7682202a08e4ad2dea1b3a4312b4a06fecff9569",
+      "state": "verified-http",
+      "url": "https://katpb-dev-acceptance.katpb.workers.dev/"
+    },
+    "marker": {
+      "status": 200,
+      "localSha256": "e2bbbe9e51d160578c5819b5a8f04563003210a19a6358d0b280a8a08c1ba944",
+      "hostedSha256": "e2bbbe9e51d160578c5819b5a8f04563003210a19a6358d0b280a8a08c1ba944",
+      "exactBytes": true
+    },
+    "browser": {
+      "passed": 16,
+      "failed": 0,
+      "engines": ["Chromium", "WebKit"],
+      "viewports": ["desktop", "mobile"],
+      "themes": ["light", "dark"],
+      "javascript": [true, false],
+      "credentialFree": true,
+      "normalTLS": true,
+      "logSha256": "cc839ea34ebf01165a80304ca01a51b4817757f65392e613fc05a75dd7a94528"
+    },
+    "approvedSocketPresent": true,
+    "providerMutationDuringReconciliation": false
+  },
+  "correction": {
+    "pr": 20,
+    "headSha": "cb144fea2b2c2abeec77c70d67dbb8db3fd45a90",
+    "mergeSha": "24af806c34fb6d9a51d2a20eec3dc6e3d15826ac",
+    "reviewedAndMergedTree": "e573a41637a0ec964138865963b75f11d56ffc59",
+    "prCI": {
+      "runId": 39262477882,
+      "repositoryHealth": "success"
+    },
+    "mergeCI": {
+      "runId": 39263240190,
+      "repositoryHealth": "success"
+    },
+    "regressionBeforeChange": "unexpected deployment routes/targets",
+    "regressionProviderVersion": "4.147.0",
+    "automaticHosting": {
+      "runId": 39263888366,
+      "result": "stopped during Production resolve before candidate download or preparation; archive/provider/verify/record/report jobs skipped",
+      "prepareJob": 118098352664,
+      "archiveJob": 118098574397,
+      "providerJob": 118098575869,
+      "recordJob": 118098576235
+    },
+    "followUp": {
+      "pr": 21,
+      "reason": "Preserve prior production CLOUDFLARE rejection and explicitly reject API_KEY/APIKEY variables in all shared verification paths.",
+      "headSha": "340381a074a03b2e0f3f33ef465ff544aaba4a5f",
+      "mergeSha": "0be181461b5ba26b79346ec7b533a2fa7bb4b4c8",
+      "reviewedAndMergedTree": "4cb6ea5b2aa0f15fbc1dbe6027793e5a56dca6b7",
+      "prCI": {
+        "runId": 39264820338,
+        "repositoryHealth": "success"
+      },
+      "mergeCI": {
+        "runId": 39265450687,
+        "repositoryHealth": "success"
+      },
+      "automaticHosting": {
+        "runId": 39266138039,
+        "result": "Production resolve failed before download/preparation; archive/provider/verify/record/report skipped",
+        "prepareJob": 118106087439,
+        "archiveJob": 118106291910,
+        "providerJob": 118106293577,
+        "recordJob": 118106295483
+      }
+    }
+  },
+  "retainedLock": {
+    "path": ".deploy/t036-owner.lock",
+    "sha256": "5bf5a790376260dd74ae5d50b48a84f1d4c3e6799be9a107b4219ae638138313",
+    "pid": 3996,
+    "startedAt": "2026-10-18T17:45:31.092Z",
+    "released": false,
+    "unchanged": true
+  },
+  "boundaries": {
+    "productionArchiveAbsent": true,
+    "archivePrivateKeyAbsent": true,
+    "absenceEvidence": "Signed-in GitHub environment and Actions secret-name inventories rechecked read-only on 2026-10-19; only existing Cloudflare environment secrets, no repository secrets.",
+    "productionMutation": false,
+    "acceptanceReset": false,
+    "T036Rerun": false,
+    "T036Complete": false,
+    "T037Started": false
+  }
+}

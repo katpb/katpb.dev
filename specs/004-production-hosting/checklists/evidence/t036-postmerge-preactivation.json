@@ -1,0 +1,402 @@
+{
+  "observedAt": "2026-10-18T17:01:53.563Z",
+  "runs": [
+    {
+      "id": 39147157464,
+      "head_sha": "dcb4f44b10cadeaae5199cd0451ee7ce74a5df1f",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/katpb/katpb.dev/actions/runs/39147157464",
+      "created_at": "2026-10-18T16:54:44Z",
+      "updated_at": "2026-10-18T16:55:10Z"
+    },
+    {
+      "id": 39146816259,
+      "head_sha": "dcb4f44b10cadeaae5199cd0451ee7ce74a5df1f",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/katpb/katpb.dev/actions/runs/39146816259",
+      "created_at": "2026-10-18T16:50:13Z",
+      "updated_at": "2026-10-18T16:54:42Z"
+    }
+  ],
+  "jobs": {
+    "ci": [
+      {
+        "id": 117732226472,
+        "name": "repository-health",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 39146816259,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install locked toolchain without lifecycle downloads",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Verify exact clean source and prepare static output without credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Archive verified raw bytes for trusted downstream preparation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Verify read-only protection drift against owner audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          }
+        ]
+      }
+    ],
+    "hosting": [
+      {
+        "id": 117733215923,
+        "name": "production_prepare",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_id": 39147157464,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install pinned trusted control toolchain",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Production resolve",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 5
+          },
+          {
+            "name": "Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6
+          },
+          {
+            "name": "Production prepare",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7
+          },
+          {
+            "name": "Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 8
+          },
+          {
+            "name": "Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 15
+          },
+          {
+            "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          }
+        ]
+      },
+      {
+        "id": 117733217034,
+        "name": "provider",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 39147157464,
+        "logs_url": null,
+        "steps": null
+      },
+      {
+        "id": 117733217095,
+        "name": "announce",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 39147157464,
+        "logs_url": null,
+        "steps": null
+      },
+      {
+        "id": 117733217421,
+        "name": "prepare",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 39147157464,
+        "logs_url": null,
+        "steps": null
+      },
+      {
+        "id": 117733217573,
+        "name": "verify",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 39147157464,
+        "logs_url": null,
+        "steps": null
+      },
+      {
+        "id": 117733217883,
+        "name": "report",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 39147157464,
+        "logs_url": null,
+        "steps": null
+      },
+      {
+        "id": 117733304116,
+        "name": "production_archive",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 39147157464,
+        "logs_url": null,
+        "steps": null
+      },
+      {
+        "id": 117733304313,
+        "name": "production_announce",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 39147157464,
+        "logs_url": null,
+        "steps": null
+      },
+      {
+        "id": 117733304370,
+        "name": "production_provider",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 39147157464,
+        "logs_url": null,
+        "steps": null
+      },
+      {
+        "id": 117733304581,
+        "name": "production_verify",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 39147157464,
+        "logs_url": null,
+        "steps": null
+      },
+      {
+        "id": 117733304655,
+        "name": "production_record",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 39147157464,
+        "logs_url": null,
+        "steps": null
+      },
+      {
+        "id": 117733305339,
+        "name": "production_report",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 39147157464,
+        "logs_url": null,
+        "steps": null
+      }
+    ]
+  },
+  "attemptTags": [],
+  "visibleReleases": [],
+  "mergeSha": "dcb4f44b10cadeaae5199cd0451ee7ce74a5df1f",
+  "reviewedHead": "7f40a21867bd9b4ee95f8d361c4fcf24d30746c5",
+  "reviewedTreeEqualsMergeTree": true,
+  "environmentReadback": {
+    "observedAt": "2026-10-18T17:00:00Z",
+    "timePrecision": "approximate; within this session",
+    "publicRestStatus": 404,
+    "authenticatedUiUrl": "https://github.com/katpb/katpb.dev/settings/environments",
+    "names": [
+      "preview-pr-15",
+      "preview-pr-13",
+      "preview-pr-12",
+      "preview-pr-10",
+      "preview-pr-8",
+      "preview-pr-6",
+      "production-recovery",
+      "production",
+      "preview"
+    ],
+    "productionArchiveAbsent": true
+  },
+  "authenticatedReleaseReadback": {
+    "url": "https://github.com/katpb/katpb.dev/releases",
+    "visibleText": "There aren\u2019t any releases here",
+    "releaseCount": 0,
+    "draftCount": 0,
+    "releaseAssetCount": 0
+  },
+  "classification": "expected-pre-activation-resolve/preflight-stop",
+  "classificationLimit": "Runner log emits a generic resolve-stage failure, not a dedicated environment error or receipt. Missing archive environment was independently observed. No unresolved served-state record was produced; all archive/provider/reporting jobs skipped.",
+  "providerMutationFromRun": false,
+  "archiveWriteFromRun": false,
+  "appKeyConfiguredByAgent": false,
+  "productionBytes": {
+    "observedAt": "2026-10-18T17:02:00.579Z",
+    "credentialFree": true,
+    "baselineObservedAt": "2026-10-15T18:34:17.901771+00:00",
+    "baselineProvenance": "t030-final-preservation-2026-10-15.json (historical pre-merge baseline; no immediate pre-merge snapshot claimed)",
+    "production": [
+      {
+        "path": "/__release.json",
+        "url": "https://katpb-dev-production.katpb.workers.dev/__release.json",
+        "sha256": "57d8a6a2d75aa8d23fc216c1cb25d8a7c3bf5eef09cf5bc046bd14bd950266cc",
+        "size": 154,
+        "matchesBaseline": true,
+        "observedAt": "2026-10-18T17:01:55.813Z"
+      },
+      {
+        "path": "/_astro/PageIntro.cyrCZwD0.css",
+        "url": "https://katpb-dev-production.katpb.workers.dev/_astro/PageIntro.cyrCZwD0.css",
+        "sha256": "647440a8726adb26e964b5c42defc78759ab1bb851910a635355d31a43b45492",
+        "size": 6084,
+        "matchesBaseline": true,
+        "observedAt": "2026-10-18T17:01:56.428Z"
+      },
+      {
+        "path": "/_astro/brand-mark.D9O_vNL9.svg",
+        "url": "https://katpb-dev-production.katpb.workers.dev/_astro/brand-mark.D9O_vNL9.svg",
+        "sha256": "dc328f0080f8dfcc6ef2a2590e913a755364af116089380d79f0a05e1439245e",
+        "size": 1495,
+        "matchesBaseline": true,
+        "observedAt": "2026-10-18T17:01:57.130Z"
+      },
+      {
+        "path": "/about/",
+        "url": "https://katpb-dev-production.katpb.workers.dev/about/",
+        "sha256": "2ba5e289e96d84170a5f98add56c731985493e4fdb23edc4f58c5b38fd2fa90f",
+        "size": 7152,
+        "matchesBaseline": true,
+        "observedAt": "2026-10-18T17:01:57.949Z"
+      },
+      {
+        "path": "/",
+        "url": "https://katpb-dev-production.katpb.workers.dev/",
+        "sha256": "b980eb5eb4e682b43d48e5c645bcddaa4f89b7c1b7d54f35319a40a7a075b20d",
+        "size": 9204,
+        "matchesBaseline": true,
+        "observedAt": "2026-10-18T17:01:58.936Z"
+      },
+      {
+        "path": "/projects/",
+        "url": "https://katpb-dev-production.katpb.workers.dev/projects/",
+        "sha256": "b2ea45d2f2051ae2676b9a8c0450dba230a047c64b36e083ae341b4e87597fe3",
+        "size": 7562,
+        "matchesBaseline": true,
+        "observedAt": "2026-10-18T17:01:59.770Z"
+      },
+      {
+        "path": "/writing/",
+        "url": "https://katpb-dev-production.katpb.workers.dev/writing/",
+        "sha256": "5a57335844c698f7048fa795a902a4fd73da994c0e3e907771a31e82ef713fb8",
+        "size": 6949,
+        "matchesBaseline": true,
+        "observedAt": "2026-10-18T17:02:00.579Z"
+      }
+    ],
+    "allMatch": true
+  },
+  "protectedMainReadback": {
+    "protected": true,
+    "sha": "dcb4f44b10cadeaae5199cd0451ee7ce74a5df1f",
+    "endpoint": "https://api.github.com/repos/katpb/katpb.dev/branches/main"
+  },
+  "ciCounts": {
+    "browserPassed": 368,
+    "integrationPassed": 230,
+    "integrationFailed": 0
+  },
+  "readOnlyMergedPreflightReplay": {
+    "observedAt": "2026-10-18T17:12:53.025625+00:00",
+    "credentialFree": true,
+    "methods": ["GET"],
+    "productionEnvironmentStatus": 200,
+    "productionBranchPoliciesStatus": 200,
+    "productionArchiveEnvironmentStatus": 404,
+    "expectedFailure": "read-only preflight HTTP 404 at /repos/katpb/katpb.dev/environments/production-archive",
+    "validator": "validateProductionEnvironments from reviewed production-runtime.mjs; unchanged from merge SHA"
+  }
+}

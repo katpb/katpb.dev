@@ -1426,3 +1426,113 @@ The closeout is being committed to PR #4's existing head branch for exact-head C
 The PR description will record the final head/run/check/artifact readback; earlier CI
 runs remain historical evidence for their own revisions. Ready for Review and merge
 remain the owner's final actions, and T023 must not start in this execution window.
+
+### PR #18 post-merge pre-activation / T036 preparation — 2026-10-18
+
+The owner approved and merged T031–T035 through PR #18. The merge SHA is
+`dcb4f44b10cadeaae5199cd0451ee7ce74a5df1f`, identical in tree to reviewed head
+`7f40a21867bd9b4ee95f8d361c4fcf24d30746c5`. Live main is protected and points
+to that SHA. [Merge-SHA repository-health](https://github.com/katpb/katpb.dev/actions/runs/39146816259)
+passed: formatting, zero Astro errors/warnings, build, 368 browser tests,
+230 integration tests, six-file reproducibility and protection-drift checks.
+
+[Automatic Hosting run 39147157464](https://github.com/katpb/katpb.dev/actions/runs/39147157464)
+failed during `production_prepare`'s resolve step, before context/candidate download
+or archive preparation. `production_archive`, `production_announce`,
+`production_provider`, `production_verify`, `production_record` and
+`production_report` all skipped with no steps. No provider invocation or archive
+write executed, no success/unresolved deployment status was posted, and no handoff
+artifact was created. This is the **expected pre-activation/preflight stop**, not
+an unresolved served-state failure or a defect to fix by creating an environment.
+The existing runner log emits only a generic resolve error; it does not provide a
+dedicated environment error or receipt. The classification uses the independently
+observed absent environment and the actual stage/job/artifact evidence.
+An additional credential-free GET-only execution of the unchanged merged
+`validateProductionEnvironments` accepted production and its branch policies
+(HTTP 200 each), then rejected `production-archive` (HTTP 404). This independently
+reproduces the expected preflight stop without running the delivery workflow.
+
+Read-only observations: the public environment endpoint returned 404; the signed-in
+settings inventory omitted `production-archive`; the signed-in Releases page said
+“There aren’t any releases here”; and `r4-attempt-*` tag inventory was empty.
+Thus no production draft/archive or release asset exists. All seven public
+production files, including marker, root, three page routes and both immutable
+assets, match the October 15 pre-merge baseline byte for byte. No immediate
+pre-merge snapshot is claimed. Exact hashes, job IDs/steps, URLs and observation
+times are in [the post-merge evidence](evidence/t036-postmerge-preactivation.json);
+the [resolve log](evidence/t036-postmerge-resolve.txt) preserves the actual runner
+message. No environment, key, permission, credential, DNS/domain or production
+provider state was changed.
+
+T036 is authorized and harness preparation has started. The acceptance-only
+runner uses the merged transaction functions with synthetic static fixtures and
+an append-only filesystem archive fault adapter. Archive transport simulation
+does not claim live GitHub App or production archive writes. Local controlled
+tests are regression evidence only, not completed live acceptance. The
+[owner-run procedure](../t036-owner-run.md) prepares twelve cases and preserves
+the existing masked 1Password execution boundary. No credential-bearing runner
+has run from Codex, and no acceptance/provider mutation has occurred in this
+preparation window. **T036 remains pending; T037 remains unstarted.**
+
+After actual owner-run evidence passes, reconcile this record and T036, then stop
+for owner review before creating `production-archive`, adding its App key or
+starting T037. Historical sections above retain their original scope and dates.
+
+### T036 first attempt reconciled; shared correction merged — 2026-10-19
+
+The first owner run reached provider mutation but failed during upload-result
+acknowledgement/validation. Its original `unresolved` / `failedStage: upload` /
+`mutationStarted: true` / `servedState: unknown` evidence remains unchanged.
+**Provider mutation succeeded, but the provider-result acknowledgement/validation
+failed. Served state was subsequently reconciled to exact fixture A through
+independent credential-free HTTP and browser verification.** This establishes the
+served identity, not a recovered provider acknowledgement or a successful T036
+transaction. No provider deployment UUID was recovered or invented.
+
+Acceptance is knowingly at verified fixture A: source
+`7682202a08e4ad2dea1b3a4312b4a06fecff9569`, raw digest
+`910297067e19630b319b8735098d3dbd53d900683a8ad007f3cec49b379a1264`, package digest
+`00b9443253af7ca84880c8a315cf3ddcc5f1683b0c195ae20a65ad9097a85bbc`.
+A new credential-free check through the corrected shared verifier passed three
+resources, normal TLS, full-download/ETag freshness, exact marker bytes and all
+16 Chromium/WebKit desktop/mobile, light/dark, JS enabled/disabled browser tests.
+The approved `SSH_AUTH_SOCK` exception was present in both verification processes.
+
+[PR #20](https://github.com/katpb/katpb.dev/pull/20) reproduced Wrangler 4.147.0's
+actual target mapping and structured JSONL writer before changing behavior. Its
+regression failed on the hostname-only parser, then passed with direct URL
+allowlist validation. The merged tree matches the reviewed tree.
+[PR repository-health](https://github.com/katpb/katpb.dev/actions/runs/39262477882)
+and [merge-SHA CI](https://github.com/katpb/katpb.dev/actions/runs/39263240190)
+passed on `24af806c34fb6d9a51d2a20eec3dc6e3d15826ac`. Draft PR #19 is rebased
+onto that corrected main; its owner entry point uses the shared harmless-variable
+policy. No permissions, bindings, token scope, dependencies, DNS/domain or
+production state changed.
+
+[Separate reconciliation evidence](evidence/t036-first-attempt-reconciliation.json)
+records all 36 original attempt-file hashes, retained lock hash, exact fixture
+identity, independent checks and correction CI. The original attempt files and
+lock were neither rewritten nor removed. The
+[owner lock-release and fresh-run procedure](../t036-owner-run.md#reconciled-first-attempt-lock-release)
+requires an exclusive window, process-exit and hash checks, and retention of the
+original lock bytes. No lock release, acceptance reset or T036 rerun occurred.
+`production-archive` and `R4_ARCHIVE_APP_PRIVATE_KEY` remain absent, confirmed by
+read-only signed-in environment/secret-name inventories. **T036 remains unchecked:
+zero live matrix cases completed in the first attempt. T037 remains unstarted.**
+
+The correction's [automatic Hosting run](https://github.com/katpb/katpb.dev/actions/runs/39263888366)
+stopped in `Production resolve`; candidate download and production preparation
+skipped, and every archive/provider/verify/record/report job skipped. As before,
+this is the expected pre-activation stop with the archive environment absent.
+No production provider or archive mutation executed.
+
+Final credential-policy review found that the previous production verifier's
+blanket `CLOUDFLARE` rejection also covered global API keys. The shared validator
+now retains that rejection and explicitly rejects API_KEY/APIKEY names everywhere,
+with regressions for `CLOUDFLARE_API_KEY`, `CF_API_KEY`, service keys and the prior
+`CLOUDFLARE_EMAIL` behavior. [PR #21](https://github.com/katpb/katpb.dev/pull/21)
+merged at `0be181461b5ba26b79346ec7b533a2fa7bb4b4c8`, identical in tree to its
+tested head. Both [PR CI](https://github.com/katpb/katpb.dev/actions/runs/39264820338)
+and [final merge-SHA CI](https://github.com/katpb/katpb.dev/actions/runs/39265450687)
+passed. PR #19 is rebased onto this final corrected main. The approved socket
+exception remains exact; no actual credential-bearing variable was exempted.
