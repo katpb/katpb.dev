@@ -1,3 +1,4 @@
+import { isCredentialFreeEnvironment } from "./credential-free.mjs";
 import { readFileSync } from "node:fs";
 import {
   requireThat,
@@ -16,9 +17,7 @@ export function hostedMode(env = process.env) {
     "hosted mode requires both R4_HOSTED_URL and R4_HOSTED_MANIFEST",
   );
   requireThat(
-    !Object.keys(env).some((k) =>
-      /TOKEN|SECRET|PRIVATE_KEY|PASSWORD|AUTH|ACCESS_KEY|CREDENTIAL/i.test(k),
-    ) && env.NODE_TLS_REJECT_UNAUTHORIZED !== "0",
+    isCredentialFreeEnvironment(env),
     "hosted browser must run credential-free with normal TLS verification",
   );
   const policy = parseJson(readFileSync("hosting/policy.json"));

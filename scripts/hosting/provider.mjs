@@ -371,6 +371,7 @@ export function parseDeployResult(record, target) {
     record?.type === "deploy" &&
       record.version === 1 &&
       record.worker_name === target.workerName &&
+      typeof record.version_id === "string" &&
       /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(
         record.version_id,
       ) &&
@@ -378,14 +379,18 @@ export function parseDeployResult(record, target) {
     "typed deployment result invalid",
   );
   requireThat(
-    record.targets.length === 1 &&
-      typeof record.targets[0] === "string" &&
-      /^[a-z0-9.-]+$/.test(record.targets[0]),
+    record.targets.length === 1 && typeof record.targets[0] === "string",
     "unexpected deployment routes/targets",
+  );
+  const stableUrl = validateProviderUrl(target, record.targets[0]);
+  requireThat(
+    record.targets[0] === stableUrl ||
+      record.targets[0] === stableUrl.slice(0, -1),
+    "unexpected deployment URL syntax",
   );
   return {
     providerDeploymentId: record.version_id,
-    stableUrl: validateProviderUrl(target, `https://${record.targets[0]}/`),
+    stableUrl,
     uniqueUrl: null,
     state: "uploaded",
   };

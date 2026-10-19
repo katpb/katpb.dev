@@ -88,7 +88,7 @@ test("trusted upload process uses array args, minimal env and typed result; capt
           version: 1,
           worker_name: f.target.workerName,
           version_id: "12345678-1234-1234-1234-123456789abc",
-          targets: ["katpb-dev-acceptance.fixture.workers.dev"],
+          targets: ["https://katpb-dev-acceptance.fixture.workers.dev"],
         }) + "\n",
       );
       child.stdout.end(token);

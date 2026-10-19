@@ -1,3 +1,4 @@
+import { isCredentialFreeEnvironment } from "./hosting/credential-free.mjs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -551,9 +552,7 @@ async function main(args) {
   const policy = await policyFile();
   if (stage === "verify") {
     requireThat(
-      !Object.keys(process.env).some((k) =>
-        /TOKEN|SECRET|PRIVATE_KEY|PASSWORD|AUTH|ACCESS_KEY|CREDENTIAL/i.test(k),
-      ),
+      isCredentialFreeEnvironment(process.env),
       "hosted checks require credential-free process",
     );
     const { sourceState } = await import("./hosting/validate-local.mjs");

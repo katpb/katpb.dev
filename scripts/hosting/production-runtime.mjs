@@ -1,3 +1,4 @@
+import { isCredentialFreeEnvironment } from "./credential-free.mjs";
 import {
   mutateProduction,
   verifyProduction,
@@ -912,9 +913,7 @@ export async function productionMain(args) {
     );
   } else if (stage === "verify") {
     requireThat(
-      !Object.keys(process.env).some((k) =>
-        /CLOUDFLARE|R4_ARCHIVE_APP_PRIVATE_KEY|GH_TOKEN/.test(k),
-      ),
+      isCredentialFreeEnvironment(process.env),
       "hosted production verification must be credential-free",
     );
     const archived = await readArchivedHandoff(directory, c);

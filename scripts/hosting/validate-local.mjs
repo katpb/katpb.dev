@@ -13,6 +13,7 @@ import {
 export function credentialFreeEnvironment(env = process.env) {
   const result = {};
   for (const k of [
+    "SSH_AUTH_SOCK",
     "PATH",
     "HOME",
     "TMPDIR",

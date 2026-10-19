@@ -1,3 +1,4 @@
+import { isCredentialFreeEnvironment } from "./hosting/credential-free.mjs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -464,9 +465,7 @@ async function main(args) {
     "--url and --manifest required; use --help",
   );
   requireThat(
-    !Object.keys(process.env).some((k) =>
-      /TOKEN|SECRET|PRIVATE_KEY|PASSWORD|AUTH|ACCESS_KEY|CREDENTIAL/i.test(k),
-    ) && process.env.NODE_TLS_REJECT_UNAUTHORIZED !== "0",
+    isCredentialFreeEnvironment(process.env),
     "hosted verification must run in a credential-free environment with normal TLS verification",
   );
   const policy = validatePolicy(
