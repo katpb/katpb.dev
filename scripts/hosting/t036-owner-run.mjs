@@ -1,6 +1,7 @@
 // Credential-free owner entry point. Do not invoke credential-bearing exercises
 // from Codex: the existing 1Password owner execution boundary remains in force.
 import fs from "node:fs/promises";
+import { isCredentialFreeEnvironment } from "./credential-free.mjs";
 import path from "node:path";
 import { spawnSync, execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -185,15 +186,7 @@ async function main(args) {
   }
   check(args.length === 1 && args[0] === "--run");
   check(process.versions.node === "24.21.0");
-  check(
-    !Object.keys(process.env).some(
-      (k) =>
-        k !== "SSH_AUTH_SOCK" &&
-        /TOKEN|SECRET|PRIVATE_KEY|PASSWORD|AUTH|ACCESS_KEY|CREDENTIAL|^OP_/i.test(
-          k,
-        ),
-    ) && process.env.NODE_TLS_REJECT_UNAUTHORIZED !== "0",
-  );
+  check(isCredentialFreeEnvironment(process.env));
   const sourceSha = execFileSync("git", ["rev-parse", "HEAD"], {
     cwd: root,
     encoding: "utf8",

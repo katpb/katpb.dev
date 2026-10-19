@@ -1477,3 +1477,51 @@ preparation window. **T036 remains pending; T037 remains unstarted.**
 After actual owner-run evidence passes, reconcile this record and T036, then stop
 for owner review before creating `production-archive`, adding its App key or
 starting T037. Historical sections above retain their original scope and dates.
+
+### T036 first attempt reconciled; shared correction merged — 2026-10-19
+
+The first owner run reached provider mutation but failed during upload-result
+acknowledgement/validation. Its original `unresolved` / `failedStage: upload` /
+`mutationStarted: true` / `servedState: unknown` evidence remains unchanged.
+**Provider mutation succeeded, but the provider-result acknowledgement/validation
+failed. Served state was subsequently reconciled to exact fixture A through
+independent credential-free HTTP and browser verification.** This establishes the
+served identity, not a recovered provider acknowledgement or a successful T036
+transaction. No provider deployment UUID was recovered or invented.
+
+Acceptance is knowingly at verified fixture A: source
+`7682202a08e4ad2dea1b3a4312b4a06fecff9569`, raw digest
+`910297067e19630b319b8735098d3dbd53d900683a8ad007f3cec49b379a1264`, package digest
+`00b9443253af7ca84880c8a315cf3ddcc5f1683b0c195ae20a65ad9097a85bbc`.
+A new credential-free check through the corrected shared verifier passed three
+resources, normal TLS, full-download/ETag freshness, exact marker bytes and all
+16 Chromium/WebKit desktop/mobile, light/dark, JS enabled/disabled browser tests.
+The approved `SSH_AUTH_SOCK` exception was present in both verification processes.
+
+[PR #20](https://github.com/katpb/katpb.dev/pull/20) reproduced Wrangler 4.147.0's
+actual target mapping and structured JSONL writer before changing behavior. Its
+regression failed on the hostname-only parser, then passed with direct URL
+allowlist validation. The merged tree matches the reviewed tree.
+[PR repository-health](https://github.com/katpb/katpb.dev/actions/runs/39262477882)
+and [merge-SHA CI](https://github.com/katpb/katpb.dev/actions/runs/39263240190)
+passed on `24af806c34fb6d9a51d2a20eec3dc6e3d15826ac`. Draft PR #19 is rebased
+onto that corrected main; its owner entry point uses the shared harmless-variable
+policy. No permissions, bindings, token scope, dependencies, DNS/domain or
+production state changed.
+
+[Separate reconciliation evidence](evidence/t036-first-attempt-reconciliation.json)
+records all 36 original attempt-file hashes, retained lock hash, exact fixture
+identity, independent checks and correction CI. The original attempt files and
+lock were neither rewritten nor removed. The
+[owner lock-release and fresh-run procedure](../t036-owner-run.md#reconciled-first-attempt-lock-release)
+requires an exclusive window, process-exit and hash checks, and retention of the
+original lock bytes. No lock release, acceptance reset or T036 rerun occurred.
+`production-archive` and `R4_ARCHIVE_APP_PRIVATE_KEY` remain absent, confirmed by
+read-only signed-in environment/secret-name inventories. **T036 remains unchecked:
+zero live matrix cases completed in the first attempt. T037 remains unstarted.**
+
+The correction's [automatic Hosting run](https://github.com/katpb/katpb.dev/actions/runs/39263888366)
+stopped in `Production resolve`; candidate download and production preparation
+skipped, and every archive/provider/verify/record/report job skipped. As before,
+this is the expected pre-activation stop with the archive environment absent.
+No production provider or archive mutation executed.

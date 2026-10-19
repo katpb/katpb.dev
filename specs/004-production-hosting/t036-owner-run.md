@@ -112,3 +112,88 @@ T036 evidence; owner creates `production-archive` with exact main-only policy an
 administrator bypass disabled; securely installs the private key for approved
 App 5176510; verifies policy and secret-name readback without exposing the key;
 then explicitly authorizes T037 as the first real production release.
+
+## Reconciled first-attempt lock release
+
+The first run's unresolved acknowledgement is reconciled separately in
+[the evidence](checklists/evidence/t036-first-attempt-reconciliation.json).
+Acceptance is knowingly at verified fixture A with source
+`7682202a08e4ad2dea1b3a4312b4a06fecff9569`, raw digest
+`910297067e19630b319b8735098d3dbd53d900683a8ad007f3cec49b379a1264` and package digest
+`00b9443253af7ca84880c8a315cf3ddcc5f1683b0c195ae20a65ad9097a85bbc`.
+Original `provider.json`, `final.json`, archive outcomes and incomplete
+`evidence.json` stay unchanged. Reconciliation does not promote them to success.
+
+PR #20 merged at `24af806c34fb6d9a51d2a20eec3dc6e3d15826ac` and its merge-SHA CI
+passed. PR #19 has been rebased onto this correction. Before a fresh run, require
+passing `repository-health` on the exact current PR #19 head and a clean checkout
+containing that commit. Keep the owner execution boundary above.
+
+The owner performs these steps from the original
+`/private/tmp/katpb-r4-t036` checkout; Codex has not released the lock or run T036.
+
+1. Reserve an exclusive window. Confirm the prior terminal run and all its
+   provider/1Password child processes have exited and no Hosting/cleanup operation
+   is queued, running or awaiting approval. The PID check below alone cannot prove
+   child-process exit. If PID 3996 exists (including reuse by another process),
+   stop and investigate; do not kill a process just to clear this check.
+2. Confirm no acceptance mutation occurred since reconciliation. If one did, or
+   identity is uncertain, repeat credential-free HTTP and browser checks against
+   the **retained first-attempt manifest**, requiring the fixture-A identity above.
+   Do not reset the Worker as a substitute for reconciliation. Confirm
+   `production-archive` and `R4_ARCHIVE_APP_PRIVATE_KEY` remain absent.
+3. Check all original attempt hashes against the separate reconciliation evidence.
+   The snippet below also checks them, checks the exact retained lock and process
+   exit, and moves the lock bytes into a newly created exclusive retention folder.
+   It neither deletes evidence nor changes the old unresolved outcomes. Run this
+   once in the owner terminal, with Node 24.21.0:
+
+   ```sh
+   cd /private/tmp/katpb-r4-t036
+   node --input-type=module <<'JS'
+   import fs from "node:fs";
+   import { createHash } from "node:crypto";
+   const e = JSON.parse(fs.readFileSync(
+     "specs/004-production-hosting/checklists/evidence/t036-first-attempt-reconciliation.json"
+   ));
+   const hash = bytes => createHash("sha256").update(bytes).digest("hex");
+   const check = value => { if (!value) throw Error("Stop: reconciliation/lock differs"); };
+   check(process.versions.node === "24.21.0");
+   for (const [name, expected] of Object.entries(e.originalAttempt.fileSha256))
+     check(hash(fs.readFileSync(e.originalAttempt.path + "/" + name)) === expected);
+   const bytes = fs.readFileSync(e.retainedLock.path);
+   check(hash(bytes) === e.retainedLock.sha256);
+   const lock = JSON.parse(bytes);
+   check(lock.pid === 3996 && lock.sourceSha === e.originalAttempt.controlSha);
+   let exited = false;
+   try { process.kill(lock.pid, 0); }
+   catch (error) { if (error.code === "ESRCH") exited = true; else throw error; }
+   check(exited);
+   const retained = ".deploy/t036-first-attempt-reconciled-lock";
+   fs.mkdirSync(retained); // Exclusive; an existing folder stops a repeat.
+   fs.renameSync(e.retainedLock.path, retained + "/t036-owner.lock");
+   check(hash(fs.readFileSync(retained + "/t036-owner.lock")) === e.retainedLock.sha256);
+   fs.writeFileSync(retained + "/release.json", JSON.stringify({
+     releasedAt: new Date().toISOString(),
+     reason: "Independent fixture-A reconciliation; shared acknowledgement fix merged and CI passed",
+     originalLockSha256: e.retainedLock.sha256,
+     originalAttempt: e.originalAttempt.path
+   }) + "\n", { flag: "wx" });
+   console.log("Retained original lock bytes; local exercise lock released. No provider mutation.");
+   JS
+   ```
+
+4. Only after those checks and lock retirement, from this clean corrected PR #19
+   checkout with Node 24.21.0/npm 11.21.0 and installed pinned browsers, the owner
+   may start a **fresh** attempt:
+
+   ```sh
+   node scripts/hosting/t036-owner-run.mjs --run
+   ```
+
+The fresh attempt creates a new `.deploy/t036-<time>` namespace and runs all cases
+from the beginning. It will deliberately upload fixtures as part of the approved
+matrix; it does not resume or overwrite the original unresolved transaction.
+On a new failure retain the new lock and evidence and reconcile again. T036 stays
+pending until the full live matrix passes. Keep production archive/key absent;
+do not start T037.
