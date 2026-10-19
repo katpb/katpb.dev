@@ -1525,3 +1525,14 @@ stopped in `Production resolve`; candidate download and production preparation
 skipped, and every archive/provider/verify/record/report job skipped. As before,
 this is the expected pre-activation stop with the archive environment absent.
 No production provider or archive mutation executed.
+
+Final credential-policy review found that the previous production verifier's
+blanket `CLOUDFLARE` rejection also covered global API keys. The shared validator
+now retains that rejection and explicitly rejects API_KEY/APIKEY names everywhere,
+with regressions for `CLOUDFLARE_API_KEY`, `CF_API_KEY`, service keys and the prior
+`CLOUDFLARE_EMAIL` behavior. [PR #21](https://github.com/katpb/katpb.dev/pull/21)
+merged at `0be181461b5ba26b79346ec7b533a2fa7bb4b4c8`, identical in tree to its
+tested head. Both [PR CI](https://github.com/katpb/katpb.dev/actions/runs/39264820338)
+and [final merge-SHA CI](https://github.com/katpb/katpb.dev/actions/runs/39265450687)
+passed. PR #19 is rebased onto this final corrected main. The approved socket
+exception remains exact; no actual credential-bearing variable was exempted.

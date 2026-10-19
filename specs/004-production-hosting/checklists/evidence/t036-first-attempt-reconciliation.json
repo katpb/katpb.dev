@@ -122,6 +122,29 @@
       "archiveJob": 118098574397,
       "providerJob": 118098575869,
       "recordJob": 118098576235
+    },
+    "followUp": {
+      "pr": 21,
+      "reason": "Preserve prior production CLOUDFLARE rejection and explicitly reject API_KEY/APIKEY variables in all shared verification paths.",
+      "headSha": "340381a074a03b2e0f3f33ef465ff544aaba4a5f",
+      "mergeSha": "0be181461b5ba26b79346ec7b533a2fa7bb4b4c8",
+      "reviewedAndMergedTree": "4cb6ea5b2aa0f15fbc1dbe6027793e5a56dca6b7",
+      "prCI": {
+        "runId": 39264820338,
+        "repositoryHealth": "success"
+      },
+      "mergeCI": {
+        "runId": 39265450687,
+        "repositoryHealth": "success"
+      },
+      "automaticHosting": {
+        "runId": 39266138039,
+        "result": "Production resolve failed before download/preparation; archive/provider/verify/record/report skipped",
+        "prepareJob": 118106087439,
+        "archiveJob": 118106291910,
+        "providerJob": 118106293577,
+        "recordJob": 118106295483
+      }
     }
   },
   "retainedLock": {

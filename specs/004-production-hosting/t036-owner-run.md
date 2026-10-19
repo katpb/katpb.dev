@@ -125,7 +125,11 @@ Original `provider.json`, `final.json`, archive outcomes and incomplete
 `evidence.json` stay unchanged. Reconciliation does not promote them to success.
 
 PR #20 merged at `24af806c34fb6d9a51d2a20eec3dc6e3d15826ac` and its merge-SHA CI
-passed. PR #19 has been rebased onto this correction. Before a fresh run, require
+passed. Follow-up PR #21 preserves all prior Cloudflare-variable rejection and
+adds API-key regressions; it merged at
+`0be181461b5ba26b79346ec7b533a2fa7bb4b4c8` with passing merge-SHA CI
+[39265450687](https://github.com/katpb/katpb.dev/actions/runs/39265450687).
+PR #19 has been rebased onto this final corrected main. Before a fresh run, require
 passing `repository-health` on the exact current PR #19 head and a clean checkout
 containing that commit. Keep the owner execution boundary above.
 
